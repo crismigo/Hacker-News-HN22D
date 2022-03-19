@@ -1,12 +1,12 @@
-#Requeriments per a poder començar a programar
+# Requeriments per a poder començar a programar
 
-##Instalar Python
+## Instalar Python
 1. Per a comprovar si el teniu instal·lat, proveu a escriure `python` al terminal de windows. En cas de que no el tingueu (i estigueu a windows 11) us portarà a la microsoft Store, on us dirà si voleu instalar python.
 2. Allà, li doneu a _obtener_ i us instal·larà la ultima versió de python.
 3. Torneu a provar a utilitzar la comanda `python` al terminal i veureu com us surt la versió i unes fletxetes.
 4. En un altre terminal, proveu a posar `pip` i us sortirà les diferents opcions. Si us surten aquestes coses, es que ho teniu ben instal·lat.
 
-##Instalar Django
+## Instalar Django
 1. Obrir un terminal de windows
 2. Posar la següent comanda: pip install Django
 3. Per veure si s'ha instalat correctament, posar en el terminal python
@@ -17,7 +17,7 @@ django.VERSION
 ```
 5. Si ens surt la versió, vol dir que s'ha instalat correctament.
 
-##Connectar amb MongoDB (Deprecated)
+## Connectar amb MongoDB (Deprecated)
 **⚠️ ATENCIÓ: Ja no cal fer-ho, us podeu saltar aquest apartat, ja que us ho he habilitat per a tots crec. Ho deixo per si de cas calgués.**
 <br>
 <br>
@@ -33,7 +33,7 @@ django.VERSION
 7. Ja us hauria de funcionar.
 `mongodb+srv://Hacker-News-HN22D:lbRfG9oDb5yFvGAl@hacker-news-hn22d.uq0bw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
 
-#Instalar PyCharmProfessional
+## Instalar PyCharmProfessional
 Si voleu podeu usuar el Community, però ja que sou estudiants, jo de vosaltres aprofitaria per demanar llicencia i utilitzar la versió pro, que ofereix moltes més eines.
 1. Demanar compte estudiant a [Jetbrains](https://www.jetbrains.com/shop/eform/students) (no cal si ja l'heu demanat abans)
 2. Descarregar-se el Pycharm Professional
@@ -46,13 +46,13 @@ Si voleu podeu usuar el Community, però ja que sou estudiants, jo de vosaltres 
 ![Imagen Seleccio projecte](https://i.imgur.com/WR0fkgE.png)
 8. Se'ns obrirà el projecte, on tot hauria d'estar configurat. si us diu que instaleu quelcom, feu-ho.
 
-##Connectar Base de Dades a PyCharm (opcional)
+## Connectar Base de Dades a PyCharm (opcional)
 PyCharm permet crear una connexio a la base de dades, la qual nomes serveix per a poder veure la base de dades des del programa. Això pot anar bé si voleu veure com va quedant la base de dades o el que necessiteu. És opcional, ja que la connexió amb Django ve donada per els arxius de configuració d'aquests i no per el IDE.
 1. A la barra lateral dreta veureu un apartat anomenat Database. Allà, veureu que hi ha un simbol de suma -> Data source -> MongoDB
 2. A on posa url, enganxeu la següent url: `mongodb+srv://hacker-news-hn22d.uq0bw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
 3. Li doneu a apply i a ok, i ja ho tindreu configurat.
 
-##Enllaços d'interès
+## Enllaços d'interès
 - [Documentació Django](https://docs.djangoproject.com/en/4.0/)
 - [Documentació python i MongoDB](https://www.w3schools.com/python/)
 - [Curs de Django a Youtube](https://www.youtube.com/playlist?list=PLU8oAlHdN5BmfvwxFO7HdPciOCmmYneAB)
