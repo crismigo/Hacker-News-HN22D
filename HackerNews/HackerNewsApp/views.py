@@ -5,4 +5,4 @@ from django.http import HttpResponse
 # Create your views here.
 
 def news_page(request):
-    return HttpResponse("1st page")
+    return HttpResponse("2nd page")
