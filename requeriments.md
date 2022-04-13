@@ -17,22 +17,6 @@ django.VERSION
 ```
 5. Si ens surt la versió, vol dir que s'ha instalat correctament.
 
-## Connectar amb MongoDB (Deprecated)
-**⚠️ ATENCIÓ: Ja no cal fer-ho, us podeu saltar aquest apartat, ja que us ho he habilitat per a tots crec. Ho deixo per si de cas calgués.**
-<br>
-<br>
-~~Per a mongo, si us sembla bé, utilitzarem el host que proporciona el propi mongoDB, aixi no cal que ens l'instalem en local cadascu, i serà una base de dades compartida. Estarà hostejada a mongoDB Atlas, que té una versió gratuita que ens permetrà fer el que necessitem.
-<br>Per a conectar-vos, cal registrar la vostra IP publica per a que us pogueu conectar, o us denegarà la conexió.
-<br> Per a no haver-ho de fer jo cada vegada (les IPs publiques dels routers van canviant cada cop que reinicieu el router, i si el reinicieu l'haureu de canviar) us haureu de crear un compte i us afegiré al projecte.~~
-1. Anar a la següent [pàgina](https://account.mongodb.com/account/login)
-2. Crear-vos un nou compte (jo ho he fet amb el correu de google de la uni, pero el que preferiu).
-3. Un cop tingueu compte (crec que no cal confirmar correu) digueu-me el vostre correu i us afegeixo al projecte.
-4. Un cop al projecte, aneu a la pestanya Atlas i allà a Network Access (a la barra lateral).
-5. Veureu que a la dreta en verd hi ha un botó de _ADD IP ADDRESS_ i li doneu clic.
-6. Allà, afegiu la vostra Ip i li doneu a confirm. Podeu saber la vostra Ip pública [aquí](https://www.whatismyip.com/)
-7. Ja us hauria de funcionar.
-`mongodb+srv://Hacker-News-HN22D:lbRfG9oDb5yFvGAl@hacker-news-hn22d.uq0bw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
-
 ## Instalar PyCharmProfessional
 Si voleu podeu usuar el Community, però ja que sou estudiants, jo de vosaltres aprofitaria per demanar llicencia i utilitzar la versió pro, que ofereix moltes més eines.
 1. Demanar compte estudiant a [Jetbrains](https://www.jetbrains.com/shop/eform/students) (no cal si ja l'heu demanat abans)
@@ -46,10 +30,22 @@ Si voleu podeu usuar el Community, però ja que sou estudiants, jo de vosaltres 
 ![Imagen Seleccio projecte](https://i.imgur.com/WR0fkgE.png)
 8. Se'ns obrirà el projecte, on tot hauria d'estar configurat. si us diu que instaleu quelcom, feu-ho.
 
+## Instalar llibreries necessaries
+Us recomano crear-vos un virtual environment, aixi no se us fa malbé el python local. Per a fer-ho, heu d'anar a pycharm i a `Add Configurations`, i allà seleccionar que el python que voleu utilitzar es el venv
+1. Executar les següents comandes al terminal per tal que us funcioni correctament:
+```bash
+pip install django
+pip install pymongo==3.12.3
+pip install dnspython 
+pip install pytz
+pip install djongo
+```
+2. Proveu a iniciar l'aplicació i veure si us funciona.
+
 ## Connectar Base de Dades a PyCharm (opcional)
 PyCharm permet crear una connexio a la base de dades, la qual nomes serveix per a poder veure la base de dades des del programa. Això pot anar bé si voleu veure com va quedant la base de dades o el que necessiteu. És opcional, ja que la connexió amb Django ve donada per els arxius de configuració d'aquests i no per el IDE.
 1. A la barra lateral dreta veureu un apartat anomenat Database. Allà, veureu que hi ha un simbol de suma -> Data source -> MongoDB
-2. A on posa url, enganxeu la següent url: `mongodb+srv://hacker-news-hn22d.uq0bw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+2. A on posa url, enganxeu la següent url: `mongodb+srv://Hacker-News-HN22D:ax9JTntdW2S9TDW@hacker-news-hn22d.uq0bw.mongodb.net/hackerNewsApp?retryWrites=true&w=majority`
 3. Li doneu a apply i a ok, i ja ho tindreu configurat.
 
 ## Enllaços d'interès
