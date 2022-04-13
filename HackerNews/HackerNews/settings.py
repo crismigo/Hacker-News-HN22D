@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'submit',
     'userProfile',
     'vote',
+    'threads'
 ]
 
 MIDDLEWARE = [

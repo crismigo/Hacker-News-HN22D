@@ -25,4 +25,5 @@ urlpatterns = [
     path('submit/', include('submit.urls')),
     path('user/', include('userProfile.urls')),
     path('vote/', include('vote.urls')),
+    path('threads/', include('threads.urls')),
 ]
