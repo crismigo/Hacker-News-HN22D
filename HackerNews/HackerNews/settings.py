@@ -37,6 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'authentication',
+    'comment',
+    'item',
+    'news',
+    'submit',
+    'userProfile',
+    'vote',
 ]
 
 MIDDLEWARE = [
@@ -73,12 +81,16 @@ WSGI_APPLICATION = 'HackerNews.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': BASE_DIR / 'db.sqlite3',
-#   }
-#}
+DATABASES = {
+    'default': {
+        'ENGINE': 'djongo',
+        'NAME': 'hackerNewsApp',
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host': 'mongodb+srv://Hacker-News-HN22D:ax9JTntdW2S9TDW@hacker-news-hn22d.uq0bw.mongodb.net/hackerNewsApp?retryWrites=true&w=majority'
+        }
+    }
+}
 
 
 # Password validation

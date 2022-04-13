@@ -16,10 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-#from HackerNews.HackerNewsApp.views import news_page
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('HackerNewsApp.urls')),
-    #path('news_page/', news_page),
+    path('', include('news.urls')),
+    path('auth/', include('authentication.urls')),
+    path('comment/', include('comment.urls')),
+    path('item/', include('item.urls')),
+    path('submit/', include('submit.urls')),
+    path('user/', include('userProfile.urls')),
+    path('vote/', include('vote.urls')),
 ]

@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class HackernewsappConfig(AppConfig):
+class CommentsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'HackerNewsApp'
+    name = 'comment'
