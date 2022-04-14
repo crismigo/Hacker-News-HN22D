@@ -10,6 +10,8 @@ html {
     margin-right: auto;
     background:#FF6600;
     padding: 2px;
+    font-size: 10pt;
+    line-height: 19px;
 }
 
 .main-div {
@@ -18,10 +20,83 @@ html {
     margin-left: auto;
     margin-right: auto;
     background:#F6F6EF;
-    padding: 10px 5px;
+    padding: 10px 2px;
 }
 
 a:link {
     color: #000000;
     text-decoration: none;
+}
+
+.logo-div {
+    padding-right: 4px;
+    display: inline;
+    width: 18px;
+}
+
+.logo {
+    border: 1px solid white;
+
+}
+.page_title {
+    font-weight: bold;
+    vertical-align: super;
+}
+.title {
+    float: left;
+    display: inline;
+}
+.navigation {
+    height: 20px;
+    display: inline;
+}
+.navigation-nav {
+    display: inline;
+    vertical-align: middle;
+    padding: 0 5px;
+}
+
+.navigation-nav .nav-item {
+    list-style: none;
+}
+
+.nav-item {
+    display: inline;
+}
+.nav-item a {
+    padding: 0 5px
+}
+
+.navigation-nav .nav-item .nav-link {
+    color: black;
+    text-decoration: none;
+}
+
+.navigation-nav .nav-item.active {
+    color: white;
+}
+.right-div {
+    float: right;
+    display: inline;
+    text-align: right;
+    padding-right: 4px;
+    height: 20px;
+}
+
+footer {
+    background:#F6F6EF;
+    min-width: 796px;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 0px;
+}
+.line {
+    background: #FF6600;
+    height: 2px;
+    width: 100%;
+}
+.footer-text{
+    padding: 20px;
+    text-align: center;
 }
