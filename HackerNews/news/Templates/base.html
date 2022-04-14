@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {%  load static %}
+    <meta charset="UTF-8">
+    <title>{% block page_title %} {% endblock %} Hacker News</title>
+    <link rel="icon" type="image/gif" href="{%  static '/img/y18.gif' %}">
+    <link href="{% static '/css/style.css' %}" rel="stylesheet">
+</head>
+<header class="header-main">
+    <div class="logo-div">
+        <a href="">
+            <img src="{%  static '/img/y18.gif' %}" alt="Logo">
+        </a>
+    </div>
+</header>
+<body>
+<div class="main-div">
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>

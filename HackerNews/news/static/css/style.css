@@ -1,0 +1,27 @@
+html {
+    font-family: Verdana, Geneva, sans-serif;
+
+}
+
+.header-main {
+    width: 85%;
+    min-width: 796px;
+    margin-left: auto;
+    margin-right: auto;
+    background:#FF6600;
+    padding: 2px;
+}
+
+.main-div {
+    width: 85%;
+    min-width: 796px;
+    margin-left: auto;
+    margin-right: auto;
+    background:#F6F6EF;
+    padding: 10px 5px;
+}
+
+a:link {
+    color: #000000;
+    text-decoration: none;
+}

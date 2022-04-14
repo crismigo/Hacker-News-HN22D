@@ -26,5 +26,17 @@
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
+    <option name="TEMPLATE_FOLDERS">
+      <list>
+        <option value="$MODULE_DIR$/HackerNews/Templates" />
+        <option value="$MODULE_DIR$/HackerNews/vote/templates" />
+        <option value="$MODULE_DIR$/HackerNews/userProfile/templates" />
+        <option value="$MODULE_DIR$/HackerNews/submit/templates" />
+        <option value="$MODULE_DIR$/HackerNews/news/templates" />
+        <option value="$MODULE_DIR$/HackerNews/item/templates" />
+        <option value="$MODULE_DIR$/HackerNews/comment/templates" />
+        <option value="$MODULE_DIR$/HackerNews/authentication/templates" />
+      </list>
+    </option>
   </component>
 </module>
