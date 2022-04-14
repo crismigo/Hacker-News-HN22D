@@ -85,10 +85,10 @@ WSGI_APPLICATION = 'HackerNews.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'hackerNewsApp',
+        'NAME': 'hackerNews',
         'ENFORCE_SCHEMA': False,
         'CLIENT': {
-            'host': 'mongodb+srv://Hacker-News-HN22D:ax9JTntdW2S9TDW@hacker-news-hn22d.uq0bw.mongodb.net/hackerNewsApp?retryWrites=true&w=majority'
+            'host': 'mongodb+srv://Hacker-News-HN22D:RGL3Wkg9tfkgRXg@hacker-news-hn22d.uq0bw.mongodb.net/hackerNews?retryWrites=true&w=majority'
         }
     }
 }
@@ -134,3 +134,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'authentication.User'

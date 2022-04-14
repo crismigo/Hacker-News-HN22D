@@ -39,14 +39,8 @@ APPS:
 Models:
 - User:
   - user
-  - karma
   - about
   - email
-  - showdead
-  - noprocrast
-  - maxvisit
-  - minaway
-  - delay
   - created_at
 
 - Submission:
