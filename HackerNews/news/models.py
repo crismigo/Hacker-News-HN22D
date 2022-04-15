@@ -20,6 +20,8 @@ class Submission(models.Model):
     title = models.CharField(max_length=50, blank=False)
     type = models.ForeignKey(SubmissionType, on_delete=models.RESTRICT)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    url =  models.TextField(blank=True)
+    text = models.TextField(blank=True)
     points = models.PositiveIntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -28,4 +30,4 @@ class Submission(models.Model):
         verbose_name_plural = "Submissions"
 
     def __str__(self):
-        return self.title, self.type, self.author
+        return self.title

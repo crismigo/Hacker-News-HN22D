@@ -1,6 +1,5 @@
 html {
     font-family: Verdana, Geneva, sans-serif;
-
 }
 
 .header-main {
@@ -9,7 +8,7 @@ html {
     margin-left: auto;
     margin-right: auto;
     background:#FF6600;
-    padding: 2px;
+    padding: 1px;
     font-size: 10pt;
     line-height: 19px;
 }
@@ -26,6 +25,36 @@ html {
 a:link {
     color: #000000;
     text-decoration: none;
+}
+
+
+.row{
+    font-size: 10pt;
+    color: #000000;
+    display:inline-block;
+}
+
+.number{
+    font-size: 10pt;
+    color: #828282;
+}
+
+.charateristics{
+    margin-left: 33px;
+
+}
+.link,.score,.user,.time,.unvote,.hide,.comments{
+    font-size: 7pt;
+    color: #828282;
+}
+
+.votearrow {
+  width:      10px;
+  height:     10px;
+  border:     0px;
+  margin:     3px 2px 6px;
+  background: url('/img/grayarrow.gif')
+  no-repeat;
 }
 
 .logo-div {
