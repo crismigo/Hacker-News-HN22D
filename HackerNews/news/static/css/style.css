@@ -48,15 +48,10 @@ a:link {
     color: #828282;
 }
 
-.votearrow {
-  width:      10px;
-  height:     10px;
-  border:     0px;
-  margin:     3px 2px 6px;
-  background: url('/img/grayarrow.gif')
-  no-repeat;
-}
 
+.br{
+    padding-bottom: 10px;
+}
 .logo-div {
     padding-right: 4px;
     display: inline;

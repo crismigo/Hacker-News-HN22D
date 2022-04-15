@@ -2,41 +2,25 @@
 
 {% load static %}
 {% block content %}
-    <!--POSAR EL CODI AQUI -->
 
-
-
-<div class="row">
-    <span class="number" >1.</span>
-    <a href="{% url 'Home' %}">
-        <img class="upvote" src="{% static '/img/grayarrow.gif' %}" title=upvote alt="upvote">
-    </a>
-    <a href="https://www.bloomberg.com/news/articles/2022-04-14/elon-musk-launches-43-billion-hostile-takeover-of-twitter" class="row">
-        Elon Musk makes $43B unsolicited bid to take Twitter private</a>
-
-    <a href="{% url 'Home' %}">
-    <span class="link"> (bloomberg.com) </span>
-    </a>
-    <div class="charateristics">
-    <span class="score">42 points by</span>
-    <a href="{% url 'Home' %}">
-        <span class="user">ptr</span>
-    </a>
-    <a href="{% url 'Home' %}">
-        <span class="time">2 hours ago |</span>
-    </a>
-    <a href="{% url 'Home' %}">
-    <span class="unvote"> unvote |</span>
-    </a>
-    <a href="{% url 'Home' %}">
-    <span class="hide">hide</span>
-    </a>
-    <a href="{% url 'Home' %}">
-    <span class="comments">1860 comments </span>
-    </a>
-
+{% for submission in Submissions %}
+    <div class="row">
+        <span class="number" >&nbsp;&nbsp;{{ forloop.counter }}.</span>
+        <a href="{% url 'Home' %}">
+            <img class="upvote" src="{% static '/img/grayarrow.gif' %}" title=upvote alt="upvote">
+        </a>
+        <a href="{{submission.url}}" class="row"> {{submission.title}} </a>
+        <a href="{% url 'Home' %}"> <span class="link"> {{submission.domainurlname}} </span> </a>
+        <div class="charateristics">
+        <span class="score">{{submission.points}} points by</span>
+        <a href="{% url 'Home' %}"> <span class="user">{{submission.author}}</span> </a>
+        <a href="{% url 'Home' %}"> <span class="time">{{submission.viewed_time}} |</span>  </a>
+        <a href="{% url 'Home' %}"> <span class="unvote"> unvote |</span> </a>
+        <a href="{% url 'Home' %}"> <span class="hide">hide</span> </a>
+        <a href="{% url 'Home' %}"> <span class="comments">{{submission.comments}} </span> </a>
+        </div>
     </div>
-</div>
-
+    <br>
+{% endfor %}
 
 {% endblock %}
