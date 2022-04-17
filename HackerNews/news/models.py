@@ -22,6 +22,7 @@ class Submission(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     url = models.URLField(blank=True)
     text = models.TextField(blank=True)
+    points = models.PositiveIntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
 
     number_of_submissions= 30
