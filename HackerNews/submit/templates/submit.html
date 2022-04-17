@@ -13,12 +13,12 @@
             <tr>
                 <td class="labels"><label for="{{ form.title.id_for_label }}">title</label></td>
                 <td>{{ form.title }}</td>
-                <td class="error">{{ form.title.errors }}</td>
+                <td class="error">{{ form.title.errors.as_p }}</td>
             </tr>
             <tr>
                 <td class="labels"><label for="{{ form.url.id_for_label }}">url</label></td>
                 <td>{{ form.url }}</td>
-                <td class="error">{{ form.url.errors }}</td>
+                <td class="error">{{ form.url.errors.as_text }}</td>
             </tr>
             <tr>
                 <td></td>
@@ -27,7 +27,7 @@
             <tr>
                 <td class="labels"><label for="{{ form.text.id_for_label }}">text</label></td>
                 <td>{{ form.text }}</td>
-                <td class="error">{{ form.text.errors }}</td>
+                <td class="error">{{ form.text.errors.as_text }}</td>
             </tr>
             <tr>
                 <td></td>
