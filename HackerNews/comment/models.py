@@ -30,4 +30,4 @@ class Comment(models.Model):
         unique_together = [['submission', 'user'], ['replied_comment', 'user']]
 
     def __str__(self):
-        return self.submission, self.replied_comment, self.type, self.user
+        return self.replied_comment
