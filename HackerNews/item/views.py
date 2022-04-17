@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 
 
 # Create your views here.
-from news.models import Submission
+from news.models import Submission, SubmissionType
 from submit.forms import SubmissionForm
 
 
@@ -18,18 +18,22 @@ def create(request):
             title= request.POST.get("title")
             url = request.POST.get("url")
             text = request.POST.get("text")
-            type="url"
+            type=SubmissionType.objects.get(name="url")
             user=request.user
             if url!="":
-                submission=Submission(title,type,user,url,"")
+                submission=Submission(title=title,type=type,author=user,url=url,text="",points=1)
+                submission.save()
                 if text!="":
                     pass
                 print(submission)
-                redirect("/")
+                return redirect("/")
 
+            if text!="":
+                pass
 
-            redirect("/submit", {"form_error":formulario})
-    redirect("/submit")
+            formulario.url.errors="prova"
+            return redirect("/submit", {"form_error":formulario})
+    return redirect("/submit")
 
 def edit(request,item_id):
     pass
