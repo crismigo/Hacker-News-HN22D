@@ -10,3 +10,10 @@ class SubmissionForm(forms.Form):
 
     class Meta:
         model = Submission
+
+    def clean(self):
+        cd = self.cleaned_data
+        if cd.get('url') == "" and cd.get('text') == "":
+            print("holi")
+            self.add_error('url', "Url or text requiered")
+        return cd
