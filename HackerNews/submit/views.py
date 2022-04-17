@@ -15,19 +15,24 @@ def submissionView(request):
                 title = request.POST.get("title")
                 url = request.POST.get("url")
                 text = request.POST.get("text")
-                type = SubmissionType.objects.get(name="url")
+
                 user = request.user
                 if url != "":
+                    type = SubmissionType.objects.get(name="url")
                     submission = Submission(title=title, type=type, author=user, url=url, points=1)
                     submission.save()
                     if text != "":
-                        type_comment=ActionType.objects.get(name="Submission")
-                        comment = Comment(submission=submission,type=type_comment,user=user)
+                        type=ActionType.objects.get(name="Submission")
+                        comment = Comment(submission=submission,type=type,user=user)
                         comment.save()
                     return redirect("/")
 
                 if text != "":
-                    pass
+                    type = SubmissionType.objects.get(name="ask")
+                    submission = Submission(title=title, type=type, author=user, url=url, points=1)
+                    submission.save()
+                    return redirect("/")
+
         return render(request, "submit.html", {"form": submission_form})
     else:
         return redirect("/login")
