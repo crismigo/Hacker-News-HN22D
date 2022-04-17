@@ -22,12 +22,7 @@ class Submission(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     url = models.URLField(blank=True)
     text = models.TextField(blank=True)
-    points = models.PositiveIntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
-    comments = models.PositiveIntegerField(default=0)
-    unvote = models.BooleanField(default=False)
-    #hide = models.BooleanField(default=False) Al fer el filter no em funciona no se perque.
-    hide = models.IntegerField(default=0)
 
     number_of_submissions= 30
     domainurlname = ""
@@ -38,12 +33,6 @@ class Submission(models.Model):
 
     def __str__(self):
         return self.title
-
-    def markhide(self):
-        self.hide= not self.hide
-
-    def markunvote(self):
-        self.unvote= not self.unvote
 
     def domainurl(self):
         from urllib.parse import urlparse
