@@ -6,21 +6,29 @@
 {% for submission in Submissions %}
     <div class="row">
         <span class="number" >&nbsp;&nbsp;{{ forloop.counter }}.</span>
-        <a href="{% url 'Home' %}">
+         {% if not submission.unvote %}
+        <a href="{% url 'voteSubmission' submission.id  %}">
             <img class="upvote" src="{% static '/img/grayarrow.gif' %}" title=upvote alt="upvote">
         </a>
+         {% endif %}
+        {% if submission.unvote %} <span style="margin-right: 15px;" ></span>{% endif %}
         <a href="{{submission.url}}" class="row"> {{submission.title}} </a>
         <a href="{% url 'Home' %}"> <span class="link"> {{submission.domainurlname}} </span> </a>
         <div class="charateristics">
         <span class="score">{{submission.points}} points by</span>
         <a href="{% url 'Home' %}"> <span class="user">{{submission.author}}</span> </a>
-        <a href="{% url 'Home' %}"> <span class="time">{{submission.viewed_time}} |</span>  </a>
-        <a href="{% url 'Home' %}"> <span class="unvote"> unvote |</span> </a>
-        <a href="{% url 'Home' %}"> <span class="hide">hide</span> </a>
+        <a href="{% url 'Home' %}"> <span title = {{submission.created_at.year}}-{{submission.created_at.month}}-{{submission.created_at.day}}T{{submission.created_at.hour}}:{{submission.created_at.minute}}:{{submission.created_at.second}}
+                                          class="time">{{submission.viewed_time}} |</span>  </a>
+            {% if submission.unvote %}
+        <a href="{% url 'unvoteSubmission' submission.id %}"> <span class="unvote"> unvote |</span> </a>
+            {% endif %}
+        {% if not submission.hide%}
+        <a href="{% url 'Hide' submission.id %}"> <span class="hide">hide</span> </a>
+        {% endif %}
         <a href="{% url 'Home' %}"> <span class="comments">{{submission.comments}} </span> </a>
         </div>
     </div>
     <br>
 {% endfor %}
-
+    <a href ="{% url 'Home' %}"> <span class="number" style="margin-left: 50px;margin-top: 30px" > More</span></a>
 {% endblock %}

@@ -39,6 +39,12 @@ a:link {
     color: #828282;
 }
 
+.morestyle{
+    font-size: 10pt;
+    color: #828282;
+    margin-left: 33px;
+}
+
 .charateristics{
     margin-left: 33px;
 
@@ -47,7 +53,6 @@ a:link {
     font-size: 7pt;
     color: #828282;
 }
-
 
 .br{
     padding-bottom: 10px;

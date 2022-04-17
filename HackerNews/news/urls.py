@@ -8,4 +8,5 @@ urlpatterns = [
     path('news/', views.news,name="News"),
     path('newest/', views.newest,name="Newest"),
     path('ask/', views.ask,name="Ask"),
+    path('hide/<int:id>', views.hide, name="Hide"),
 ]

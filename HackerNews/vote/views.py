@@ -1,13 +1,34 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 
 
 # Create your views here.
-def vote_submission(request):
-    pass
+from comment.models import ActionType
+from news.models import Submission
+from vote.models import Vote
 
 
-def unvote_submission(request):
-    pass
+def vote_submission(request, id):
+    Vote.objects.all().delete()
+    subm = Submission.objects.get(id=id)
+    subm.points += 1
+    subm.unvote = True
+    subm.save()
+    act = ActionType.objects.get(name="reply")
+    vote= Vote(submission=subm,user=request.user,type=act)
+    vote.save()
+    return redirect("/news")
+
+
+
+
+def unvote_submission(request,id):
+    subm = Submission.objects.get(id=id)
+    subm.points -= 1
+    subm.unvote = False
+    subm.save()
+    #LA linia de sota tindira que ser nomes al vot que elimino
+    #Vote.objects.get(submission=subm).delete()
+    return redirect("/news")
 
 
 def vote_comment(request):

@@ -16,27 +16,34 @@ class SubmissionType(models.Model):
     def __str__(self):
         return self.name
 
-
 class Submission(models.Model):
     title = models.CharField(max_length=50, blank=False)
     type = models.ForeignKey(SubmissionType, on_delete=models.RESTRICT)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     url = models.URLField(blank=True)
-    domainurlname = models.URLField(blank=True)
     text = models.TextField(blank=True)
     points = models.PositiveIntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
-    viewed_time = models.TextField(blank=True)
     comments = models.PositiveIntegerField(default=0)
     unvote = models.BooleanField(default=False)
-    hide = models.BooleanField(default=False)
+    #hide = models.BooleanField(default=False) Al fer el filter no em funciona no se perque.
+    hide = models.IntegerField(default=0)
 
+    number_of_submissions= 30
+    domainurlname = ""
+    viewed_time = ""
     class Meta:
         verbose_name = "Submission"
         verbose_name_plural = "Submissions"
 
     def __str__(self):
         return self.title
+
+    def markhide(self):
+        self.hide= not self.hide
+
+    def markunvote(self):
+        self.unvote= not self.unvote
 
     def domainurl(self):
         from urllib.parse import urlparse
@@ -61,13 +68,23 @@ class Submission(models.Model):
         hours = divmod(duration_seconds, 3600)[0]
         minutes = divmod(duration_seconds, 60)[0]
 
+
         if minutes > 59:
-            if hours > 23:
-                self.viewed_time = str(int(days))+" days ago"
-                if days > 365:
-                    self.viewed_time = self.created_at
+            if hours == 1:
+                self.viewed_time = str(int(days)) + " hour ago"
             else:
-                self.viewed_time = str(int(hours)) + " hours ago"
+                if hours > 23:
+                    if days == 1:
+                        self.viewed_time = str(int(days)) + " day ago"
+                    else:
+                        self.viewed_time = str(int(days))+" days ago"
+                    if days > 365:
+                        self.viewed_time = self.created_at
+                else:
+                    self.viewed_time = str(int(hours)) + " hours ago"
         else:
-            self.viewed_time = str(int(minutes)) + " minutes ago"
+            if minutes == 1 or minutes == 0:
+                self.viewed_time = str(int(minutes)) + " minute ago"
+            else:
+                self.viewed_time = str(int(minutes)) + " minutes ago"
 
