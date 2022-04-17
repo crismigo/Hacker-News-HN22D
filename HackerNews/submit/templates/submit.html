@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block styles %}
+    <link href="{% static '/css/submit/style.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+<body>
+    <form method="post" action="{% url "CreateItem" %}">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td class="labels"><label for="{{ form.title.id_for_label }}">title</label></td>
+                <td>{{ form.title }}</td>
+                <td class="error">{{ form.title.errors }}</td>
+            </tr>
+            <tr>
+                <td class="labels"><label for="{{ form.url.id_for_label }}">url</label></td>
+                <td>{{ form.url }}</td>
+                <td class="error">{{ form.url.errors }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><div class="labels"><b>or</b></div></td>
+            </tr>
+            <tr>
+                <td class="labels"><label for="{{ form.text.id_for_label }}">text</label></td>
+                <td>{{ form.text }}</td>
+                <td class="error">{{ form.text.errors }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="submit"></td>
+            </tr>
+        </table>
+        <div class="labels">
+            <p>Leave url blank to submit a question for discussion. If there is no url, the text (if any) will appear at the top of the thread.</p>
+        </div>
+    </form>
+</body>
+{% endblock %}
+

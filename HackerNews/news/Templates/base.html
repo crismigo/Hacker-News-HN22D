@@ -6,6 +6,8 @@
     <title>{% block page_title %} {% endblock %} Hacker News</title>
     <link rel="icon" type="image/gif" href="{% static '/img/y18.gif' %}">
     <link href="{% static '/css/style.css' %}" rel="stylesheet">
+    {% block styles %}
+    {% endblock %}
 </head>
 
 <!--HEADER -->
