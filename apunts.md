@@ -6,10 +6,10 @@ Views:
   - url + ask: title, url, text --> Es crea una submision de tipus url i es crea un comentari amb el contingut del text.
 - Pàgina new (/newest): Es mostren: select * from submissions order by created_at desc
 - Pàgina autentication (login, register)
-- Pagina edit (/edit): nomes deixa modificar (url:title, ask:title/text) --> redirect a la mateixa pagina (canviar siusplau)
+- Pagina edit (/edit): nomes deixa modificar (url:title, ask:title/text) --> redirect a la mateixa pagina (canviar siusplau) (nomes es pot els primers 60 minuts despres de crear la publicacio)
 ![Imagen edit](https://cdn.discordapp.com/attachments/688116000516079621/963842885889962034/unknown.png)
 - More: Mostra els seguents 30
-- delete: Elimina la publicacio
+- delete: Elimina la publicacio (nomes es pot els primers 30 minuts despres de crear la publicacio)
 - like (triangle): Puja un punt
 - Pàgina item (/item/?id=X): Mostra un element en concret i se li passa per get ?id=X
   - comment: Fer un comentari a una submission

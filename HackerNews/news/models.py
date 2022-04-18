@@ -24,7 +24,7 @@ class Submission(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     url = models.URLField(blank=True)
     text = models.TextField(blank=True)
-    points = models.PositiveIntegerField(default=1)
+    #points = models.PositiveIntegerField(default=1)
     comments = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Comment', related_name="comments",
                                       through_fields=('submission', 'user'))
     votes = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Vote', related_name="votes",
@@ -167,4 +167,4 @@ class Vote(models.Model):
         unique_together = [['submission', 'user'], ['comment', 'user']]
 
     def __str__(self):
-        return self.submission, self.comment, self.type, self.user
+        return self.user_id

@@ -22,15 +22,15 @@ def submissionView(request):
                     submission.save()
 
                     action_type = ActionType.objects.get(name="Submission")
-                    vote = Vote(submission=submission, type=action_type, user=user)
+                    vote = Vote(submission_id=submission.id, type=action_type, user_id=user.id)
                     vote.save()
 
                     if text != "":
+                        action_type = ActionType.objects.get(name="Submission")
                         comment = Comment(submission=submission, type=action_type, user=user, text=text)
                         comment.save()
-
                         action_type = ActionType.objects.get(name="Comment")
-                        vote = Vote(submission=comment, type=action_type, user=user)
+                        vote = Vote(comment=comment, type=action_type, user=user)
                         vote.save()
 
                     return redirect("/")
@@ -40,8 +40,7 @@ def submissionView(request):
                     submission = Submission(title=title, type=submision_type, author=user, text=text)
                     submission.save()
 
-                    action_type = ActionType.objects.get(name="Submission")
-                    vote = Vote(submission=submission, type=action_type, user=user)
+                    vote = Vote(submission=submission, user=user)
                     vote.save()
 
                     return redirect("/")

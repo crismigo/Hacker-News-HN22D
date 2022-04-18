@@ -1,11 +1,11 @@
-
+from django.db.models import Count
 from django.shortcuts import render
 
 # Create your views here.
 from news.models import Submission
 
 def news(request,page=1):
-    submission = Submission.objects.all().filter().order_by('-points')[(page-1)*30:(page*30)]
+    submission = Submission.objects.all().filter().annotate(points=Count('votes')).order_by('-points')[(page-1)*30:(page*30)]
 
     return render(request, "news.html",  {"Submissions": submission,"page": page+1})
 

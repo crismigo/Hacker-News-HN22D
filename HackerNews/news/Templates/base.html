@@ -24,6 +24,7 @@
     <!-- NAVIGATION -->
     <div class="navigation">
         <ul class="navigation-nav">
+        {% block navbar %}
             <li class="nav-item {% if request.path == '/news/' %}active {% endif %}">
                 <a class="nav-link" href="{% url 'News' %}">new</a>
             </li>
@@ -43,6 +44,7 @@
             </li>
             {% block addOption %}
             {% endblock %}
+        {% endblock %}
         </ul>
     </div>
     <!-- user -->

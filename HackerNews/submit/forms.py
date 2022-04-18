@@ -15,7 +15,7 @@ class SubmissionForm(forms.Form):
         cd = self.cleaned_data
         if cd.get('url') == "" and cd.get('text') == "":
             self.add_error('url', "Url or text requiered")
-        if not isValidUrl(cd.get('url')):
+        if cd.get('url') != "" and not isValidUrl(cd.get('url')):
             self.add_error('url', "The Url is not valid")
         return cd
 
