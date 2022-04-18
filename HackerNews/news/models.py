@@ -43,9 +43,11 @@ class Submission(models.Model):
 
     def domainurl(self):
         from urllib.parse import urlparse
-        if self.url is not None:
+        submtype = SubmissionType.objects.get(name="ask")
+        if self.url is not None and submtype!=self.type:
             return  "(" +  urlparse(self.url).netloc + ")"
-
+        else:
+            return ""
     def calculateseconds(self):
         datatime_now = datetime.now()
 
