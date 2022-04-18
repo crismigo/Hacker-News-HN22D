@@ -108,6 +108,7 @@ class Comment(models.Model):
     votes = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Vote', related_name="comment_votes",
                                    through_fields=('comment', 'user'))
     created_at = models.DateTimeField(auto_now_add=True)
+    viewed_time = ""
 
     class Meta:
         verbose_name = "Comment"
@@ -116,6 +117,42 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text
+
+    def timeSinceCreation(self):
+        datatime_now = datetime.now()
+
+        dateyear = self.created_at.year
+        datemonth = self.created_at.month
+        dateday = self.created_at.day
+        datehour = self.created_at.hour
+        dateminute = self.created_at.minute
+        datesecond = self.created_at.second
+        then = datetime(dateyear, datemonth, dateday, datehour, dateminute, datesecond)
+
+        duration = datatime_now - then
+        duration_seconds = duration.total_seconds()
+        days = divmod(duration_seconds, 86400)[0]
+        hours = divmod(duration_seconds, 3600)[0]
+        minutes = divmod(duration_seconds, 60)[0]
+
+        if minutes > 59:
+            if hours == 1:
+                self.viewed_time = str(int(days)) + " hour ago"
+            else:
+                if hours > 23:
+                    if days == 1:
+                        self.viewed_time = str(int(days)) + " day ago"
+                    else:
+                        self.viewed_time = str(int(days)) + " days ago"
+                    if days > 365:
+                        self.viewed_time = self.created_at
+                else:
+                    self.viewed_time = str(int(hours)) + " hours ago"
+        else:
+            if minutes == 1 or minutes == 0:
+                self.viewed_time = str(int(minutes)) + " minute ago"
+            else:
+                self.viewed_time = str(int(minutes)) + " minutes ago"
 
 
 class Vote(models.Model):

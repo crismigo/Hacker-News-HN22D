@@ -32,10 +32,6 @@ def submissions(request, user_id):
         return redirect("/login")
 
 
-def comments(request, user_id):
-    pass
-
-
 def upvoted_submissions(request, user_id):
     pass
 

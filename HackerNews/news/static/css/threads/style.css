@@ -1,0 +1,29 @@
+.small_size{
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 8pt;
+    color: #828282;
+    margin-left: 10px;
+}
+
+a:link{
+   color: #828282;
+}
+
+a:hover{
+    text-decoration: underline;
+    color: #828282;
+}
+
+.reply{
+    font-size: 8pt;
+    color: black;
+    margin-left: 10px;
+    margin-top: 4px;
+}
+
+.text{
+    margin-left: 10px;
+    margin-top: 4px;
+    font-size: 10pt;
+}
+
