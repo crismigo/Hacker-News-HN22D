@@ -18,8 +18,9 @@ def submissionView(request):
                 user = request.user
                 if url != "":
                     type = SubmissionType.objects.get(name="url")
-                    submission = Submission(title=title, type=type, author=user, url=url, points=1)
+                    submission = Submission(title=title, type=type, author=user, url=url)
                     submission.save()
+                    print(submission)
                     if text != "":
                         type = ActionType.objects.get(name="Submission")
                         comment = Comment(submission=submission, type=type, user=user, text=text)
@@ -28,7 +29,7 @@ def submissionView(request):
 
                 if text != "":
                     type = SubmissionType.objects.get(name="ask")
-                    submission = Submission(title=title, type=type, author=user, url=url, points=1)
+                    submission = Submission(title=title, type=type, author=user, text=text)
                     submission.save()
                     return redirect("/")
 
