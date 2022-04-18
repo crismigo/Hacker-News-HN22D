@@ -70,6 +70,7 @@ a:link {
 .page_title {
     font-weight: bold;
     vertical-align: super;
+    color: #000000 !important;
 }
 .title {
     float: left;
