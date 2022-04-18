@@ -1,0 +1,10 @@
+{% extends "news.html" %}
+{% load static %}
+{% block styles %}
+    <link href="{% static '/css/userSubmissions/style.css' %}" rel="stylesheet">
+{% endblock %}
+{% block addOption%}
+    |
+    <li class="nav-item element">{{ user.username }}'s submissions
+    </li>
+{% endblock %}
