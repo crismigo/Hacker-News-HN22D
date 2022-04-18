@@ -20,13 +20,29 @@
         {% csrf_token %}
             <tr>
                 <td class="labels"><label for="{{ form.about.id_for_label }}">about:</label></td>
-                <td>{{ form.about }}</td>
+                <td class="mark">{{ form.about }}</td>
             </tr>
             <tr>
                 <td class="labels"><label for="{{ form.email.id_for_label }}">email:</label></td>
                 <td>{{ form.email }}</td>
             </tr>
         </form>
+        <tr>
+            <td></td>
+            <td class="link"><a href="{% url 'ShowUserSubmissions' user.id %}"><u>submissions</u></a></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="link"><a href="{{ user.username }}/comments/"><u>comments</u></a></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="link"><a href="{{ user.username }}/upvotedsubmissions/"><u>upvoted submissions</u></a></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="link"><a href="{{ user.username }}/upvotedComments/"><u>upvoted comments</u></a></td>
+        </tr>
     </table>
     <br>
     <input type="submit" value="update">
