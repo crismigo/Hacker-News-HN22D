@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block styles %}
+    <link href="{% static '/css/profile/style.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+<body>
+    <table>
+        <tr>
+            <td class="labels">user:</td>
+            <td class="labels">{{ user.username }}</td>
+        </tr>
+        <tr>
+            <td class="labels">created:</td>
+            <td class="labels">{{ user.viewed_time }}</td>
+        </tr>
+        <form method="post" action="">
+        {% csrf_token %}
+            <tr>
+                <td class="labels"><label for="{{ form.about.id_for_label }}">about:</label></td>
+                <td>{{ form.about }}</td>
+            </tr>
+            <tr>
+                <td class="labels"><label for="{{ form.email.id_for_label }}">email:</label></td>
+                <td>{{ form.email }}</td>
+            </tr>
+        </form>
+    </table>
+    <br>
+    <input type="submit" value="update">
+</body>
+
+{% endblock %}
+
