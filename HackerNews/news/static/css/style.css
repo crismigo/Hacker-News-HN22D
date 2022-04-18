@@ -51,7 +51,7 @@ a:link {
     margin-left: 33px;
 
 }
-.link,.score,.user,.time,.unvote,.hide,.comments{
+.link,.score,.user,.time,.unvote,.hide,.comments,.delete,.edit{
     font-size: 7pt;
     color: #828282;
 }

@@ -36,7 +36,7 @@
             <a href="{% url 'EditItem' submission.id %}"> <span class="edit">| edit </span> </a>
             {% endif %}
             {% if submission.calculateseconds < 1800 %}
-             <a href="{% url 'DeleteItem' submission.id %}"> <span class="edit">| edit </span> </a>
+             <a href="{% url 'DeleteItem' submission.id %}"> <span class="delete">| edit </span> </a>
             {% endif %}
         </div>
     </div>
