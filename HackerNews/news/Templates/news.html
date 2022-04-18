@@ -3,7 +3,7 @@
 {% load static %}
 {% block content %}
 
-{% for submission in Submissions %}
+{% for submission in pages.object_list %}
 
     <div class="row">
         <span class="number" >&nbsp;&nbsp;{{ forloop.counter }}.</span>
@@ -25,11 +25,13 @@
             <a href="{% url 'unvoteSubmission' submission.id %}"> <span class="unvote"> unvote |</span> </a>
                 {% endif %}
 
-            <a href="{% url 'Home' %}"> <span class="hide">hide |</span> </a>
+           <!-- <a href="{% url 'Home' %}"> <span class="hide">hide |</span> </a>  -->
             {% if not submission.comments.count %}
             <a href="{% url 'ViewItem' submission.id %}"> <span class="comments"> discuss</span> </a>
+            {% elif submission.comments.count == 1 %}
+            <a href="{% url 'ViewItem' submission.id %}"> <span class="comments"> {{  submission.comments.count }} comment</span> </a>
             {% else %}
-            <a href="{% url 'ViewItem' submission.id %}"> <span class="comments"> {{  submission.comments.count }}</span> </a>
+            <a href="{% url 'ViewItem' submission.id %}"> <span class="comments"> {{  submission.comments.count }} comment</span> </a>
             {% endif %}
             {% if submission.calculateseconds < 7200 %}
             <a href="{% url 'EditItem' submission.id %}"> <span class="edit">| edit </span> </a>

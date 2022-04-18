@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.db.models import Count
 from django.shortcuts import render
 
@@ -6,9 +7,12 @@ from news.models import Submission, SubmissionType
 
 
 def news(request,page=1):
+    subm= Submission.objects.all().filter().annotate(points=Count('votes')).order_by('-points');
+    subm_paginator = Paginator(Submission.objects.all().annotate(points=Count('votes')).order_by('-points'),30)
+    pages = subm_paginator.page(1)
     submission = Submission.objects.all().filter().annotate(points=Count('votes')).order_by('-points')[(page-1)*30:(page*30)]
 
-    return render(request, "news.html",  {"Submissions": submission,"page": page+1})
+    return render(request, "news.html",  {"Submissions": submission,"page": page+1,"pages":pages,"subm_paginator":subm_paginator.count})
 
 def newest(request,page=1):
     submission = Submission.objects.order_by('-created_at').filter()[(page-1)*30:(page*30)]
