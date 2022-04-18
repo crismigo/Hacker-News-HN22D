@@ -32,8 +32,6 @@ class Submission(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     number_of_submissions = 30
-    domainurlname = ""
-    viewed_time = ""
 
     class Meta:
         verbose_name = "Submission"
@@ -42,11 +40,11 @@ class Submission(models.Model):
     def __str__(self):
         return self.title
 
+
     def domainurl(self):
         from urllib.parse import urlparse
         if self.url is not None:
-            self.domainurlname = urlparse(self.url).netloc
-            self.domainurlname = "(" + self.domainurlname + ")"
+            return  "(" +  urlparse(self.url).netloc + ")"
 
     def timesincecreation(self):
         datatime_now = datetime.now()
@@ -65,24 +63,25 @@ class Submission(models.Model):
         hours = divmod(duration_seconds, 3600)[0]
         minutes = divmod(duration_seconds, 60)[0]
 
+
         if minutes > 59:
             if hours == 1:
-                self.viewed_time = str(int(days)) + " hour ago"
+                return str(int(days)) + " hour ago"
             else:
                 if hours > 23:
                     if days == 1:
-                        self.viewed_time = str(int(days)) + " day ago"
-                    else:
-                        self.viewed_time = str(int(days)) + " days ago"
-                    if days > 365:
-                        self.viewed_time = self.created_at
+                        return str(int(days)) + " day ago"
+                    elif days < 365:
+                        return str(int(days))+" days ago"
+                    else :
+                        return self.created_at
                 else:
-                    self.viewed_time = str(int(hours)) + " hours ago"
+                    return str(int(hours)) + " hours ago"
         else:
             if minutes == 1 or minutes == 0:
-                self.viewed_time = str(int(minutes)) + " minute ago"
+                return str(int(minutes)) + " minute ago"
             else:
-                self.viewed_time = str(int(minutes)) + " minutes ago"
+                return str(int(minutes)) + " minutes ago"
 
 
 class ActionType(models.Model):

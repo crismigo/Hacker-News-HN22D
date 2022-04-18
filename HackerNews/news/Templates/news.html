@@ -4,31 +4,36 @@
 {% block content %}
 
 {% for submission in Submissions %}
+
     <div class="row">
         <span class="number" >&nbsp;&nbsp;{{ forloop.counter }}.</span>
-         {% if not submission.unvote %}
-        <a href="{% url 'voteSubmission' submission.id  %}">
+         {% if user == submission.author %} <span style="color: #ff6600">* </span>
+         {% elif not upvote.submission.id %}
+            <a href="{% url 'voteSubmission' submission.id%}">
             <img class="upvote" src="{% static '/img/grayarrow.gif' %}" title=upvote alt="upvote">
-        </a>
+            </a>
          {% endif %}
-        {% if submission.unvote %} <span style="margin-right: 15px;" ></span>{% endif %}
+        {% if upvote.submission.id%} <span style="margin-right: 15px;" ></span>{% endif %}
         <a href="{{submission.url}}" class="row"> {{submission.title}} </a>
-        <a href="{% url 'Home' %}"> <span class="link"> {{submission.domainurlname}} </span> </a>
+        <a href="{% url 'Home' %}"> <span class="link"> {{submission.domainurl}} </span> </a>
         <div class="charateristics">
-        <span class="score">{{submission.points}} points by</span>
-        <a href="{% url 'Home' %}"> <span class="user">{{submission.author}}</span> </a>
-        <a href="{% url 'Home' %}"> <span title = {{submission.created_at.year}}-{{submission.created_at.month}}-{{submission.created_at.day}}T{{submission.created_at.hour}}:{{submission.created_at.minute}}:{{submission.created_at.second}}
-                                          class="time">{{submission.viewed_time}} |</span>  </a>
-            {% if submission.unvote %}
+        <span class="score">{{ submission.points }} points by</span>
+        <a href="{% url 'ShowProfile' submission.author.id %}"> <span class="user">{{submission.author}}</span> </a>
+        <a href="{% url 'ViewItem' submission.id %}"> <span title = {{submission.created_at.year}}-{{submission.created_at.month}}-{{submission.created_at.day}}T{{submission.created_at.hour}}:{{submission.created_at.minute}}:{{submission.created_at.second}}
+                                          class="time">{{  submission.timesincecreation }} |</span>  </a>
+            {% if upvote.submission.id%}
         <a href="{% url 'unvoteSubmission' submission.id %}"> <span class="unvote"> unvote |</span> </a>
             {% endif %}
-        {% if not submission.hide%}
-        <a href="{% url 'Hide' submission.id %}"> <span class="hide">hide</span> </a>
+
+        <a href="{% url 'Home' %}"> <span class="hide">hide |</span> </a>
+        {% if not submission.comments.count %}
+        <a href="{% url 'ViewItem' submission.id %}"> <span class="comments"> discuss</span> </a>
+        {% else %}
+        <a href="{% url 'ViewItem' submission.id %}"> <span class="comments"> {{  submission.comments.count }}</span> </a>
         {% endif %}
-        <a href="{% url 'Home' %}"> <span class="comments">{{submission.comments}} </span> </a>
         </div>
     </div>
     <br>
 {% endfor %}
-    <a href ="{% url 'Home' %}"> <span class="number" style="margin-left: 50px;margin-top: 30px" > More</span></a>
+    <a href ="{% url 'Newspage' page %}" style="margin-top: 50px">  <span class="morestyle" > More</span></a>
 {% endblock %}
