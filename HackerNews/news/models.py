@@ -102,6 +102,7 @@ class Comment(models.Model):
     replied_comment = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True)
     type = models.ForeignKey(ActionType, on_delete=models.RESTRICT)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    text = models.TextField(null=False, blank=False)
     comments = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Comment', related_name="comment_comments",
                                       through_fields=('replied_comment', 'user'))
     votes = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Vote', related_name="comment_votes",
