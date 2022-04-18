@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block styles %}
+    <link href="{% static '/css/submit/style.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+<body>
+    <form method="post" action="">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td class="labels"><label for="{{ form.title.id_for_label }}">title</label></td>
+                <td>{{ form.title }}</td>
+                <td class="error">{{ form.title.errors.as_p }}</td>
+            </tr>
+            {% if submission.type.name == "url" %}
+            <tr>
+                <td class="labels"><label for="{{ form.url.id_for_label }}">url</label></td>
+                <td>{{ submission.url }}</td>
+                <td class="error">{{ form.url.errors.as_text }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td class="labels"><label for="{{ form.text.id_for_label }}">text</label></td>
+                <td>{{ form.text }}</td>
+                <td class="error">{{ form.text.errors.as_text }}</td>
+            </tr>
+            {% endif %}
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Update"></td>
+            </tr>
+        </table>
+    </form>
+</body>
+{% endblock %}
