@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from news.models import Submission, SubmissionType, Comment, ActionType
+from news.models import Submission, SubmissionType, Comment, ActionType, Vote
 from .forms import SubmissionForm
 
 
@@ -17,24 +17,35 @@ def submissionView(request):
 
                 user = request.user
                 if url != "":
-                    type = SubmissionType.objects.get(name="url")
-                    submission = Submission(title=title, type=type, author=user, url=url)
+                    submision_type = SubmissionType.objects.get(name="url")
+                    submission = Submission(title=title, type=submision_type, author=user, url=url)
                     submission.save()
+
+                    action_type = ActionType.objects.get(name="Submission")
+                    vote = Vote(submission=submission, type=action_type, user=user)
+                    vote.save()
+
                     if text != "":
-                        type = ActionType.objects.get(name="Submission")
-                        comment = Comment(submission=submission, type=type, user=user, text=text)
+                        comment = Comment(submission=submission, type=action_type, user=user, text=text)
                         comment.save()
+
+                        action_type = ActionType.objects.get(name="Comment")
+                        vote = Vote(submission=comment, type=action_type, user=user)
+                        vote.save()
+
                     return redirect("/")
 
                 if text != "":
-                    type = SubmissionType.objects.get(name="ask")
-                    submission = Submission(title=title, type=type, author=user, text=text)
+                    submision_type = SubmissionType.objects.get(name="ask")
+                    submission = Submission(title=title, type=submision_type, author=user, text=text)
                     submission.save()
+
+                    action_type = ActionType.objects.get(name="Submission")
+                    vote = Vote(submission=submission, type=action_type, user=user)
+                    vote.save()
+
                     return redirect("/")
 
         return render(request, "submit.html", {"form": submission_form})
     else:
         return redirect("/login")
-
-
-
