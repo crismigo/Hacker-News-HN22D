@@ -5,6 +5,7 @@ from django.db import models
 from django.conf import settings
 from datetime import datetime
 
+
 class SubmissionType(models.Model):
     name = models.CharField(max_length=30, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -16,6 +17,7 @@ class SubmissionType(models.Model):
     def __str__(self):
         return self.name
 
+
 class Submission(models.Model):
     title = models.CharField(max_length=50, blank=False)
     type = models.ForeignKey(SubmissionType, on_delete=models.RESTRICT)
@@ -23,11 +25,16 @@ class Submission(models.Model):
     url = models.URLField(blank=True)
     text = models.TextField(blank=True)
     points = models.PositiveIntegerField(default=1)
+    comments = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Comment', related_name="comments",
+                                      through_fields=('submission', 'user'))
+    votes = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Vote', related_name="votes",
+                                   through_fields=('submission', 'user'))
     created_at = models.DateTimeField(auto_now_add=True)
 
-    number_of_submissions= 30
+    number_of_submissions = 30
     domainurlname = ""
     viewed_time = ""
+
     class Meta:
         verbose_name = "Submission"
         verbose_name_plural = "Submissions"
@@ -39,7 +46,7 @@ class Submission(models.Model):
         from urllib.parse import urlparse
         if self.url is not None:
             self.domainurlname = urlparse(self.url).netloc
-            self.domainurlname = "("+self.domainurlname+")"
+            self.domainurlname = "(" + self.domainurlname + ")"
 
     def timesincecreation(self):
         datatime_now = datetime.now()
@@ -58,7 +65,6 @@ class Submission(models.Model):
         hours = divmod(duration_seconds, 3600)[0]
         minutes = divmod(duration_seconds, 60)[0]
 
-
         if minutes > 59:
             if hours == 1:
                 self.viewed_time = str(int(days)) + " hour ago"
@@ -67,7 +73,7 @@ class Submission(models.Model):
                     if days == 1:
                         self.viewed_time = str(int(days)) + " day ago"
                     else:
-                        self.viewed_time = str(int(days))+" days ago"
+                        self.viewed_time = str(int(days)) + " days ago"
                     if days > 365:
                         self.viewed_time = self.created_at
                 else:
@@ -78,3 +84,50 @@ class Submission(models.Model):
             else:
                 self.viewed_time = str(int(minutes)) + " minutes ago"
 
+
+class ActionType(models.Model):
+    name = models.CharField(max_length=30, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Action Type"
+        verbose_name_plural = "Action Types"
+
+    def __str__(self):
+        return self.name
+
+
+class Comment(models.Model):
+    submission = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True, blank=True)
+    replied_comment = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True)
+    type = models.ForeignKey(ActionType, on_delete=models.RESTRICT)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    comments = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Comment', related_name="comment_comments",
+                                      through_fields=('replied_comment', 'user'))
+    votes = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Vote', related_name="comment_votes",
+                                   through_fields=('comment', 'user'))
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Comment"
+        verbose_name_plural = "Comments"
+        unique_together = [['submission', 'user'], ['replied_comment', 'user']]
+
+    def __str__(self):
+        return self.replied_comment
+
+
+class Vote(models.Model):
+    submission = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True, blank=True)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True, blank=True)
+    type = models.ForeignKey(ActionType, on_delete=models.RESTRICT)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Vote"
+        verbose_name_plural = "Votes"
+        unique_together = [['submission', 'user'], ['comment', 'user']]
+
+    def __str__(self):
+        return self.submission, self.comment, self.type, self.user

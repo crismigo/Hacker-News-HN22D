@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 
-from comment.models import Comment, ActionType
-from news.models import Submission, SubmissionType
+from news.models import Submission, SubmissionType,Comment, ActionType
 from .forms import SubmissionForm
 
 
