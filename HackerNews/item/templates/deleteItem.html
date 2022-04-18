@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block styles %}
+    <link href="{% static '/css/submit/style.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+<body>
+    <form method="post" action="">
+        {% csrf_token %}
+        <input type="submit" name="yes" value="Yes">
+        <input type="submit" name="no" value="No">
+    </form>
+</body>
+{% endblock %}

@@ -17,6 +17,9 @@ def submissionView(request):
 
                 user = request.user
                 if url != "":
+                    url_exists = Submission.objects.filter(url=url)
+                    if url_exists.count()>0:
+                        return redirect("/item/" + str(url_exists[0].id))
                     submision_type = SubmissionType.objects.get(name="url")
                     submission = Submission(title=title, type=submision_type, author=user, url=url)
                     submission.save()

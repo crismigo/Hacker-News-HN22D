@@ -1,9 +1,10 @@
 import datetime
 
+import pytz
 from django.db import models
 # Create your models here.
 from django.conf import settings
-from datetime import datetime
+from datetime import datetime,timedelta
 from django import template
 
 unvoting = template.Library()
@@ -50,7 +51,6 @@ class Submission(models.Model):
             return ""
     def calculateseconds(self):
         datatime_now = datetime.now()
-
         dateyear = self.created_at.year
         datemonth = self.created_at.month
         dateday = self.created_at.day
@@ -58,13 +58,11 @@ class Submission(models.Model):
         dateminute = self.created_at.minute
         datesecond = self.created_at.second
         then = datetime(dateyear, datemonth, dateday, datehour, dateminute, datesecond)
-
+        timezone = timedelta(hours=2)
+        then=then+timezone
         duration = datatime_now - then
         return duration.total_seconds()
-    """ TODO: A l'hora de mirar si el usuari ja ha votat o no, django no dona la possibilitat de passar parametres del html,
-    en el nostre cas el usuari que fa la request.
-    @unvoting.filter
-     """
+
 
     def timesincecreation(self):
         duration_seconds= self.calculateseconds()
@@ -135,7 +133,8 @@ class Comment(models.Model):
         dateminute = self.created_at.minute
         datesecond = self.created_at.second
         then = datetime(dateyear, datemonth, dateday, datehour, dateminute, datesecond)
-
+        timezone = timedelta(hours=2)
+        then = then + timezone
         duration = datatime_now - then
         return duration.total_seconds()
 
