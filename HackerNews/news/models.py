@@ -4,7 +4,9 @@ from django.db import models
 # Create your models here.
 from django.conf import settings
 from datetime import datetime
+from django import template
 
+unvoting = template.Library()
 
 class SubmissionType(models.Model):
     name = models.CharField(max_length=30, unique=True)
@@ -31,8 +33,6 @@ class Submission(models.Model):
                                    through_fields=('submission', 'user'))
     created_at = models.DateTimeField(auto_now_add=True)
 
-    number_of_submissions = 30
-
     class Meta:
         verbose_name = "Submission"
         verbose_name_plural = "Submissions"
@@ -46,7 +46,7 @@ class Submission(models.Model):
         if self.url is not None:
             return  "(" +  urlparse(self.url).netloc + ")"
 
-    def timesincecreation(self):
+    def calculateseconds(self):
         datatime_now = datetime.now()
 
         dateyear = self.created_at.year
@@ -58,7 +58,17 @@ class Submission(models.Model):
         then = datetime(dateyear, datemonth, dateday, datehour, dateminute, datesecond)
 
         duration = datatime_now - then
-        duration_seconds = duration.total_seconds()
+        return duration.total_seconds()
+    """ TODO: A l'hora de mirar si el usuari ja ha votat o no, django no dona la possibilitat de passar parametres del html,
+    en el nostre cas el usuari que fa la request.
+    @unvoting.filter
+     """
+    def unvote(self,userlogged):
+        voted = Vote.objects.filter(submission=self, user=userlogged).exists()
+        return voted
+
+    def timesincecreation(self):
+        duration_seconds= self.calculateseconds()
         days = divmod(duration_seconds, 86400)[0]
         hours = divmod(duration_seconds, 3600)[0]
         minutes = divmod(duration_seconds, 60)[0]

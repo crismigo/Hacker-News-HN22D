@@ -7,7 +7,7 @@
 
     <div class="row">
         <span class="number" >&nbsp;&nbsp;{{ forloop.counter }}.</span>
-         {% if user == submission.author %} <span style="color: #ff6600">* </span>
+         {% if not user == submission.author %} <span style="color: #ff6600">* </span>
          {% elif not upvote.submission.id %}
             <a href="{% url 'voteSubmission' submission.id%}">
             <img class="upvote" src="{% static '/img/grayarrow.gif' %}" title=upvote alt="upvote">
@@ -21,15 +21,21 @@
         <a href="{% url 'ShowProfile' submission.author.id %}"> <span class="user">{{submission.author}}</span> </a>
         <a href="{% url 'ViewItem' submission.id %}"> <span title = {{submission.created_at.year}}-{{submission.created_at.month}}-{{submission.created_at.day}}T{{submission.created_at.hour}}:{{submission.created_at.minute}}:{{submission.created_at.second}}
                                           class="time">{{  submission.timesincecreation }} |</span>  </a>
-            {% if upvote.submission.id%}
+            {% if  submission.unvote.user%}
         <a href="{% url 'unvoteSubmission' submission.id %}"> <span class="unvote"> unvote |</span> </a>
             {% endif %}
 
         <a href="{% url 'Home' %}"> <span class="hide">hide |</span> </a>
-        {% if not submission.comments.count %}
+        {% if not submission.unvote %}
         <a href="{% url 'ViewItem' submission.id %}"> <span class="comments"> discuss</span> </a>
         {% else %}
         <a href="{% url 'ViewItem' submission.id %}"> <span class="comments"> {{  submission.comments.count }}</span> </a>
+        {% endif %}
+        {% if submission.calculateseconds < 3600 %}
+        <a href="{% url 'EditItem' submission.id %}"> <span class="edit">| edit </span> </a>
+        {% endif %}
+        {% if submission.calculateseconds < 1800 %}
+         <a href="{% url 'DeleteItem' submission.id %}"> <span class="edit">| edit </span> </a>
         {% endif %}
         </div>
     </div>
