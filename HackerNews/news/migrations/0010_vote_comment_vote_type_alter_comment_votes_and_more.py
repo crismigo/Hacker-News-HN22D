@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='vote',
             name='type',
-            field=models.ForeignKey(default='Submissions', on_delete=django.db.models.deletion.RESTRICT, to='news.actiontype'),
+            field=models.ForeignKey(default='', on_delete=django.db.models.deletion.RESTRICT, to='news.actiontype'),
             preserve_default=False,
         ),
         migrations.AlterField(
