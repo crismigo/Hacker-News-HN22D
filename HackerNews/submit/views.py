@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from news.models import Submission, SubmissionType,Comment, ActionType
+from news.models import Submission, SubmissionType, Comment, ActionType
 from .forms import SubmissionForm
 
 
@@ -21,8 +21,8 @@ def submissionView(request):
                     submission = Submission(title=title, type=type, author=user, url=url, points=1)
                     submission.save()
                     if text != "":
-                        type=ActionType.objects.get(name="Submission")
-                        comment = Comment(submission=submission,type=type,user=user)
+                        type = ActionType.objects.get(name="Submission")
+                        comment = Comment(submission=submission, type=type, user=user, text=text)
                         comment.save()
                     return redirect("/")
 
@@ -35,4 +35,3 @@ def submissionView(request):
         return render(request, "submit.html", {"form": submission_form})
     else:
         return redirect("/login")
-
