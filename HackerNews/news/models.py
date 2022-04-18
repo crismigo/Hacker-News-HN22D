@@ -114,6 +114,9 @@ class Comment(models.Model):
         verbose_name_plural = "Comments"
         unique_together = [['submission', 'user'], ['replied_comment', 'user']]
 
+    def __str__(self):
+        return self.text
+
 
 class Vote(models.Model):
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True, blank=True)
