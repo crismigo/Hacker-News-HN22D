@@ -9,10 +9,14 @@ def vote_submission(request, id):
     if request.user.is_authenticated:
         subm = Submission.objects.get(id=id)
         subm.points+=1
-        subm.save
+        subm.save()
         act = ActionType.objects.get(name="Submission")
         vote = Vote.objects.get_or_create(submission=subm,user=request.user,type=act)
-        return redirect("/news")
+        if vote :
+            print("correct")
+        else :
+            print("incorrect")
+        return redirect(request.META.get('HTTP_REFERER'))
     else:
         return redirect("/login")
 
@@ -20,10 +24,10 @@ def vote_submission(request, id):
 def unvote_submission(request, id):
     subm = Submission.objects.get(id=id)
     subm.points -= 1
-    subm.save
-    #LA linia de sota tindira que ser nomes al vot que elimino
+    subm.save()
+
     Vote.objects.get(submission=subm,user=request.user).delete()
-    return redirect("/news")
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
 def vote_comment(request):
