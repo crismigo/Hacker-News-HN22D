@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load unvote %}
 {% load static %}
 {% block content %}
 
@@ -21,7 +21,7 @@
         <a href="{% url 'ShowProfile' submission.author.id %}"> <span class="user">{{submission.author}}</span> </a>
         <a href="{% url 'ViewItem' submission.id %}"> <span title = {{submission.created_at.year}}-{{submission.created_at.month}}-{{submission.created_at.day}}T{{submission.created_at.hour}}:{{submission.created_at.minute}}:{{submission.created_at.second}}
                                           class="time">{{  submission.timesincecreation }} |</span>  </a>
-            {% if  submission.unvote.user%}
+            {% if submission|isVoted:user %}
         <a href="{% url 'unvoteSubmission' submission.id %}"> <span class="unvote"> unvote |</span> </a>
             {% endif %}
 
