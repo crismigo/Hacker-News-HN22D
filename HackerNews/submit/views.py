@@ -20,7 +20,6 @@ def submissionView(request):
                     type = SubmissionType.objects.get(name="url")
                     submission = Submission(title=title, type=type, author=user, url=url)
                     submission.save()
-                    print(submission)
                     if text != "":
                         type = ActionType.objects.get(name="Submission")
                         comment = Comment(submission=submission, type=type, user=user, text=text)
@@ -36,3 +35,6 @@ def submissionView(request):
         return render(request, "submit.html", {"form": submission_form})
     else:
         return redirect("/login")
+
+
+
