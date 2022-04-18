@@ -1,5 +1,7 @@
 {% extends "news.html" %}
 
 {% block more%}
-<a href ="{% url 'Askpage' page %}" style="margin-top: 50px">  <span class="morestyle" > More</span></a>
+    {% if pages.has_next %}
+    <a href ="{% url 'Ask'  %}?pages={{ pages.next_page_number }}" style="margin-top: 50px">  <span class="morestyle" > More</span></a>
+    {%  endif %}
 {% endblock %}

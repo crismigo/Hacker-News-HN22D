@@ -1,27 +1,47 @@
 from django.core.paginator import Paginator
-from django.db.models import Count
 from django.shortcuts import render
 
 # Create your views here.
+from news.Counter import Counter
 from news.models import Submission, SubmissionType
 
 
-def news(request,page=1):
-    subm= Submission.objects.all().order_by('-points')
-    subm_paginator = Paginator(subm,20)
-    pages = subm_paginator.page(1)
-    submission = Submission.objects.all().filter().order_by('-points')[(page-1)*30:(page*30)]
+def news(request):
 
-    return render(request, "news.html",  {"Submissions": submission,"page": page+1,"pages":pages,"subm_paginator":subm_paginator.count})
+    subm_paginator = Paginator(Submission.objects.all().order_by('-points'),30)
+    page_num = request.GET.get('pages')
 
-def newest(request,page=1):
-    submission = Submission.objects.order_by('-created_at').filter()[(page-1)*30:(page*30)]
-    # Setejo els domainurl de les submissions.
-    return render(request, "newsest.html", {"Submissions": submission,"page":page+1})
+    if page_num == None:
+        pages = subm_paginator.page(1)
+    else:
+        pages = subm_paginator.page(page_num)
+
+    page_index = Counter()
+    page_index.count= pages.start_index()
+    return render(request, "news.html",  {'pages':pages,'index':page_index})
+
+def newest(request):
+    subm_paginator = Paginator(Submission.objects.order_by('-created_at'), 30)
+    page_num = request.GET.get('pages')
+    if page_num == None:
+        pages = subm_paginator.page(1)
+    else:
+        pages = subm_paginator.page(page_num)
+    page_index = Counter()
+    page_index.count = pages.start_index()
+    return render(request, "newsest.html", {"pages":pages,'index':page_index})
 
 
-def ask(request,page=1):
+def ask(request):
     type = SubmissionType.objects.get(name="ask")
-    submission = Submission.objects.filter(type=type).order_by('-points')[(page-1)*30:(page*30)]
-    # Setejo els domainurl de les submissions.
-    return render(request, "ask.html", {"Submissions": submission,"page":page+1})
+    subm_paginator = Paginator(Submission.objects.filter(type=type).order_by('-points'), 30)
+    page_num = request.GET.get('pages')
+
+    if page_num == None:
+        pages = subm_paginator.page(1)
+    else:
+        pages = subm_paginator.page(page_num)
+    page_index = Counter()
+    page_index.count = pages.start_index()
+
+    return render(request, "ask.html", {"pages":pages,'index':page_index})

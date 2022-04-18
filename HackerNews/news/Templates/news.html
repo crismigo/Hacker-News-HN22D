@@ -3,10 +3,9 @@
 {% load static %}
 {% block content %}
 
-{% for submission in Submissions %}
-
+{% for submission in pages.object_list %}
     <div class="row">
-        <span class="number" >&nbsp;&nbsp;{{ forloop.counter }}.</span>
+        <span class="number" >&nbsp;&nbsp;{{ index.count}}{{ index.increment }}.</span>
         {% if not user == submission.author %} <span style="color: #ff6600">* </span>
         {% elif not submission|isVoted:user %}
             <a href="{% url 'voteSubmission' submission.id%}">
@@ -44,7 +43,8 @@
     <br>
 {% endfor %}
     {% block more%}
-    <a href ="{% url 'Newspage' page %}" style="margin-top: 50px">  <span class="morestyle" > More</span></a>
+        {% if pages.has_next %}
+    <a href ="{% url 'News'%}?pages={{ pages.next_page_number }}" style="margin-top: 50px">  <span class="morestyle" > More</span></a>
+        {%  endif %}
     {% endblock %}
-
 {% endblock %}
