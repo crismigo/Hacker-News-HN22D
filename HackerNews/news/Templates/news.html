@@ -7,39 +7,42 @@
 
     <div class="row">
         <span class="number" >&nbsp;&nbsp;{{ forloop.counter }}.</span>
-         {% if not user == submission.author %} <span style="color: #ff6600">* </span>
-         {% elif not upvote.submission.id %}
+        {% if not user == submission.author %} <span style="color: #ff6600">* </span>
+        {% elif not submission|isVoted:user %}
             <a href="{% url 'voteSubmission' submission.id%}">
             <img class="upvote" src="{% static '/img/grayarrow.gif' %}" title=upvote alt="upvote">
             </a>
-         {% endif %}
-        {% if upvote.submission.id%} <span style="margin-right: 15px;" ></span>{% endif %}
+        {% endif %}
+        {% if  submission|isVoted:user%} <span style="margin-right: 15px;" ></span>{% endif %}
         <a href="{{submission.url}}" class="row"> {{submission.title}} </a>
         <a href="{% url 'Home' %}"> <span class="link"> {{submission.domainurl}} </span> </a>
         <div class="charateristics">
-        <span class="score">{{ submission.points }} points by</span>
-        <a href="{% url 'ShowProfile' submission.author.id %}"> <span class="user">{{submission.author}}</span> </a>
-        <a href="{% url 'ViewItem' submission.id %}"> <span title = {{submission.created_at.year}}-{{submission.created_at.month}}-{{submission.created_at.day}}T{{submission.created_at.hour}}:{{submission.created_at.minute}}:{{submission.created_at.second}}
-                                          class="time">{{  submission.timesincecreation }} |</span>  </a>
-            {% if submission|isVoted:user %}
-        <a href="{% url 'unvoteSubmission' submission.id %}"> <span class="unvote"> unvote |</span> </a>
-            {% endif %}
+            <span class="score">{{ submission.votes.count }} points by</span>
+            <a href="{% url 'ShowProfile' submission.author.id %}"> <span class="user">{{submission.author}}</span> </a>
+            <a href="{% url 'ViewItem' submission.id %}"> <span title = {{submission.created_at.year}}-{{submission.created_at.month}}-{{submission.created_at.day}}T{{submission.created_at.hour}}:{{submission.created_at.minute}}:{{submission.created_at.second}}
+                                              class="time">{{  submission.timesincecreation }} |</span>  </a>
+                {% if submission|isVoted:user %}
+            <a href="{% url 'unvoteSubmission' submission.id %}"> <span class="unvote"> unvote |</span> </a>
+                {% endif %}
 
-        <a href="{% url 'Home' %}"> <span class="hide">hide |</span> </a>
-        {% if not submission.unvote %}
-        <a href="{% url 'ViewItem' submission.id %}"> <span class="comments"> discuss</span> </a>
-        {% else %}
-        <a href="{% url 'ViewItem' submission.id %}"> <span class="comments"> {{  submission.comments.count }}</span> </a>
-        {% endif %}
-        {% if submission.calculateseconds < 3600 %}
-        <a href="{% url 'EditItem' submission.id %}"> <span class="edit">| edit </span> </a>
-        {% endif %}
-        {% if submission.calculateseconds < 1800 %}
-         <a href="{% url 'DeleteItem' submission.id %}"> <span class="edit">| edit </span> </a>
-        {% endif %}
+            <a href="{% url 'Home' %}"> <span class="hide">hide |</span> </a>
+            {% if not submission.comments.count %}
+            <a href="{% url 'ViewItem' submission.id %}"> <span class="comments"> discuss</span> </a>
+            {% else %}
+            <a href="{% url 'ViewItem' submission.id %}"> <span class="comments"> {{  submission.comments.count }}</span> </a>
+            {% endif %}
+            {% if submission.calculateseconds < 7200 %}
+            <a href="{% url 'EditItem' submission.id %}"> <span class="edit">| edit </span> </a>
+            {% endif %}
+            {% if submission.calculateseconds < 1800 %}
+             <a href="{% url 'DeleteItem' submission.id %}"> <span class="edit">| edit </span> </a>
+            {% endif %}
         </div>
     </div>
     <br>
 {% endfor %}
+    {% block more%}
     <a href ="{% url 'Newspage' page %}" style="margin-top: 50px">  <span class="morestyle" > More</span></a>
+    {% endblock %}
+
 {% endblock %}

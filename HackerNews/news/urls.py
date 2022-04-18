@@ -8,6 +8,7 @@ urlpatterns = [
     path('news/', views.news,name="News"),
     path('news/<int:page>', views.news,name="Newspage"),
     path('newest/', views.newest,name="Newest"),
-    path('newest/<int:page>', views.newest,name="Newest"),
+    path('newest/<int:page>', views.newest,name="Newestpage"),
     path('ask/', views.ask,name="Ask"),
+    path('ask/<int:page>', views.ask,name="Askpage"),
 ]

@@ -63,9 +63,6 @@ class Submission(models.Model):
     en el nostre cas el usuari que fa la request.
     @unvoting.filter
      """
-    def unvote(self,userlogged):
-        voted = Vote.objects.filter(submission=self, user=userlogged).exists()
-        return voted
 
     def timesincecreation(self):
         duration_seconds= self.calculateseconds()
