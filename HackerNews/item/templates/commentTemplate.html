@@ -1,0 +1,29 @@
+{% load unvote %}
+{% load static %}
+{% for comment in comments %}
+<div class="comments">
+    <div class="comment">
+        <div class="comment-title">
+            {% if not user == comment.user %} <span style="color: #ff6600">* </span>
+            {% elif not comment|isVoted:user %}
+                <a href="">
+                    <img class="upvote" src="{% static '/img/grayarrow.gif' %}" title=upvote alt="upvote">
+                </a>
+            {% endif %}
+            {% if 1 %} <span style="margin-right: 15px;"></span>{% endif %}
+            <span class="user"><a href="{% url 'ShowProfile' 1 %}">{{ comment.user.username }}</a></span>
+            <span title={{ comment.created_at.year }}-{{ comment.created_at.month }}-{{ comment.created_at.day }}T{{ comment.created_at.hour }}:{{ comment.created_at.minute }}:{{ comment.created_at.second }}
+                  class="time"><a href="{% url 'ViewItem' 1 %}"> {{ comment.timesincecreation }} </a> | </span>
+        </div>
+        <div class="comment-body">
+            <div class="comment-text">
+                {{ comment.text }}
+            </div>
+            <div class="replay-button"><a href="">reply</a></div>
+        </div>
+        <div class="replied-comments">
+            {% commentsTreeComments comment %}
+        </div>
+    </div>
+</div>
+{%  endfor %}
