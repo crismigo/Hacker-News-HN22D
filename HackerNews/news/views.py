@@ -7,8 +7,8 @@ from news.models import Submission, SubmissionType
 
 
 def news(request,page=1):
-    subm= Submission.objects.all().filter().annotate(points=Count('votes')).order_by('-points');
-    subm_paginator = Paginator(Submission.objects.all().annotate(points=Count('votes')).order_by('-points'),30)
+    #subm= Submission.objects.all().annotate(points=Count('votes')).order_by('-points')
+    subm_paginator = Paginator(Submission.objects.order_by('-title'),30)
     pages = subm_paginator.page(1)
     submission = Submission.objects.all().filter().annotate(points=Count('votes')).order_by('-points')[(page-1)*30:(page*30)]
 
