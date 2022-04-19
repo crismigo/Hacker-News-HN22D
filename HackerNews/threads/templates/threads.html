@@ -11,11 +11,16 @@
         <span> <a href="{% url 'ShowProfile' user.id %}"> {{ comment.user.username }} </a> </span>
         <span>{{ comment.viewed_time }}</span>
         <span> | </span>
-        <span> <a href="{% url 'ViewItem' comment.submission.id %}"> parent </a> </span>
+        {% if comment.type == "Submission" %}
+            <span> <a href="{% url 'ViewItem' comment.submission.id %}"> parent </a> </span>
+        {% else %}
+            <span> <a href="{% url 'ViewItem' comment.replied_comment.id %}"> parent </a> </span>
+        {% endif %}
         <span> | </span>
         <span> <a href="{% url 'EditItem' comment.submission.id %}"> edit </a> </span>
         <span> | </span>
         <span> <a href="{% url 'DeleteItem' comment.submission.id %}"> delete </a> </span>
+        <span> | on: {{ comment.submission.title }} </span>
     </div>
     <div class="text">
         {{ comment.text }}
@@ -23,5 +28,6 @@
     <div class="reply">
         <a href="{% url 'AddComment2Comment' %}"> reply </a>
     </div>
+    <br>
 {% endfor %}
 {% endblock %}
