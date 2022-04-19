@@ -1,12 +1,15 @@
 {% extends "base.html" %}
 {% load unvote %}
 {% load static %}
+{% block styles %}
+    <link href="{% static '/css/item/viewItem.css' %}" rel="stylesheet">
+{% endblock %}
 {% block content %}
     <div class="view-item-main">
         <div class="submission">
             <div class="submission-header">
                 <div class="submission-title">
-                    {% if not user == submission.author %} <span style="color: #ff6600">* </span>
+                    {% if user == submission.author %} <span style="color: #ff6600">* </span>
                     {% elif not submission|isVoted:user %}
                         <a href="{% url 'voteSubmission' submission.id %}">
                             <img class="upvote" src="{% static '/img/grayarrow.gif' %}" title=upvote alt="upvote">
@@ -14,7 +17,9 @@
                     {% endif %}
                     {% if submission|isVoted:user %} <span style="margin-right: 15px;"></span>{% endif %}
                     <span class="title-text"><a href="{{ submission.url }}">{{ submission.title }}</a></span>
-                    <span class="title-url"><a href="{{ submission.url }}">{{ submission.domainurl }}</a> </span>
+                    {% if submission.type.name == "url" %}
+                        <span class="title-url"><a href="{{ submission.url }}">{{ submission.domainurl }}</a> </span>
+                    {% endif %}
                 </div>
                 <div class="submission-subtitle">
                     <span class="score">{{ submission.votes.count }} points by</span>
@@ -37,9 +42,14 @@
                         <a href="{% url 'EditItem' submission.id %}"> <span class="edit">| edit </span> </a>
                     {% endif %}
                     {% if submission.calculateseconds < 1800 %}
-                        <a href="{% url 'DeleteItem' submission.id %}"> <span class="edit">| edit </span> </a>
+                        <a href="{% url 'DeleteItem' submission.id %}"> <span class="edit">| delete </span> </a>
                     {% endif %}
                 </div>
+                {% if submission.type.name == "ask" %}
+                    <div class="ask-text">
+                        <p>{{ submission.text |linebreaks}}</p>
+                    </div>
+                {% endif %}
 
             </div>
             <div class="add-comment">
@@ -47,7 +57,7 @@
                     <div class="form-comment-box">
                         {{ form }}
                     </div>
-                    <div>
+                    <div class="form-comment-message">
                         <span>If you haven't already, would you mind reading about HN's <a href="#"><u>approach to comments</u></a> and <a
                                 href="#"><u>site guidelines</u></a>?</span>
                     </div>

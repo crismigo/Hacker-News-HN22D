@@ -15,6 +15,7 @@
 <body>
     <form method="post" action="">
         {% csrf_token %}
+        <div class="text-delete">Do you want this to be deleted?</div>
         <input type="submit" name="yes" value="Yes">
         <input type="submit" name="no" value="No">
     </form>

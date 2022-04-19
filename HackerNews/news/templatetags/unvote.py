@@ -14,6 +14,13 @@ def isVoted(submission, user):
 
 register.filter('isVoted', isVoted)
 
+def commentIsVoted(comment, user):
+    voted = Vote.objects.filter(comment=comment, user=user).exists()
+    return voted
+
+
+register.filter('commentIsVoted', commentIsVoted)
+
 
 @register.inclusion_tag('commentTemplate.html')
 def commentsTree(comment_param):
