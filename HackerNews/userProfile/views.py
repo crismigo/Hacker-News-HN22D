@@ -38,7 +38,8 @@ def upvoted_submissions(request, user_id):
         votes = Vote.objects.filter(user=user, type=type)
         submissions = []
         for vote in votes:
-            submissions.append(vote.submission)
+            if vote.submission.author.id != user_id:
+                submissions.append(vote.submission)
 
         subm_paginator = Paginator(submissions, 30)
         page_num = request.GET.get('pages')

@@ -10,14 +10,15 @@
 {% block content %}
 {% for comment in Comments %}
     <div class="small_size">
+        <span style="color: #ff6600">* </span>
         <span> <a href="{% url 'ShowProfile' user.id %}"> {{ comment.user.username }} </a> </span>
         <span>{{ comment.timesincecreation }}</span>
         <span> | on: {{ comment|titleFromVotes }} </span>
     </div>
-    <div class="text">
+    <div class="text" style="margin-left: 20px;">
         {{ comment.text }}
     </div>
-    <div class="reply">
+    <div class="reply" style="margin-left: 20px;">
         <a href="{% url 'AddComment2Comment' comment.id %}"> reply </a>
     </div>
     <br>
