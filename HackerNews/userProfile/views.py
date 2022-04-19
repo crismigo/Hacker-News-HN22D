@@ -18,7 +18,6 @@ def show(request, user_id):
 def submissions(request, user_id):
     user = User.objects.get(id=user_id)
     submissions = Submission.objects.filter(author=user)
-
     subm_paginator = Paginator(submissions, 30)
     page_num = request.GET.get('pages')
 
@@ -29,7 +28,7 @@ def submissions(request, user_id):
 
     page_index = Counter()
     page_index.count = pages.start_index()
-    return render(request, "upvotedSubmissions.html", {'pages': pages, 'index': page_index})
+    return render(request, "userSubmissions.html", {'pages': pages, 'index': page_index})
 
 
 def upvoted_submissions(request, user_id):
@@ -65,8 +64,17 @@ def upvoted_comments(request, user_id):
         comments = []
         for vote in votes:
             comments.append(vote.comment)
+        print(comments)
+        subm_paginator = Paginator(comments, 30)
+        page_num = request.GET.get('pages')
 
-        return render(request, "upvotedComments.html", {"Comments": comments})
+        if page_num == None:
+            pages = subm_paginator.page(1)
+        else:
+            pages = subm_paginator.page(page_num)
 
+        page_index = Counter()
+        page_index.count = pages.start_index()
+        return render(request, "upvotedComments.html", {'pages': pages, 'index': page_index})
     else:
         return redirect("Login")
