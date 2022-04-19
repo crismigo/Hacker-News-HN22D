@@ -62,7 +62,7 @@
             </div>
 
         {% else %}
-            <a href="{% url 'Login' %}">login</a>
+            <a href="{% provider_login_url 'google' %}">login</a>
         {% endif %}
     </div>
 
