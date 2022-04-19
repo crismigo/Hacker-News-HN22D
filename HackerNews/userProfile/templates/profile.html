@@ -5,62 +5,66 @@
     <link href="{% static '/css/profile/style.css' %}" rel="stylesheet">
 {% endblock %}
 {% block content %}
-<p>dfghjsadk</p>
-<table style="display: block">
-    <tr>
-        <td class="labels">user:</td>
-        <td class="labels">{{ userRequested.username }}</td>
-    </tr>
-    <tr>
-        <td class="labels">created:</td>
-        <td class="labels">{{ userRequested.viewed_time }}</td>
-    </tr>
-    {% if user.is_authenticated and userRequested.id == user.id %}
     <form method="post" action="">
-    {% csrf_token %}
-        <tr>
-            <td class="labels"><label for="{{ form.about.id_for_label }}">about:</label></td>
-            <td class="mark">{{ form.about }}</td>
-        </tr>
-        <tr>
-            <td class="labels"><label for="{{ form.email.id_for_label }}">email:</label></td>
-            <td>{{ form.email }}</td>
-        </tr>
-    </form>
-    {% else %}
-    <tr>
-        <td class="labels">about:</td>
-        <td class="labels">{{ userRequested.about }}</td>
-    </tr>
-    {% if userRequested.email != "" %}
-    <tr>
-        <td class="labels">email:</td>
-        <td class="labels">{{ userRequested.email }}</td>
-    </tr>
-    {% endif %}
-    {% endif %}
-    <tr>
-        <td></td>
-        <td class="link"><a href="{% url 'ShowUserSubmissions' userRequested.id %}"><u>submissions</u></a></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td class="link"><a href="{% url 'Thread' %}"><u>comments</u></a></td>
-    </tr>
+        <table style="display: block">
+            <tr>
+                <td class="labels">user:</td>
+                <td class="labels">{{ userRequested.username }}</td>
+            </tr>
+            <tr>
+                <td class="labels">created:</td>
+                <td class="labels">{{ userRequested.viewed_time }}</td>
+            </tr>
+            {% if user.is_authenticated and userRequested.id == user.id %}
+                {% csrf_token %}
+                <tr>
+                    <td class="labels"><label for="{{ form.about.id_for_label }}">about:</label></td>
+                    <td class="mark">{{ form.about }}</td>
+                </tr>
+                <tr>
+                    <td class="labels"><label for="{{ form.email.id_for_label }}">email:</label></td>
+                    <td>{{ form.email }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td class="labels">about:</td>
+                    <td class="labels">{{ userRequested.about }}</td>
+                </tr>
+                {% if userRequested.email != "" %}
+                    <tr>
+                        <td class="labels">email:</td>
+                        <td class="labels">{{ userRequested.email }}</td>
+                    </tr>
+                {% endif %}
+            {% endif %}
+            <tr>
+                <td></td>
+                <td class="link"><a href="{% url 'ShowUserSubmissions' userRequested.id %}"><u>submissions</u></a></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="link"><a href="{% url 'Thread' %}"><u>comments</u></a></td>
+            </tr>
 
-    {% if user.is_authenticated and userRequested.id == user.id %}
-    <tr>
-        <td></td>
-        <td class="link"><a href="{% url 'UpvotedSubmissions' userRequested.id %}"><u>upvoted submissions</u></a></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td class="link"><a href="{% url 'UpvotedComments' userRequested.id %}"><u>upvoted comments</u></a></td>
-    </tr>
-</table>
-<br>
-<input type="submit" value="update">
-{% endif %}
+            {% if user.is_authenticated and userRequested.id == user.id %}
+                <tr>
+                    <td></td>
+                    <td class="link"><a href="{% url 'UpvotedSubmissions' userRequested.id %}"><u>upvoted
+                        submissions</u></a></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="link"><a href="{% url 'UpvotedComments' userRequested.id %}"><u>upvoted comments</u></a>
+                    </td>
+                </tr>
+                </table>
+                <br>
+                <input type="submit" value="update">
+                </form>
+            {% else %}
+                </table>
+                <br>
+            {% endif %}
 
 {% endblock %}
 
