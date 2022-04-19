@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.utils.functional import SimpleLazyObject
 
 from item.views import view
-from news.models import Vote, Comment
+from news.models import Vote, Comment, Submission
 
 register = template.Library()
 
@@ -28,6 +28,39 @@ def commentIsVoted(comment, user):
 
 
 register.filter('commentIsVoted', commentIsVoted)
+
+
+def timeFromVotes(comment):
+    if comment.type.name == "Submission":
+        subm = Submission.objects.get(id=comment.submission.id)
+        return subm.timesincecreation()
+    else:
+        return timeFromVotes(comment.replied_comment)
+
+
+register.filter('timeFromVotes', timeFromVotes)
+
+
+def titleFromVotes(comment):
+    if comment.type.name == "Submission":
+        subm = Submission.objects.get(id=comment.submission.id)
+        return subm.title
+    else:
+        return timeFromVotes(comment.replied_comment)
+
+
+register.filter('titleFromVotes', titleFromVotes)
+
+
+def idFromVotes(comment):
+    if comment.type.name == "Submission":
+        subm = Submission.objects.get(id=comment.submission.id)
+        return subm.id
+    else:
+        return timeFromVotes(comment.replied_comment)
+
+
+register.filter('idFromVotes', idFromVotes)
 
 
 @register.inclusion_tag('commentTemplate.html')

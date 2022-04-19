@@ -37,11 +37,11 @@
         </tr>
         <tr>
             <td></td>
-            <td class="link"><a href="{{ user.username }}/upvotedsubmissions/"><u>upvoted submissions</u></a></td>
+            <td class="link"><a href="{% url 'UpvotedSubmissions' user.id %}"><u>upvoted submissions</u></a></td>
         </tr>
         <tr>
             <td></td>
-            <td class="link"><a href="{{ user.username }}/upvotedComments/"><u>upvoted comments</u></a></td>
+            <td class="link"><a href="{% url 'UpvotedComments' user.id %}"><u>upvoted comments</u></a></td>
         </tr>
     </table>
     <br>

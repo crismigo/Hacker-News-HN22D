@@ -177,6 +177,4 @@ class Vote(models.Model):
         unique_together = [['submission', 'user'], ['comment', 'user']]
 
     def __str__(self):
-        return self.user_id
-
-
+        return str(self.user_id)

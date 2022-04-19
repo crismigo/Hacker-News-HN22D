@@ -8,5 +8,5 @@ def viewThread(request):
     comments = Comment.objects.filter(user=request.user)
     for comment in comments:
         print(comment)
-        comment.timeSinceCreation()
+        comment.timesincecreation()
     return render(request, "threads.html", {"comments": comments})

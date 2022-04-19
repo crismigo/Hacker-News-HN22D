@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load unvote %}
+{% load static %}
+{% block styles %}
+    <link href="{% static '/css/threads/style.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+{% for comment in Comments %}
+    <div class="small_size">
+        <span> <a href="{% url 'ShowProfile' comment.user.id %}"> {{ comment.user.username }} </a> </span>
+        <span>{{ comment|timeFromVotes }}</span>
+        <span> | </span>
+        <span> <a href="{% url 'unvoteComment' comment.id %}"> unvote </a> </span>
+        <span> | </span>
+        <span> <a href="{% url 'ViewItem' comment|idFromVotes %}"> parent </a> </span>
+        <span> | on: {{ comment|titleFromVotes }} </span>
+    </div>
+    <div class="text">
+        {{ comment.text }}
+    </div>
+    <br>
+{% endfor %}
+{% endblock %}
