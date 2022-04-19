@@ -1,0 +1,28 @@
+.small_size{
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 8pt;
+    color: #828282;
+    margin-left: 10px;
+}
+.small_size a {
+    color: #828282 !important;
+}
+.text{
+    margin-left: 17px;
+    margin-top: 4px;
+    font-size: 10pt;
+}
+.add-comment {
+    margin: 20px;
+}
+.form-comment-box textarea{
+    width: 75%;
+    resize: vertical;
+    min-height: 100px;
+}
+.form-comment-message {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 10pt;
+    color: #828282;
+    margin: 20px 0;
+}

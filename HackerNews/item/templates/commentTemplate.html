@@ -27,7 +27,7 @@
             <div class="comment-text">
                 {{ comment.text }}
             </div>
-            <div class="replay-button"><a href="">reply</a></div>
+            <div class="replay-button"><a href="{% url "AddComment2Comment" comment.id %}">reply</a></div>
         </div>
         <div class="replied-comments">
             {% commentsTreeComments comment %}
