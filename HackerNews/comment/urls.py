@@ -4,7 +4,7 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('submission/add', views.addSubmissionComment, name="AddSubmissionComment"),
+    path('submission/add/<int:id_submission>', views.addSubmissionComment, name="AddSubmissionComment"),
     path('submission/edit', views.editSubmissionComment, name="EditSubmissionComment"),
     path('submission/remove', views.removeSubmissionComment, name="RemoveSubmissionComment"),
     path('comment/add', views.addReplyComment, name="AddComment2Comment"),

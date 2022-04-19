@@ -21,7 +21,7 @@ def submissions(request, user_id):
     if request.user.is_authenticated:
         user_form = UserForm()
         user = User.objects.get(id=user_id)
-        submissions = Submission.objects.filter(author=user_id)
+        submissions = Submission.objects.filter(author=user)
 
         for subm in submissions:
             subm.timesincecreation()

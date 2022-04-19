@@ -56,7 +56,8 @@
 
             </div>
             <div class="add-comment">
-                <form action="" method="POST">
+                <form action="{% url "AddSubmissionComment" submission.id %}" method="POST">
+                    {% csrf_token %}
                     <div class="form-comment-box">
                         {{ form }}
                     </div>
