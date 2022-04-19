@@ -7,8 +7,7 @@
 <div class="comments-section">
     <div class="comment">
         <div class="comment-title">
-            {% if user == comment.user %} <span style="color: #ff6600">* </span>
-
+            {% if user.is_authenticated and user == comment.user %} <span style="color: #ff6600">* </span>
             {% elif not user.is_authenticated or not comment|commentIsVoted:user %}
                 <a href="{% url 'voteComment' comment.id %}">
                     <img class="upvote" src="{% static '/img/grayarrow.gif' %}" title=upvote alt="upvote">
@@ -30,7 +29,7 @@
             <div class="replay-button"><a href="{% url "AddComment2Comment" comment.id %}">reply</a></div>
         </div>
         <div class="replied-comments">
-            {% commentsTreeComments comment %}
+            {% commentsTreeComments comment user %}
         </div>
     </div>
 </div>

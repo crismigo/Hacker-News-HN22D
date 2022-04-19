@@ -64,17 +64,17 @@ register.filter('idFromVotes', idFromVotes)
 
 
 @register.inclusion_tag('commentTemplate.html')
-def commentsTree(comment_param):
+def commentsTree(comment_param,user):
     comments = Comment.objects.filter(submission_id=comment_param.id)
 
-    return {'comments': comments}
+    return {'comments': comments,"user":user}
 
 
 @register.inclusion_tag('commentTemplate.html')
-def commentsTreeComments(comment_param):
+def commentsTreeComments(comment_param,user):
     comments = Comment.objects.filter(replied_comment=comment_param.id)
 
-    return {'comments': comments}
+    return {'comments': comments,"user":user}
 
 
 register.filter('commentsTree', commentsTree)

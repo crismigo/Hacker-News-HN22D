@@ -9,8 +9,8 @@
         <div class="submission">
             <div class="submission-header">
                 <div class="submission-title">
-                    {% if user == submission.author %} <span style="color: #ff6600">* </span>
-                    {% elif not submission|isVoted:user %}
+                    {% if user.is_authenticated and user == submission.author %} <span style="color: #ff6600">* </span>
+                    {% elif not user.is_authenticated or not submission|isVoted:user %}
                         <a href="{% url 'voteSubmission' submission.id %}">
                             <img class="upvote" src="{% static '/img/grayarrow.gif' %}" title=upvote alt="upvote">
                         </a>
@@ -72,7 +72,7 @@
             </div>
         </div>
         <div class="comments-container">
-            {% commentsTree submission %}
+            {% commentsTree submission user %}
         </div>
 
 
