@@ -1,5 +1,10 @@
 {% extends "news.html" %}
 
+
+{% block page_title %}
+    Ask |
+{% endblock %}
+
 {% block title_redirect%}
 <a href="{{submission.url}}" class="row"> {{submission.title}} </a>
 {% endblock %}

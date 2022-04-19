@@ -6,13 +6,13 @@
 {% for submission in pages.object_list %}
     <div class="row">
         <span class="number" >&nbsp;&nbsp;{{ index.count}}{{ index.increment }}.</span>
-        {% if  user == submission.author %} <span style="color: #ff6600">* </span>
-        {% elif not submission|isVoted:user %}
+        {% if  user.is_authenticated and user == submission.author %} <span style="color: #ff6600">* </span>
+        {% elif not user.is_authenticated or user.is_authenticated and not submission|isVoted:user %}
             <a href="{% url 'voteSubmission' submission.id%}">
             <img class="upvote" src="{% static '/img/grayarrow.gif' %}" title=upvote alt="upvote">
             </a>
         {% endif %}
-        {% if  submission|isVoted:user and not user == submission.author%} <span style="margin-right: 15px;" ></span>{% endif %}
+        {% if   user.is_authenticated and submission|isVoted:user and not user == submission.author%} <span style="margin-right: 15px;" ></span>{% endif %}
         {% if  submission.type.name == "url"%}
         <a href="{{submission.url}}" class="row"> {{submission.title}} </a>
         {%  else  %} <a href="{% url 'ViewItem' submission.id%}" class="row"> {{submission.title}} </a>

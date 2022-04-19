@@ -19,7 +19,7 @@
             <span title={{ comment.created_at.year }}-{{ comment.created_at.month }}-{{ comment.created_at.day }}T{{ comment.created_at.hour }}:{{ comment.created_at.minute }}:{{ comment.created_at.second }}
                   class="time"><a href="{% url 'ViewItem' 1 %}"> {{ comment.timesincecreation }} </a> | </span>
             {% if comment|commentIsVoted:user %}
-                            <a href="{% url 'unvoteSubmission' comment.id %}"> <span class="unvote"> unvote |</span> </a>
+                            <a href="{% url 'unvoteComment' comment.id %}"> <span class="unvote"> unvote |</span> </a>
                         {% endif %}
         </div>
         <div class="comment-body">

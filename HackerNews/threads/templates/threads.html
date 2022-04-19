@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% block page_title %}
+{{user.username}}'s comments |
+{% endblock %}
 {% load unvote %}
 {% load static %}
 {% block styles %}
