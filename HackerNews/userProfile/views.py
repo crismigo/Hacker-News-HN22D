@@ -9,14 +9,10 @@ from userProfile.forms import UserForm
 
 
 def show(request, user_id):
-    if request.user.is_authenticated:
-        user_form = UserForm()
-        user = User.objects.get(id=user_id)
-        user.timeSinceCreation()
-        return render(request, "profile.html", {"form": user_form, "user": user})
-
-    else:
-        return redirect("Login")
+    user_form = UserForm()
+    user = User.objects.get(id=user_id)
+    user.timeSinceCreation()
+    return render(request, "profile.html", {"form": user_form, "userRequested": user})
 
 
 def submissions(request, user_id):
