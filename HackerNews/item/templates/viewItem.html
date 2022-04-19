@@ -34,9 +34,12 @@
 
                     {% if not submission.comments.count %}
                         <a href="{% url 'ViewItem' submission.id %}"> <span class="comments"> discuss</span> </a>
+                    {% elif submission.comments.count == 1 %}
+                        <a href="{% url 'ViewItem' submission.id %}"> <span
+                                class="comments"> {{ submission.comments.count }} comment</span> </a>
                     {% else %}
                         <a href="{% url 'ViewItem' submission.id %}"> <span
-                                class="comments"> {{ submission.comments.count }}</span> </a>
+                                class="comments"> {{ submission.comments.count }} comments</span> </a>
                     {% endif %}
                     {% if submission.calculateseconds < 7200 %}
                         <a href="{% url 'EditItem' submission.id %}"> <span class="edit">| edit </span> </a>
@@ -47,7 +50,7 @@
                 </div>
                 {% if submission.type.name == "ask" %}
                     <div class="ask-text">
-                        <p>{{ submission.text |linebreaks}}</p>
+                        <p>{{ submission.text |linebreaks }}</p>
                     </div>
                 {% endif %}
 

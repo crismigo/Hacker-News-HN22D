@@ -2,12 +2,21 @@
     padding:10px;
 }
 
+a:hover {
+    text-decoration: underline;
+}
+
+
 .title-text a {
     font-family: Verdana, Geneva, sans-serif;
     font-size: 12pt;
     color: #828282 !important;
     overflow: hidden;
     line-height: 14pt;
+}
+
+.title-text a:hover {
+    text-decoration: none !important;
 }
 
 .title-url a {

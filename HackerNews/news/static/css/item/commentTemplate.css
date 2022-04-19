@@ -1,3 +1,33 @@
-.comments {
+.comments-section {
     margin-left: 40px;
+}
+
+.user a{
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 8pt;
+    color: #828282;
+
+}
+
+.time a {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 8pt;
+    color: #828282;
+}
+.comment-body {
+    margin: 5px 15px 10px 15px;
+}
+.comment-text {
+    color: #000000;
+    font-size: 10pt;
+}
+
+.replay-button a {
+    color: #000000;
+    font-size: 10px;
+    text-decoration: underline;
+}
+
+.replied-comments {
+
 }
