@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ht365)@%jmchj5t0-8yizc62#exhxx9_7$(p+&j8is-=$pjlrn'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -67,7 +67,7 @@ ROOT_URLCONF = 'HackerNews.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'HackerNews/news/Templates'],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -89,10 +89,10 @@ WSGI_APPLICATION = 'HackerNews.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'hackerNews',
+        'NAME': 'hackerNewsApp',
         'ENFORCE_SCHEMA': False,
         'CLIENT': {
-            'host': 'mongodb+srv://Hacker-News-HN22D:RGL3Wkg9tfkgRXg@hacker-news-hn22d.uq0bw.mongodb.net/hackerNews?retryWrites=true&w=majority'
+            'host': 'mongodb+srv://Hacker-News-HN22D:ax9JTntdW2S9TDW@hacker-news-hn22d.uq0bw.mongodb.net/hackerNewsApp?retryWrites=true&w=majority'
         }
     }
 }
@@ -120,9 +120,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'es-eu'
+LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Europe/Madrid'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
