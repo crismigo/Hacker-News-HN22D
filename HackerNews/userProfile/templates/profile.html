@@ -1,5 +1,7 @@
 {% extends "base.html" %}
-
+{% block page_title %}
+    Profile: {{  user.username}} |
+{% endblock %}
 {% load static %}
 {% block styles %}
     <link href="{% static '/css/profile/style.css' %}" rel="stylesheet">
