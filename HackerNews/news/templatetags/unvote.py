@@ -1,5 +1,6 @@
 from django import template
 from django.shortcuts import render
+from django.utils.functional import SimpleLazyObject
 
 from item.views import view
 from news.models import Vote, Comment
@@ -8,15 +9,22 @@ register = template.Library()
 
 
 def isVoted(submission, user):
-    voted = Vote.objects.filter(submission=submission, user=user).exists()
-    return voted
+    try:
+        voted = Vote.objects.filter(submission=submission, user=user).exists()
+        return voted
+    except:
+        return False
 
 
 register.filter('isVoted', isVoted)
 
+
 def commentIsVoted(comment, user):
-    voted = Vote.objects.filter(comment=comment, user=user).exists()
-    return voted
+    try:
+        voted = Vote.objects.filter(comment=comment, user=user).exists()
+        return voted
+    except:
+        return False
 
 
 register.filter('commentIsVoted', commentIsVoted)

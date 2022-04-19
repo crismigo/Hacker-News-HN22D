@@ -47,5 +47,9 @@
     font-family: Verdana, Geneva, sans-serif;
     font-size: 10pt;
     color: #828282;
-    margin: 17px 0 ;
+    margin: 17px 0;
+}
+
+.comments-container {
+    margin-left: -30px;
 }
