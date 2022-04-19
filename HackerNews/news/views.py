@@ -9,7 +9,6 @@ from news.models import Submission, SubmissionType
 def news(request):
 
     subm_paginator = Paginator(Submission.objects.order_by('-points'),30)
-    print(Submission.objects.order_by('-points').values())
     page_num = request.GET.get('pages')
 
     if page_num == None:

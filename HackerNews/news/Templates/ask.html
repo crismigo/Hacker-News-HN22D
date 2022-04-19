@@ -1,5 +1,9 @@
 {% extends "news.html" %}
 
+{% block title_redirect%}
+<a href="{{submission.url}}" class="row"> {{submission.title}} </a>
+{% endblock %}
+
 {% block more%}
     {% if pages.has_next %}
     <a href ="{% url 'Ask'  %}?pages={{ pages.next_page_number }}" style="margin-top: 50px">  <span class="morestyle" > More</span></a>

@@ -2,7 +2,7 @@ from django.shortcuts import redirect
 
 
 # Create your views here.
-from news.models import Submission, Vote, ActionType
+from news.models import Submission, Vote, ActionType, Comment
 
 
 def vote_submission(request, id):
@@ -25,14 +25,23 @@ def unvote_submission(request, id):
     subm = Submission.objects.get(id=id)
     subm.points -= 1
     subm.save()
-
-    Vote.objects.get(submission=subm,user=request.user).delete()
+    act = ActionType.objects.get(name="Submission")
+    Vote.objects.get(submission=subm,user=request.user,type=act).delete()
     return redirect(request.META.get('HTTP_REFERER'))
 
 
-def vote_comment(request):
-    pass
+def vote_comment(request,idc):
+
+    comm = Comment.objects.get(id=idc)
+    act = ActionType.objects.get(name="Comment")
+    vote = Vote.objects.get_or_create(comment=comm, user=request.user, type=act)
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
-def unvote_comment(request):
-    pass
+
+
+def unvote_comment(request,idc):
+    comm = Comment.objects.get(id=idc)
+    act = ActionType.objects.get(name="Comment")
+    Vote.objects.get(comment=comm, user=request.user,type=act).delete()
+    return redirect(request.META.get('HTTP_REFERER'))
