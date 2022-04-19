@@ -3,5 +3,5 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('', views.viewThread, name="Thread"),
+    path('<int:user_id>/', views.viewThread, name="Thread"),
 ]

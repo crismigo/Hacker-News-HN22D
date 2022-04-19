@@ -4,9 +4,6 @@ from django.shortcuts import render
 from news.models import Comment
 
 
-def viewThread(request):
-    comments = Comment.objects.filter(user=request.user)
-    for comment in comments:
-        print(comment)
-        comment.timesincecreation()
-    return render(request, "threads.html", {"comments": comments})
+def viewThread(request, user_id):
+    comments = Comment.objects.filter(user_id=user_id)
+    return render(request, "threads.html", {"Comments": comments})

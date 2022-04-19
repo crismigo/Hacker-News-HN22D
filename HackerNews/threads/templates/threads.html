@@ -1,32 +1,21 @@
 {% extends "base.html" %}
-
+{% load unvote %}
 {% load static %}
 {% block styles %}
     <link href="{% static '/css/threads/style.css' %}" rel="stylesheet">
 {% endblock %}
 {% block content %}
-{% for comment in comments %}
+{% for comment in Comments %}
     <div class="small_size">
-        <span> {{ comment.votes.count }} point by </span>
         <span> <a href="{% url 'ShowProfile' user.id %}"> {{ comment.user.username }} </a> </span>
-        <span>{{ comment.viewed_time }}</span>
-        <span> | </span>
-        {% if comment.type == "Submission" %}
-            <span> <a href="{% url 'ViewItem' comment.submission.id %}"> parent </a> </span>
-        {% else %}
-            <span> <a href="{% url 'ViewItem' comment.replied_comment.id %}"> parent </a> </span>
-        {% endif %}
-        <span> | </span>
-        <span> <a href="{% url 'EditItem' comment.submission.id %}"> edit </a> </span>
-        <span> | </span>
-        <span> <a href="{% url 'DeleteItem' comment.submission.id %}"> delete </a> </span>
-        <span> | on: {{ comment.submission.title }} </span>
+        <span>{{ comment.timesincecreation }}</span>
+        <span> | on: {{ comment|titleFromVotes }} </span>
     </div>
     <div class="text">
         {{ comment.text }}
     </div>
     <div class="reply">
-        <a href="{% url 'AddComment2Comment' %}"> reply </a>
+        <a href="{% url 'AddComment2Comment' comment.id %}"> reply </a>
     </div>
     <br>
 {% endfor %}

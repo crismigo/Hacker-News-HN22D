@@ -43,7 +43,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td class="link"><a href="{% url 'Thread' %}"><u>comments</u></a></td>
+                <td class="link"><a href="{% url 'Thread' userRequested.id %}"><u>comments</u></a></td>
             </tr>
 
             {% if user.is_authenticated and userRequested.id == user.id %}
