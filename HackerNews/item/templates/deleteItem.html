@@ -2,22 +2,56 @@
 
 {% load static %}
 {% block styles %}
-    <link href="{% static '/css/submit/style.css' %}" rel="stylesheet">
+    <link href="{% static '/css/item/deleteItem.css' %}" rel="stylesheet">
 {% endblock %}
-{%  block title %}
+{% block title %}
     Confirm
-{%  endblock %}
-{%  block navbar %}
+{% endblock %}
+{% block navbar %}
 
-{%  endblock %}
+{% endblock %}
 {% block content %}
+    <div class="submission">
+        <div class="submission-header">
+            <div class="submission-title">
+                <span style="color: #ff6600">* </span>
+                <span class="title-text"><a href="{{ submission.url }}">{{ submission.title }}</a></span>
+                {% if submission.type.name == "url" %}
+                    <span class="title-url"><a href="{{ submission.url }}">{{ submission.domainurl }}</a> </span>
+                {% endif %}
+            </div>
+            <div class="submission-subtitle">
+                <span class="score">{{ submission.votes.count }} points by</span>
+                <a href="{% url 'ShowProfile' submission.author.id %}"> <span
+                        class="user">{{ submission.author }}</span> </a>
+                <a href="{% url 'ViewItem' submission.id %}"> <span
+                        title={{ submission.created_at.year }}-{{ submission.created_at.month }}-{{ submission.created_at.day }}T{{ submission.created_at.hour }}:{{ submission.created_at.minute }}:{{ submission.created_at.second }}
+                        class="time">{{ submission.timesincecreation }} |</span> </a>
 
-<body>
-    <form method="post" action="">
-        {% csrf_token %}
-        <div class="text-delete">Do you want this to be deleted?</div>
-        <input type="submit" name="yes" value="Yes">
-        <input type="submit" name="no" value="No">
-    </form>
-</body>
+                {% if not submission.comments.count %}
+                    <a href="{% url 'ViewItem' submission.id %}"> <span class="comments"> discuss</span> </a>
+                {% elif submission.comments.count == 1 %}
+                    <a href="{% url 'ViewItem' submission.id %}"> <span
+                            class="comments"> {{ submission.comments.count }} comment</span> </a>
+                {% else %}
+                    <a href="{% url 'ViewItem' submission.id %}"> <span
+                            class="comments"> {{ submission.comments.count }} comments</span> </a>
+                {% endif %}
+                {% if submission.calculateseconds < 7200 %}
+                    <a href="{% url 'EditItem' submission.id %}"> <span class="edit">| edit </span> </a>
+                {% endif %}
+            </div>
+        </div>
+        <form class="form-delete" method="post" action="">
+            {% csrf_token %}
+            <div class="text-delete">Do you want this to be deleted?</div>
+            <div class="buttons-confirm">
+                <input type="submit" name="yes" value="Yes">
+                <input type="submit" name="no" value="No">
+            </div>
+
+        </form>
+    </div>
+
+
 {% endblock %}

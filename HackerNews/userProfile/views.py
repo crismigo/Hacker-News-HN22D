@@ -14,7 +14,7 @@ def show(request, user_id):
         return render(request, "profile.html", {"form": user_form, "user": user})
 
     else:
-        return redirect("/login")
+        return redirect("Login")
 
 
 def submissions(request, user_id):
@@ -29,7 +29,7 @@ def submissions(request, user_id):
         return render(request, "userSubmissions.html", {"form": user_form, "user": user})
 
     else:
-        return redirect("/login")
+        return redirect("Login")
 
 
 def upvoted_submissions(request, user_id):

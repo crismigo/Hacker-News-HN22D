@@ -115,6 +115,11 @@ a:link {
     height: 20px;
 }
 
+.right-div a{
+    color: #000000 !important;
+    text-decoration: none !important;
+}
+
 footer {
     background:#F6F6EF;
     min-width: 796px;

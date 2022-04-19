@@ -36,7 +36,7 @@ def submissionView(request):
                         vote = Vote(comment=comment, type=action_type, user=user)
                         vote.save()
 
-                    return redirect("/")
+                    return redirect("Newest")
 
                 if text != "":
                     submision_type = SubmissionType.objects.get(name="ask")
@@ -46,8 +46,8 @@ def submissionView(request):
                     vote = Vote(submission=submission, user=user)
                     vote.save()
 
-                    return redirect("/")
+                    return redirect("Newest")
 
         return render(request, "submit.html", {"form": submission_form})
     else:
-        return redirect("/login")
+        return redirect("Login")

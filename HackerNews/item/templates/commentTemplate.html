@@ -1,5 +1,5 @@
-{% load unvote %}
 {% load static %}
+{% load unvote %}
 {% block styles %}
     <link href="{% static '/css/item/commentTemplate.css' %}" rel="stylesheet">
 {% endblock %}
@@ -8,8 +8,9 @@
     <div class="comment">
         <div class="comment-title">
             {% if user == comment.user %} <span style="color: #ff6600">* </span>
-            {% elif not comment|commentIsVoted:user %}
-                <a href="{% url 'voteComment ' comment.id %}">
+
+            {% elif not user.is_authenticated or not comment|commentIsVoted:user %}
+                <a href="{% url 'voteComment' comment.id %}">
                     <img class="upvote" src="{% static '/img/grayarrow.gif' %}" title=upvote alt="upvote">
                 </a>
             {% else %} <span style="margin-right: 15px;"></span>

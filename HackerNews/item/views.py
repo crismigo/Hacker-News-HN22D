@@ -27,7 +27,7 @@ def edit(request, item_id):
 
         return render(request, "editItem.html", {"submission": submission, "form": submission_form})
     else:
-        return redirect("/login")
+        return redirect("Login")
 
 
 def deleteComments(comment):
@@ -57,4 +57,4 @@ def delete(request, item_id):
         submission = Submission.objects.get(id=item_id)
         return render(request, "deleteItem.html", {"submission": submission})
     else:
-        return redirect("/login")
+        return redirect("Login")

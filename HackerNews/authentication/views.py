@@ -9,9 +9,9 @@ from authentication.models import User
 def loginView(request):
     user = User.objects.get(username="admin")
     login(request,user)
-    return redirect("Home")
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
 def logoutView(request):
     logout(request)
-    return redirect("Home")
+    return redirect(request.META.get('HTTP_REFERER'))
