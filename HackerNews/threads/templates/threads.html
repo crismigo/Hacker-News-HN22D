@@ -22,5 +22,8 @@
         <a href="{% url 'AddComment2Comment' comment.id %}"> reply </a>
     </div>
     <br>
+    <div class="comments-container">
+        {% commentsTreeComments comment user %}
+    </div>
 {% endfor %}
 {% endblock %}
