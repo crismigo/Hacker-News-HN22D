@@ -22,8 +22,20 @@ html {
     padding: 10px 2px;
 }
 
+
+.external_div a:visited .row{
+
+    word-break: break-word;
+}
+
+
 a:link {
     color: #000000;
+    text-decoration: none;
+}
+
+a:visited{
+    color: #828282;
     text-decoration: none;
 }
 
