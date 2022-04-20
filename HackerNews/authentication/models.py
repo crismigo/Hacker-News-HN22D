@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db import models
 
 
 # Create your models here.
@@ -33,7 +33,6 @@ class User(AbstractUser):
         hours = divmod(duration_seconds, 3600)[0]
         minutes = divmod(duration_seconds, 60)[0]
 
-
         if minutes > 59:
             if hours == 1:
                 self.viewed_time = str(int(days)) + " hour ago"
@@ -42,7 +41,7 @@ class User(AbstractUser):
                     if days == 1:
                         self.viewed_time = str(int(days)) + " day ago"
                     else:
-                        self.viewed_time = str(int(days))+" days ago"
+                        self.viewed_time = str(int(days)) + " days ago"
                     if days > 365:
                         self.viewed_time = self.date_joined
                 else:

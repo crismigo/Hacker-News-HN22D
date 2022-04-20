@@ -5,12 +5,12 @@
     Ask |
 {% endblock %}
 
-{% block title_redirect%}
-<a href="{{submission.url}}" class="row"> {{submission.title}} </a>
+{% block title_redirect %}
+    <a href="{{ submission.url }}" class="row"> {{ submission.title }} </a>
 {% endblock %}
 
-{% block more%}
+{% block more %}
     {% if pages.has_next %}
-    <a href ="{% url 'Ask'  %}?pages={{ pages.next_page_number }}" style="margin-top: 50px">  <span class="morestyle" > More</span></a>
-    {%  endif %}
+        <a href="{% url 'Ask' %}?pages={{ pages.next_page_number }}" style="margin-top: 50px"> <span class="morestyle"> More</span></a>
+    {% endif %}
 {% endblock %}

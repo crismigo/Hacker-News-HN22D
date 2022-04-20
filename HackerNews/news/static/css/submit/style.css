@@ -1,9 +1,10 @@
-.labels{
+.labels {
     font-family: Verdana, Geneva, sans-serif;
     font-size: 10pt;
     color: #828282;
 }
-.error{
+
+.error {
     font-family: Verdana, Geneva, sans-serif;
     font-size: 10pt;
     color: red;

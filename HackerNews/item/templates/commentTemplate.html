@@ -4,33 +4,33 @@
     <link href="{% static '/css/item/commentTemplate.css' %}" rel="stylesheet">
 {% endblock %}
 {% for comment in comments %}
-<div class="comments-section">
-    <div class="comment">
-        <div class="comment-title">
-            {% if user.is_authenticated and user == comment.user %} <span style="color: #ff6600">* </span>
-            {% elif not user.is_authenticated or not comment|commentIsVoted:user %}
-                <a href="{% url 'voteComment' comment.id %}">
-                    <img class="upvote" src="{% static '/img/grayarrow.gif' %}" title=upvote alt="upvote">
-                </a>
-            {% else %} <span style="margin-right: 15px;"></span>
-            {% endif %}
+    <div class="comments-section">
+        <div class="comment">
+            <div class="comment-title">
+                {% if user.is_authenticated and user == comment.user %} <span style="color: #ff6600">* </span>
+                {% elif not user.is_authenticated or not comment|commentIsVoted:user %}
+                    <a href="{% url 'voteComment' comment.id %}">
+                        <img class="upvote" src="{% static '/img/grayarrow.gif' %}" title=upvote alt="upvote">
+                    </a>
+                {% else %} <span style="margin-right: 15px;"></span>
+                {% endif %}
 
-            <span class="user"><a href="{% url 'ShowProfile' 1 %}">{{ comment.user.username }}</a></span>
-            <span title={{ comment.created_at.year }}-{{ comment.created_at.month }}-{{ comment.created_at.day }}T{{ comment.created_at.hour }}:{{ comment.created_at.minute }}:{{ comment.created_at.second }}
-                  class="time"><a href="{% url 'ViewItem' 1 %}"> {{ comment.timesincecreation }} </a> | </span>
-            {% if comment|commentIsVoted:user %}
-                            <a href="{% url 'unvoteComment' comment.id %}"> <span class="unvote"> unvote |</span> </a>
-                        {% endif %}
-        </div>
-        <div class="comment-body">
-            <div class="comment-text">
-                {{ comment.text }}
+                <span class="user"><a href="{% url 'ShowProfile' 1 %}">{{ comment.user.username }}</a></span>
+                <span title={{ comment.created_at.year }}-{{ comment.created_at.month }}-{{ comment.created_at.day }}T{{ comment.created_at.hour }}:{{ comment.created_at.minute }}:{{ comment.created_at.second }}
+                      class="time"><a href="{% url 'ViewItem' 1 %}"> {{ comment.timesincecreation }} </a> | </span>
+                {% if comment|commentIsVoted:user %}
+                    <a href="{% url 'unvoteComment' comment.id %}"> <span class="unvote"> unvote |</span> </a>
+                {% endif %}
             </div>
-            <div class="replay-button"><a href="{% url "AddComment2Comment" comment.id %}">reply</a></div>
-        </div>
-        <div class="replied-comments">
-            {% commentsTreeComments comment user %}
+            <div class="comment-body">
+                <div class="comment-text">
+                    {{ comment.text }}
+                </div>
+                <div class="replay-button"><a href="{% url "AddComment2Comment" comment.id %}">reply</a></div>
+            </div>
+            <div class="replied-comments">
+                {% commentsTreeComments comment user %}
+            </div>
         </div>
     </div>
-</div>
-{%  endfor %}
+{% endfor %}

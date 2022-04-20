@@ -9,3 +9,5 @@
 | Cristina Migó | crismigo | crismigo |
 | Àlex Ollé | aolle99 | aolle99 |
 
+## Enllaç a la pàgina en producció
+[Enllaç Heroku](https://hackernews-hn22d.herokuapp.com/)
