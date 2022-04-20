@@ -8,7 +8,8 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from .models import User
 
-url_login = "https://api.fib.upc.edu/v2/o/authorize/?client_id=Y0coFFuLKFGCecIR6qRA3PTn0OJuhQVFgNLQbW5Y&redirect_uri=http://127.0.0.1:8000/auth/callback&response_type=code&state=random_state_string&approval_prompt=auto"
+callback = "https://hackernews-hn22d.herokuapp.com/auth/callback"
+url_login = "https://api.fib.upc.edu/v2/o/authorize/?client_id=Y0coFFuLKFGCecIR6qRA3PTn0OJuhQVFgNLQbW5Y&redirect_uri=" + callback + "&response_type=code&state=random_state_string&approval_prompt=auto"
 url_token = "https://api.fib.upc.edu/v2/o/token"
 client_id = "Y0coFFuLKFGCecIR6qRA3PTn0OJuhQVFgNLQbW5Y"
 client_secret = "i9qAbDlu1xN7AaLzuhfQMFYW0vrrIKY1iTHk3U0JPYmnKNA2aj71YJquZPBgD3PHCKzGANATbPcaZDjQXRHo0lGk7fJDBpFM21pVvBq1p7zLPlbNFQLcCTqPQ3nRbB9H"
@@ -18,7 +19,7 @@ def callBack(request):
     try:
         authorization_code = request.GET.get("code")
         data = {"grant_type": "authorization_code",
-                "redirect_uri": "http://127.0.0.1:8000/auth/callback",
+                "redirect_uri": callback,
                 "code": authorization_code,
                 }
         result = requests.post(url_token, data=data, verify=True, allow_redirects=False,
