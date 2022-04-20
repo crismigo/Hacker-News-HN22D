@@ -123,8 +123,8 @@ a:visited {
     text-decoration: none;
 }
 
-.navigation-nav .nav-item.active {
-    color: white;
+.navigation-nav .nav-item.active a {
+    color: white !important;
 }
 
 .right-div {

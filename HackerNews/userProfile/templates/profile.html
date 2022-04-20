@@ -15,7 +15,7 @@
             </tr>
             <tr>
                 <td class="labels">created:</td>
-                <td class="labels">{{ userRequested.viewed_time }}</td>
+                <td class="labels">{{ userRequested.timeSinceCreation }}</td>
             </tr>
             {% if user.is_authenticated and userRequested.id == user.id %}
                 {% csrf_token %}

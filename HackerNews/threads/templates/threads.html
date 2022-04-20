@@ -7,13 +7,15 @@
 {% block styles %}
     <link href="{% static '/css/threads/style.css' %}" rel="stylesheet">
 {% endblock %}
-{% if not user.is_authenticated %}
-{% block addOption %}
-    |
-    <li class="nav-item active">{{ requestedUser.username }}'s submissions
-    </li>
-{% endblock %}
-{%  endif %}
+
+    {% block addOption %}
+        {% if not user.is_authenticated %}
+        |
+        <li class="nav-item active">{{ requestedUser.username }}'s submissions
+        </li>
+        {%  endif %}
+    {% endblock %}
+
 {% block content %}
     {% for comment in Comments %}
         <div class="small_size">

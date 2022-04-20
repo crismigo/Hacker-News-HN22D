@@ -9,7 +9,7 @@ from userProfile.forms import UserForm
 
 
 def show(request, user_id):
-    user = User()
+    user = User.objects.get(id=user_id)
     if request.method == "POST":
         if request.user.is_authenticated:
             user_form = UserForm(data=request.POST)
@@ -21,8 +21,7 @@ def show(request, user_id):
         else:
             return redirect("Login")
     else:
-        user = User.objects.get(id=user_id)
-        user.timeSinceCreation()
+
         user_form = UserForm(instance=user)
     return render(request, "profile.html", {"form": user_form, "userRequested": user})
 

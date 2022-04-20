@@ -7,7 +7,6 @@ from django.db import models
 # Create your models here.
 class User(AbstractUser):
     about = models.TextField(null=True, blank=True)
-    viewed_time = ""
 
     class Meta:
         verbose_name = "User"
@@ -28,6 +27,7 @@ class User(AbstractUser):
         then = datetime(dateyear, datemonth, dateday, datehour, dateminute, datesecond)
 
         duration = datatime_now - then
+
         duration_seconds = duration.total_seconds()
         days = divmod(duration_seconds, 86400)[0]
         hours = divmod(duration_seconds, 3600)[0]
@@ -35,19 +35,19 @@ class User(AbstractUser):
 
         if minutes > 59:
             if hours == 1:
-                self.viewed_time = str(int(days)) + " hour ago"
+                return str(int(days)) + " hour ago"
             else:
                 if hours > 23:
                     if days == 1:
-                        self.viewed_time = str(int(days)) + " day ago"
+                        return str(int(days)) + " day ago"
+                    elif days < 365:
+                        return str(int(days)) + " days ago"
                     else:
-                        self.viewed_time = str(int(days)) + " days ago"
-                    if days > 365:
-                        self.viewed_time = self.date_joined
+                        return self.date_joined
                 else:
-                    self.viewed_time = str(int(hours)) + " hours ago"
+                    return str(int(hours)) + " hours ago"
         else:
             if minutes == 1 or minutes == 0:
-                self.viewed_time = str(int(minutes)) + " minute ago"
+                return str(int(minutes)) + " minute ago"
             else:
-                self.viewed_time = str(int(minutes)) + " minutes ago"
+                return str(int(minutes)) + " minutes ago"
