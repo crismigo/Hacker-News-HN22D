@@ -42,7 +42,7 @@ def deleteComments(comment):
 def delete(request, item_id):
     if request.user.is_authenticated:
         if request.method == "POST":
-            if request.POST["yes"]:
+            if "yes" in request.POST:
                 submission = Submission.objects.get(id=item_id)
                 if submission != None:
                     comments = Comment.objects.filter(submission=submission)

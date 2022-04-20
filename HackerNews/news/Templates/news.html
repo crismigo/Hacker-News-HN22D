@@ -33,9 +33,9 @@
             {% if not submission.comments.count %}
             <a href="{% url 'ViewItem' submission.id %}"> <span class="comments"> discuss</span> </a>
             {% elif submission.comments.count == 1 %}
-            <a href="{% url 'ViewItem' submission.id %}"> <span class="comments"> {{  submission.comments.count }} comment</span> </a>
+            <a href="{% url 'ViewItem' submission.id %}"> <span class="comments"> {{  submission.id|get_num_comments }} comment</span> </a>
             {% else %}
-            <a href="{% url 'ViewItem' submission.id %}"> <span class="comments"> {{  submission.comments.count }} comments</span> </a>
+            <a href="{% url 'ViewItem' submission.id %}"> <span class="comments"> {{  submission.id|get_num_comments }} comments</span> </a>
             {% endif %}
             {% if submission.calculateseconds < 3600 and user == submission.author %}
             <a href="{% url 'EditItem' submission.id %}"> <span class="edit">| edit </span> </a>
