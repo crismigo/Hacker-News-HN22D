@@ -8,8 +8,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from .models import User
 
-callback = "https://hackernews-hn22d.herokuapp.com/auth/callback"
-url_login = "https://api.fib.upc.edu/v2/o/authorize/?client_id=Y0coFFuLKFGCecIR6qRA3PTn0OJuhQVFgNLQbW5Y&redirect_uri=" + callback + "&response_type=code&state=random_state_string&approval_prompt=auto"
+
 url_token = "https://api.fib.upc.edu/v2/o/token"
 client_id = "Y0coFFuLKFGCecIR6qRA3PTn0OJuhQVFgNLQbW5Y"
 client_secret = "i9qAbDlu1xN7AaLzuhfQMFYW0vrrIKY1iTHk3U0JPYmnKNA2aj71YJquZPBgD3PHCKzGANATbPcaZDjQXRHo0lGk7fJDBpFM21pVvBq1p7zLPlbNFQLcCTqPQ3nRbB9H"
@@ -17,6 +16,7 @@ client_secret = "i9qAbDlu1xN7AaLzuhfQMFYW0vrrIKY1iTHk3U0JPYmnKNA2aj71YJquZPBgD3P
 
 def callBack(request):
     try:
+        callback = request.build_absolute_uri('/auth/callback')
         authorization_code = request.GET.get("code")
         data = {"grant_type": "authorization_code",
                 "redirect_uri": callback,
@@ -49,7 +49,9 @@ def callBack(request):
 
 
 def loginView(request):
+    callback = request.build_absolute_uri('/auth/callback')
     request.session["back_page"] = request.META.get('HTTP_REFERER')
+    url_login = "https://api.fib.upc.edu/v2/o/authorize/?"+"client_id=" + client_id + "&redirect_uri=" + callback + "&response_type=code&state=random_state_string&approval_prompt=auto"
     return redirect(url_login)
 
 

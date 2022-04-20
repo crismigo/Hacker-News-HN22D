@@ -37,18 +37,20 @@
 
                     {% if not submission.comments.count %}
                         <a href="{% url 'ViewItem' submission.id %}"> <span class="comments"> discuss</span> </a>
-                    {% elif submission.comments.count == 1 %}
+                    {% elif submission.id|get_num_comments %}
                         <a href="{% url 'ViewItem' submission.id %}"> <span
-                                class="comments"> {{ submission.comments.count }} comment</span> </a>
+                                class="comments"> {{ submission.id|get_num_comments }} comment</span> </a>
                     {% else %}
                         <a href="{% url 'ViewItem' submission.id %}"> <span
-                                class="comments"> {{ submission.comments.count }} comments</span> </a>
+                                class="comments"> {{ submission.id|get_num_comments }} comments</span> </a>
                     {% endif %}
-                    {% if submission.calculateseconds < 7200 %}
-                        <a href="{% url 'EditItem' submission.id %}"> <span class="edit">| edit </span> </a>
-                    {% endif %}
-                    {% if submission.calculateseconds < 1800 %}
-                        <a href="{% url 'DeleteItem' submission.id %}"> <span class="edit">| delete </span> </a>
+                    {% if user.is_authenticated and user == submission.author %}
+                        {% if submission.calculateseconds < 7200 %}
+                            <a href="{% url 'EditItem' submission.id %}"> <span class="edit">| edit </span> </a>
+                        {% endif %}
+                        {% if submission.calculateseconds < 1800 %}
+                            <a href="{% url 'DeleteItem' submission.id %}"> <span class="edit">| delete </span> </a>
+                        {% endif %}
                     {% endif %}
                 </div>
                 {% if submission.type.name == "ask" %}

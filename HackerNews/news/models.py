@@ -58,8 +58,6 @@ class Submission(models.Model):
         dateminute = self.created_at.minute
         datesecond = self.created_at.second
         then = datetime(dateyear, datemonth, dateday, datehour, dateminute, datesecond)
-        timezone = timedelta(hours=2)
-        then=then+timezone
         duration = datatime_now - then
         return duration.total_seconds()
 
@@ -133,8 +131,6 @@ class Comment(models.Model):
         dateminute = self.created_at.minute
         datesecond = self.created_at.second
         then = datetime(dateyear, datemonth, dateday, datehour, dateminute, datesecond)
-        timezone = timedelta(hours=2)
-        then = then + timezone
         duration = datatime_now - then
         return duration.total_seconds()
 
