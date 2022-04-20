@@ -31,18 +31,20 @@ def callBack(request):
     api_call_response = requests.get("https://api.fib.upc.edu/v2/jo/", headers=api_call_headers, verify=False)
     user_data = json.loads(api_call_response.text)
     username = user_data["username"]
-    user = User.objects.get(username=username)
-    if user!=None:
+    try:
+
+        user = User.objects.get(username=username)
         login(request, user)
         return redirect("Home")
-    else:
+    except User.DoesNotExist:
         user = User(username=username)
-        user.email= user_data["email"]
+        user.email = user_data["email"]
         user.first_name = user_data["nom"]
         user.last_name = user_data["cognoms"]
         user.save()
-        login(request,user)
+        login(request, user)
         return redirect("Home")
+
 
 
 def loginView(request):
