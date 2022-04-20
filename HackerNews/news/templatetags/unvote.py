@@ -8,6 +8,22 @@ from news.models import Vote, Comment, Submission
 register = template.Library()
 
 
+def get_num_comments_from_comments(comment):
+    comments = Comment.objects.filter(replied_comment=comment)
+    count = 0
+    for comm in comments:
+        count = count + 1 + get_num_comments(comm)
+    return count
+
+def get_num_comments(id):
+    count = 0
+    subm = Comment.objects.filter(submission_id=id)
+    for comment in subm:
+        count = count + 1 + get_num_comments_from_comments(comment)
+    return count
+
+register.filter('get_num_comments',get_num_comments)
+
 def isVoted(submission, user):
     try:
         voted = Vote.objects.filter(submission=submission, user=user).exists()
