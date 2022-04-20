@@ -16,6 +16,7 @@ import django_heroku
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -26,6 +27,7 @@ SECRET_KEY = 'django-insecure-ht365)@%jmchj5t0-8yizc62#exhxx9_7$(p+&j8is-=$pjlrn
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
 
 # Application definition
 
@@ -44,7 +46,11 @@ INSTALLED_APPS = [
     'submit',
     'userProfile',
     'vote',
-    'threads'
+    'threads',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google'
 ]
 
 MIDDLEWARE = [
@@ -77,6 +83,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'HackerNews.wsgi.application'
 
+
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
@@ -90,6 +97,7 @@ DATABASES = {
         }
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -109,6 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -119,6 +128,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -132,5 +142,27 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'authentication.User'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+SITE_ID = 2
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 django_heroku.settings(locals(), databases=False)

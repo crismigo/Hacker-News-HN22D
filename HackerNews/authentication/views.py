@@ -1,17 +1,36 @@
-from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect
-
+from django.contrib import messages
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 # Create your views here.
-from authentication.models import User
+'''def login(request):
 
+    if request.method=="POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            us = form.cleaned_data.get("username")
+            pa = form.cleaned_data.get("password")
+            user=authenticate(username=us, password=pa)
+            if user is not None:
+                login(request, user)
+                return redirect('Home')
 
-def loginView(request):
-    user = User.objects.get(username="admin")
-    login(request,user)
-    return redirect(request.META.get('HTTP_REFERER'))
+            else:
+                messages.error(request, "Usuari erroni")
+        else:
 
+            messages.error(request, "Usuari erroni")
 
-def logoutView(request):
+    form = AuthenticationForm()
+
+    return render(request, "login.html", {"form":form})'''
+
+def logout(request):
     logout(request)
-    return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.path)
+
+def login(request):
+
+    return redirect(accounts/login)
