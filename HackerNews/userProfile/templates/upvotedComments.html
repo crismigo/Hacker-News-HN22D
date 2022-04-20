@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+    Upvoted comments |
+{% endblock %}
+{% load unvote %}
+{% load static %}
+{% block styles %}
+    <link href="{% static '/css/threads/style.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+{% for comment in pages.object_list %}
+    <div class="small_size">
+        <span> <a href="{% url 'ShowProfile' comment.user.id %}"> {{ comment.user.username }} </a> </span>
+        <span>{{ comment|timeFromVotes }}</span>
+        <span> | </span>
+        <span> <a href="{% url 'unvoteComment' comment.id %}"> unvote </a> </span>
+        <span> | on: {{ comment|titleFromVotes }} </span>
+    </div>
+    <div class="text">
+        {{ comment.text }}
+    </div>
+    <br>
+{% endfor %}
+{% endblock %}
+{% block more %}
+    {% if pages.has_next %}
+        <a href="{% url 'UpvotedComments' user.id %}?pages={{ pages.next_page_number }}" style="margin-top: 50px"> <span class="morestyle"> More</span></a>
+    {% endif %}
+{% endblock %}

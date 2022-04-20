@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block page_title %}
+    Edit |
+{% endblock %}
+{% load static %}
+{% block styles %}
+    <link href="{% static '/css/item/editItem.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+    <div class="submission">
+        <div class="submission-header">
+            <div class="submission-title">
+                <span style="color: #ff6600">* </span>
+                <span class="title-text"><a href="{{ submission.url }}">{{ submission.title }}</a></span>
+                {% if submission.type.name == "url" %}
+                    <span class="title-url"><a href="{{ submission.url }}">{{ submission.domainurl }}</a> </span>
+                {% endif %}
+            </div>
+            <div class="submission-subtitle">
+                <span class="score">{{ submission.votes.count }} points by</span>
+                <a href="{% url 'ShowProfile' submission.author.id %}"> <span
+                        class="user">{{ submission.author }}</span> </a>
+                <a href="{% url 'ViewItem' submission.id %}"> <span
+                        title={{ submission.created_at.year }}-{{ submission.created_at.month }}-{{ submission.created_at.day }}T{{ submission.created_at.hour }}:{{ submission.created_at.minute }}:{{ submission.created_at.second }}
+                        class="time">{{ submission.timesincecreation }} |</span> </a>
+
+                {% if not submission.comments.count %}
+                    <a href="{% url 'ViewItem' submission.id %}"> <span class="comments"> discuss</span> </a>
+                {% elif submission.comments.count == 1 %}
+                    <a href="{% url 'ViewItem' submission.id %}"> <span
+                            class="comments"> {{ submission.comments.count }} comment</span> </a>
+                {% else %}
+                    <a href="{% url 'ViewItem' submission.id %}"> <span
+                            class="comments"> {{ submission.comments.count }} comments</span> </a>
+                {% endif %}
+                {% if submission.calculateseconds < 1800 %}
+                    <a href="{% url 'DeleteItem' submission.id %}"> <span class="edit">| delete </span> </a>
+                {% endif %}
+            </div>
+
+        </div>
+        <form class="form-edit" method="post" action="">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td class="labels"><label for="{{ form.title.id_for_label }}">title:</label></td>
+                    <td class="input-title">{{ form.title }}</td>
+                    <td class="error">{{ form.title.errors.as_p }}</td>
+                </tr>
+                {% if submission.type.name == "url" %}
+                    <tr>
+                        <td class="labels"><label for="{{ form.url.id_for_label }}">url:</label></td>
+                        <td class="disabled-url">{{ submission.url }}</td>
+                        <td class="error">{{ form.url.errors.as_text }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td class="labels"><label for="{{ form.url.id_for_label }}">url:</label></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="labels"><label for="{{ form.text.id_for_label }}">text:</label></td>
+                        <td class="input-text">{{ form.text }}</td>
+                        <td class="error">{{ form.text.errors.as_text }}</td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <td colspan="2"><input class="submit-button" type="submit" value="Update"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,69 @@
+.submission {
+    padding:10px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+.title-text a {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 12pt;
+    color: #828282 !important;
+    overflow: hidden;
+    line-height: 14pt;
+}
+
+.title-text a:hover {
+    text-decoration: none !important;
+}
+
+.title-url a {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 8pt;
+    color: #828282 !important;
+}
+
+.title-url a:hover {
+    text-decoration: underline;
+}
+.submission-subtitle {
+    font-size: 9pt;
+    font-family: Verdana, Geneva, sans-serif;
+    color: #828282;
+    margin-left: 17px;
+}
+
+.ask-text {
+    margin: 17px;
+}
+.ask-text p {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 10pt;
+    color: #828282;
+}
+
+.labels {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 10pt;
+    color: #828282;
+}
+.disabled-url {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 10pt;
+    color: #828282;
+}
+.submit-button {
+    margin-top: 20px;
+}
+.form-edit {
+    margin-top: 20px;
+}
+.input-title input {
+    width: 100%;
+}
+
+.input-text input {
+    width: 100%;
+}

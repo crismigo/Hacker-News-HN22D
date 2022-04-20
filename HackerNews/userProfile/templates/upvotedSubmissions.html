@@ -1,0 +1,17 @@
+{% extends "news.html" %}
+{% block page_title %}
+    Upvoted submissions |
+{% endblock %}
+{% load static %}
+{% block styles %}
+    <link href="{% static '/css/profile/style.css' %}" rel="stylesheet">
+{% endblock %}
+{% block addOption %}
+    |
+    <li class="nav-item element">upvoted</li>
+{% endblock %}
+{% block more %}
+    {% if pages.has_next %}
+        <a href="{% url 'UpvotedSubmissions' user.id %}?pages={{ pages.next_page_number }}" style="margin-top: 50px"> <span class="morestyle"> More</span></a>
+    {% endif %}
+{% endblock %}

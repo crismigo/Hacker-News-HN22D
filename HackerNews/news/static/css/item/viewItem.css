@@ -1,0 +1,64 @@
+.submission {
+    padding:10px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+.title-text a {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 12pt;
+    color: #828282 !important;
+    overflow: hidden;
+    line-height: 14pt;
+}
+
+.title-text a:hover {
+    text-decoration: none !important;
+}
+
+.title-url a {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 8pt;
+    color: #828282 !important;
+}
+
+.title-url a:hover {
+    text-decoration: underline;
+}
+.submission-subtitle {
+    font-size: 9pt;
+    font-family: Verdana, Geneva, sans-serif;
+    color: #828282;
+    margin-left: 17px;
+}
+
+.ask-text {
+    margin: 17px;
+}
+.ask-text p {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 10pt;
+    color: #828282;
+}
+
+.add-comment {
+    margin: 17px;
+}
+.form-comment-box textarea{
+    width: 75%;
+    resize: vertical;
+    min-height: 100px;
+}
+.form-comment-message {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 10pt;
+    color: #828282;
+    margin: 17px 0;
+}
+
+.comments-container {
+    margin-left: -30px;
+}
