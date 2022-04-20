@@ -21,21 +21,21 @@ def callBack(request):
                 "redirect_uri": "http://127.0.0.1:8000/auth/callback",
                 "code": authorization_code,
                 }
-        result=requests.post(url_token,data=data, verify=True, allow_redirects=False, auth=(client_id, client_secret))
+        result = requests.post(url_token, data=data, verify=True, allow_redirects=False,
+                               auth=(client_id, client_secret))
         tokens = json.loads(result.text)
         access_token = tokens['access_token']
     except:
         return redirect("Home")
 
-    api_call_headers = {'Authorization': 'Bearer ' + access_token,'Accept': 'application/json'}
+    api_call_headers = {'Authorization': 'Bearer ' + access_token, 'Accept': 'application/json'}
     api_call_response = requests.get("https://api.fib.upc.edu/v2/jo/", headers=api_call_headers, verify=False)
     user_data = json.loads(api_call_response.text)
     username = user_data["username"]
+    back_page = request.session.get("back_page")
     try:
-
         user = User.objects.get(username=username)
         login(request, user)
-        return redirect("Home")
     except User.DoesNotExist:
         user = User(username=username)
         user.email = user_data["email"]
@@ -43,11 +43,12 @@ def callBack(request):
         user.last_name = user_data["cognoms"]
         user.save()
         login(request, user)
-        return redirect("Home")
 
+    return redirect(back_page)
 
 
 def loginView(request):
+    request.session["back_page"] = request.META.get('HTTP_REFERER')
     return redirect(url_login)
 
 
