@@ -30,7 +30,7 @@
             {% else %}
                 <tr>
                     <td class="labels">about:</td>
-                    <td class="labels">{{ userRequested.about }}</td>
+                    <td class="labels">{{ userRequested.about|default_if_none:"" }}</td>
                 </tr>
                 {% if userRequested.email != "" %}
                     <tr>
