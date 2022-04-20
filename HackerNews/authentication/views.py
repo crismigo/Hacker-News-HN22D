@@ -33,4 +33,4 @@ def logout(request):
 
 def login(request):
 
-    return redirect(accounts/login)
+    return redirect("accounts/login")
