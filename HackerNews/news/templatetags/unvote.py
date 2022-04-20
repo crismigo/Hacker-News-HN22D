@@ -1,8 +1,5 @@
 from django import template
-from django.shortcuts import render
-from django.utils.functional import SimpleLazyObject
 
-from item.views import view
 from news.models import Vote, Comment, Submission
 
 register = template.Library()

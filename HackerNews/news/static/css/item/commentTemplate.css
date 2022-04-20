@@ -2,7 +2,7 @@
     margin-left: 40px;
 }
 
-.user a{
+.user a {
     font-family: Verdana, Geneva, sans-serif;
     font-size: 8pt;
     color: #828282;
@@ -14,9 +14,11 @@
     font-size: 8pt;
     color: #828282;
 }
+
 .comment-body {
     margin: 5px 15px 10px 15px;
 }
+
 .comment-text {
     color: #000000;
     font-size: 10pt;

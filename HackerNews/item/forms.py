@@ -8,13 +8,9 @@ class ShowSubmissionComment(forms.Form):
 
 
 class EditForm(forms.ModelForm):
-
     class Meta:
         model = Submission
-        fields = ("title","url","text")
+        fields = ("title", "url", "text")
         widgets = {
-            'url' : forms.TextInput(attrs={'disabled': True})
+            'url': forms.TextInput(attrs={'disabled': True})
         }
-
-
-

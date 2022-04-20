@@ -2,8 +2,9 @@
 {% block page_title %}
     New Links |
 {% endblock %}
-{% block more%}
-     {% if pages.has_next %}
-        <a href ="{% url 'Newest'  %}?pages={{ pages.next_page_number }}" style="margin-top: 50px">  <span class="morestyle" > More</span></a>
-     {%  endif %}
+{% block more %}
+    {% if pages.has_next %}
+        <a href="{% url 'Newest' %}?pages={{ pages.next_page_number }}" style="margin-top: 50px"> <span
+                class="morestyle"> More</span></a>
+    {% endif %}
 {% endblock %}

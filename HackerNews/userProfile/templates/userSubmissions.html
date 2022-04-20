@@ -7,13 +7,14 @@
 {% block styles %}
     <link href="{% static '/css/profile/style.css' %}" rel="stylesheet">
 {% endblock %}
-{% block addOption%}
+{% block addOption %}
     |
     <li class="nav-item element">{{ requestedUser.username }}'s submissions
     </li>
 {% endblock %}
-{% block more%}
+{% block more %}
     {% if pages.has_next %}
-    <a href ="{% url 'ShowUserSubmissions' requestedUser.id %}?pages={{ pages.next_page_number }}" style="margin-top: 50px">  <span class="morestyle" > More</span></a>
-    {%  endif %}
+        <a href="{% url 'ShowUserSubmissions' requestedUser.id %}?pages={{ pages.next_page_number }}"
+           style="margin-top: 50px"> <span class="morestyle"> More</span></a>
+    {% endif %}
 {% endblock %}

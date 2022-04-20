@@ -6,7 +6,7 @@ from news.Counter import Counter
 from news.models import Submission, SubmissionType
 
 
-def gen_paginator(request,query,number=30):
+def gen_paginator(request, query, number=30):
     subm_paginator = Paginator(query, number)
     page_num = request.GET.get('pages')
 
@@ -19,8 +19,10 @@ def gen_paginator(request,query,number=30):
     page_index.count = pages.start_index()
 
     return pages;
+
+
 def news(request):
-    pages = gen_paginator(request,Submission.objects.order_by('-points'), 30)
+    pages = gen_paginator(request, Submission.objects.order_by('-points'), 30)
     page_index = Counter()
     page_index.count = pages.start_index()
     return render(request, "news.html", {'pages': pages, 'index': page_index})
@@ -35,7 +37,7 @@ def newest(request):
 
 def ask(request):
     type = SubmissionType.objects.get(name="ask")
-    pages = gen_paginator(request,Submission.objects.filter(type=type).order_by('-points'),30)
+    pages = gen_paginator(request, Submission.objects.filter(type=type).order_by('-points'), 30)
     page_index = Counter()
     page_index.count = pages.start_index()
     return render(request, "ask.html", {"pages": pages, 'index': page_index})

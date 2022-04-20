@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block page_title %}
-{{user.username}}'s comments |
+    {{ user.username }}'s comments |
 {% endblock %}
 {% load unvote %}
 {% load static %}
@@ -8,22 +8,27 @@
     <link href="{% static '/css/threads/style.css' %}" rel="stylesheet">
 {% endblock %}
 {% block content %}
-{% for comment in Comments %}
-    <div class="small_size">
-        <span style="color: #ff6600">* </span>
-        <span> <a href="{% url 'ShowProfile' user.id %}"> {{ comment.user.username }} </a> </span>
-        <span>{{ comment.timesincecreation }}</span>
-        <span> | on: {{ comment|titleFromVotes }} </span>
-    </div>
-    <div class="text" style="margin-left: 20px;">
-        {{ comment.text }}
-    </div>
-    <div class="reply" style="margin-left: 20px;">
-        <a href="{% url 'AddComment2Comment' comment.id %}"> reply </a>
-    </div>
-    <br>
-    <div class="comments-container">
-        {% commentsTreeComments comment user %}
-    </div>
-{% endfor %}
+    {% for comment in Comments %}
+        <div class="small_size">
+            <span style="color: #ff6600">* </span>
+            {% if comment.votes.count == 0 %}
+                <span> {{ comment.votes.count|add:"1" }} point by</span>
+            {% else %}
+                <span> {{ comment.votes.count|add:"1" }} points by</span>
+            {% endif %}
+            <span> <a href="{% url 'ShowProfile' user.id %}"> {{ comment.user.username }} </a> </span>
+            <span>{{ comment.timesincecreation }}</span>
+            <span> | on: {{ comment|titleFromVotes }} </span>
+        </div>
+        <div class="text" style="margin-left: 20px;">
+            {{ comment.text }}
+        </div>
+        <div class="reply" style="margin-left: 20px;">
+            <a href="{% url 'AddComment2Comment' comment.id %}"> reply </a>
+        </div>
+        <br>
+        <div class="comments-container">
+            {% commentsTreeComments comment user %}
+        </div>
+    {% endfor %}
 {% endblock %}

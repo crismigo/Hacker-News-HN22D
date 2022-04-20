@@ -15,36 +15,36 @@
     <!-- TITLE -->
     <div class="title">
         <div class="logo-div">
-                <a href="{% url 'Home' %}">
+            <a href="{% url 'Home' %}">
                 <img class="logo" src="{% static '/img/y18.gif' %}" alt="Logo">
             </a>
         </div>
-        <a class="page_title" href="{% url 'News' %}">{%  block title %}Hacker News{% endblock %}</a>
+        <a class="page_title" href="{% url 'News' %}">{% block title %}Hacker News{% endblock %}</a>
     </div>
     <!-- NAVIGATION -->
     <div class="navigation">
         <ul class="navigation-nav">
-        {% block navbar %}
-            <li class="nav-item {% if request.path == '/news/' %}active {% endif %}">
-                <a class="nav-link" href="{% url 'Newest' %}">new</a>
-            </li>
-            |
-        {% if user.is_authenticated %}
-            <li class="nav-item {% if request.path == '/threads/' %}active {% endif %}">
-                <a class="nav-link" href="{% url 'Thread' user.id %}">threads</a>
-            </li>
-            |
-        {% endif %}
-            <li class="nav-item {% if request.path == '/ask/' %}active {% endif %}">
-                <a class="nav-link" href="{% url 'Ask' %}">ask</a>
-            </li>
-            |
-            <li class="nav-item {% if request.path == '/submit/' %}active {% endif %}">
-                <a class="nav-link" href="{% url 'submissionView' %}">submit</a>
-            </li>
-            {% block addOption %}
+            {% block navbar %}
+                <li class="nav-item {% if request.path == '/news/' %}active {% endif %}">
+                    <a class="nav-link" href="{% url 'Newest' %}">new</a>
+                </li>
+                |
+                {% if user.is_authenticated %}
+                    <li class="nav-item {% if request.path == '/threads/' %}active {% endif %}">
+                        <a class="nav-link" href="{% url 'Thread' user.id %}">threads</a>
+                    </li>
+                    |
+                {% endif %}
+                <li class="nav-item {% if request.path == '/ask/' %}active {% endif %}">
+                    <a class="nav-link" href="{% url 'Ask' %}">ask</a>
+                </li>
+                |
+                <li class="nav-item {% if request.path == '/submit/' %}active {% endif %}">
+                    <a class="nav-link" href="{% url 'submissionView' %}">submit</a>
+                </li>
+                {% block addOption %}
+                {% endblock %}
             {% endblock %}
-        {% endblock %}
         </ul>
     </div>
     <!-- user -->
@@ -54,7 +54,8 @@
                 <ul class="navigation-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'ShowProfile' user.id %}">{{ user.username }}</a>
-                    </li>|
+                    </li>
+                    |
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'Logout' %}">logout</a>
                     </li>
@@ -73,10 +74,10 @@
     {% endblock %}
 </div>
 <footer>
-<div class="line"></div>
-<div class="footer-text">
-    Applications are open for YC Summer 2022
-</div>
+    <div class="line"></div>
+    <div class="footer-text">
+        Applications are open for YC Summer 2022
+    </div>
 </footer>
 
 </body>

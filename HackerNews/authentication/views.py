@@ -2,12 +2,10 @@ import json
 
 import requests
 from django.contrib.auth import login, logout
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 
 # Create your views here.
 from .models import User
-
 
 url_token = "https://api.fib.upc.edu/v2/o/token"
 client_id = "Y0coFFuLKFGCecIR6qRA3PTn0OJuhQVFgNLQbW5Y"
@@ -51,7 +49,7 @@ def callBack(request):
 def loginView(request):
     callback = request.build_absolute_uri('/auth/callback')
     request.session["back_page"] = request.META.get('HTTP_REFERER')
-    url_login = "https://api.fib.upc.edu/v2/o/authorize/?"+"client_id=" + client_id + "&redirect_uri=" + callback + "&response_type=code&state=random_state_string&approval_prompt=auto"
+    url_login = "https://api.fib.upc.edu/v2/o/authorize/?" + "client_id=" + client_id + "&redirect_uri=" + callback + "&response_type=code&state=random_state_string&approval_prompt=auto"
     return redirect(url_login)
 
 

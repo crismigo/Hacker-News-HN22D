@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 from item.forms import ShowSubmissionComment
-from news.models import Submission,  Comment, Vote
+from news.models import Submission, Comment, Vote
 from .forms import EditForm
 
 

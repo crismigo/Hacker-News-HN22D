@@ -1,13 +1,13 @@
 import datetime
+from datetime import datetime
 
-import pytz
-from django.db import models
+from django import template
 # Create your models here.
 from django.conf import settings
-from datetime import datetime,timedelta
-from django import template
+from django.db import models
 
 unvoting = template.Library()
+
 
 class SubmissionType(models.Model):
     name = models.CharField(max_length=30, unique=True)
@@ -41,14 +41,14 @@ class Submission(models.Model):
     def __str__(self):
         return self.title
 
-
     def domainurl(self):
         from urllib.parse import urlparse
         submtype = SubmissionType.objects.get(name="ask")
-        if self.url is not None and submtype!=self.type:
-            return  "(" +  urlparse(self.url).netloc + ")"
+        if self.url is not None and submtype != self.type:
+            return "(" + urlparse(self.url).netloc + ")"
         else:
             return ""
+
     def calculateseconds(self):
         datatime_now = datetime.now()
         dateyear = self.created_at.year
@@ -61,13 +61,11 @@ class Submission(models.Model):
         duration = datatime_now - then
         return duration.total_seconds()
 
-
     def timesincecreation(self):
-        duration_seconds= self.calculateseconds()
+        duration_seconds = self.calculateseconds()
         days = divmod(duration_seconds, 86400)[0]
         hours = divmod(duration_seconds, 3600)[0]
         minutes = divmod(duration_seconds, 60)[0]
-
 
         if minutes > 59:
             if hours == 1:
@@ -77,8 +75,8 @@ class Submission(models.Model):
                     if days == 1:
                         return str(int(days)) + " day ago"
                     elif days < 365:
-                        return str(int(days))+" days ago"
-                    else :
+                        return str(int(days)) + " days ago"
+                    else:
                         return self.created_at
                 else:
                     return str(int(hours)) + " hours ago"
@@ -163,7 +161,7 @@ class Comment(models.Model):
 class Vote(models.Model):
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True, blank=True)
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True, blank=True)
-    type = models.ForeignKey(ActionType, on_delete=models.RESTRICT,default=1)
+    type = models.ForeignKey(ActionType, on_delete=models.RESTRICT, default=1)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
