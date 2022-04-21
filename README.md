@@ -9,5 +9,6 @@
 | Cristina Migó | crismigo | crismigo |
 | Àlex Ollé | aolle99 | aolle99 |
 
-## Enllaç a la pàgina en producció
-[Enllaç Heroku](https://hackernews-hn22d.herokuapp.com/)
+## Enllaços
+- [Enllaç al entorn de producció (Heroku)](https://hackernews-hn22d.herokuapp.com/)
+- [Enllaç al projecte Taiga](https://tree.taiga.io/project/marc-gallego-asw-hacker-news-hn22d/)
