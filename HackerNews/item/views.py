@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 from item.forms import ShowSubmissionComment
-from news.models import Submission,  Comment, Vote
+from news.models import Submission, Comment, Vote
 from .forms import EditForm
 
 
@@ -42,7 +42,7 @@ def deleteComments(comment):
 def delete(request, item_id):
     if request.user.is_authenticated:
         if request.method == "POST":
-            if request.POST["yes"]:
+            if "yes" in request.POST:
                 submission = Submission.objects.get(id=item_id)
                 if submission != None:
                     comments = Comment.objects.filter(submission=submission)

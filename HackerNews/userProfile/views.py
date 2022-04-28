@@ -9,9 +9,20 @@ from userProfile.forms import UserForm
 
 
 def show(request, user_id):
-    user_form = UserForm()
     user = User.objects.get(id=user_id)
-    user.timeSinceCreation()
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            user_form = UserForm(data=request.POST)
+            if user_form.is_valid():
+                user = User.objects.get(id=user_id)
+                user.about = request.POST.get("about")
+                user.email = request.POST.get("email")
+                user.save()
+        else:
+            return redirect("Login")
+    else:
+
+        user_form = UserForm(instance=user)
     return render(request, "profile.html", {"form": user_form, "userRequested": user})
 
 
@@ -28,7 +39,7 @@ def submissions(request, user_id):
 
     page_index = Counter()
     page_index.count = pages.start_index()
-    return render(request, "userSubmissions.html", {'pages': pages, 'index': page_index})
+    return render(request, "userSubmissions.html", {'pages': pages, 'index': page_index, "requestedUser": user})
 
 
 def upvoted_submissions(request, user_id):

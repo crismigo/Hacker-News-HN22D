@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('authentication', '0003_alter_user_options_remove_user_karma'),
@@ -16,7 +15,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='comment',
             name='comments',
-            field=models.ManyToManyField(related_name='Comment_comments', through='news.Comment', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(related_name='Comment_comments', through='news.Comment',
+                                         to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='submission',

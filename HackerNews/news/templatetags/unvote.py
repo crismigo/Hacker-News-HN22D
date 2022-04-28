@@ -1,11 +1,27 @@
 from django import template
-from django.shortcuts import render
-from django.utils.functional import SimpleLazyObject
 
-from item.views import view
 from news.models import Vote, Comment, Submission
 
 register = template.Library()
+
+
+def get_num_comments_from_comments(comment):
+    comments = Comment.objects.filter(replied_comment=comment)
+    count = 0
+    for comm in comments:
+        count = count + 1 + get_num_comments_from_comments(comm)
+    return count
+
+
+def get_num_comments(id):
+    count = 0
+    subm = Comment.objects.filter(submission_id=id)
+    for comment in subm:
+        count = count + 1 + get_num_comments_from_comments(comment)
+    return count
+
+
+register.filter('get_num_comments', get_num_comments)
 
 
 def isVoted(submission, user):
@@ -64,17 +80,17 @@ register.filter('idFromVotes', idFromVotes)
 
 
 @register.inclusion_tag('commentTemplate.html')
-def commentsTree(comment_param,user):
+def commentsTree(comment_param, user):
     comments = Comment.objects.filter(submission_id=comment_param.id)
 
-    return {'comments': comments,"user":user}
+    return {'comments': comments, "user": user}
 
 
 @register.inclusion_tag('commentTemplate.html')
-def commentsTreeComments(comment_param,user):
+def commentsTreeComments(comment_param, user):
     comments = Comment.objects.filter(replied_comment=comment_param.id)
 
-    return {'comments': comments,"user":user}
+    return {'comments': comments, "user": user}
 
 
 register.filter('commentsTree', commentsTree)

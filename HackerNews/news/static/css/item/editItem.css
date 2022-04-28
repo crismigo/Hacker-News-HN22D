@@ -1,5 +1,5 @@
 .submission {
-    padding:10px;
+    padding: 10px;
 }
 
 a:hover {
@@ -28,6 +28,7 @@ a:hover {
 .title-url a:hover {
     text-decoration: underline;
 }
+
 .submission-subtitle {
     font-size: 9pt;
     font-family: Verdana, Geneva, sans-serif;
@@ -38,6 +39,7 @@ a:hover {
 .ask-text {
     margin: 17px;
 }
+
 .ask-text p {
     font-family: Verdana, Geneva, sans-serif;
     font-size: 10pt;
@@ -49,17 +51,21 @@ a:hover {
     font-size: 10pt;
     color: #828282;
 }
+
 .disabled-url {
     font-family: Verdana, Geneva, sans-serif;
     font-size: 10pt;
     color: #828282;
 }
+
 .submit-button {
     margin-top: 20px;
 }
+
 .form-edit {
     margin-top: 20px;
 }
+
 .input-title input {
     width: 100%;
 }

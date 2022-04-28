@@ -7,7 +7,7 @@ html {
     min-width: 796px;
     margin-left: auto;
     margin-right: auto;
-    background:#FF6600;
+    background: #FF6600;
     padding: 1px;
     font-size: 10pt;
     line-height: 19px;
@@ -18,47 +18,61 @@ html {
     min-width: 796px;
     margin-left: auto;
     margin-right: auto;
-    background:#F6F6EF;
+    background: #F6F6EF;
     padding: 10px 2px;
 }
+
+
+.external_div a:visited .row {
+
+    word-break: break-word;
+}
+
 
 a:link {
     color: #000000;
     text-decoration: none;
 }
 
-.row{
+a:visited {
+    color: #828282;
+    text-decoration: none;
+}
+
+.row {
     font-size: 10pt;
     color: #000000;
     text-align: left;
-    display:inline-block;
+    display: inline-block;
 }
 
-.number{
+.number {
     width: 30%;
     font-size: 10pt;
     color: #828282;
 }
 
-.morestyle{
+.morestyle {
     font-size: 10pt;
     color: #828282;
     margin-left: 33px;
     margin-top: 33px;
 }
 
-.charateristics{
+.charateristics {
     margin-left: 33px;
 
 }
-.link,.score,.user,.time,.unvote,.hide,.comments,.delete,.edit{
+
+.link, .score, .user, .time, .unvote, .hide, .comments, .delete, .edit {
     font-size: 7pt;
     color: #828282;
 }
 
-.br{
+.br {
     padding-bottom: 10px;
 }
+
 .logo-div {
     padding-right: 4px;
     display: inline;
@@ -69,19 +83,23 @@ a:link {
     border: 1px solid white;
 
 }
+
 .page_title {
     font-weight: bold;
     vertical-align: super;
     color: #000000 !important;
 }
+
 .title {
     float: left;
     display: inline;
 }
+
 .navigation {
     height: 20px;
     display: inline;
 }
+
 .navigation-nav {
     display: inline;
     vertical-align: middle;
@@ -95,6 +113,7 @@ a:link {
 .nav-item {
     display: inline;
 }
+
 .nav-item a {
     padding: 0 5px
 }
@@ -104,9 +123,10 @@ a:link {
     text-decoration: none;
 }
 
-.navigation-nav .nav-item.active {
-    color: white;
+.navigation-nav .nav-item.active a {
+    color: white !important;
 }
+
 .right-div {
     float: right;
     display: inline;
@@ -115,25 +135,27 @@ a:link {
     height: 20px;
 }
 
-.right-div a{
+.right-div a {
     color: #000000 !important;
     text-decoration: none !important;
 }
 
 footer {
-    background:#F6F6EF;
+    background: #F6F6EF;
     min-width: 796px;
     width: 85%;
     margin-left: auto;
     margin-right: auto;
     padding: 10px 0px;
 }
+
 .line {
     background: #FF6600;
     height: 2px;
     width: 100%;
 }
-.footer-text{
+
+.footer-text {
     padding: 20px;
     text-align: center;
 }
