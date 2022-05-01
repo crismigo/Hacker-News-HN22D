@@ -1,18 +1,36 @@
-swagger: "2.0"
+openapi: 3.0.1
 info:
-  title: Sample API
-  description: API description in Markdown.
-  version: 1.0.0
-host: api.example.com
-schemes:
-  - https
+  title: Hacker News
+  description: "
+    This is the Open API documentation for the REST API of our beloved
+    application **HackerNews** deployed at
+    <https://asw-api-demo.herokuapp.com/>. <br>All operations are executable.
+    Only one operation requires authentication: `deleteTweet`. In this case, you
+    must **Authorize** your request by providing the api_key vaule you got when
+    you created the tweet."
+  version: 1.0.0.oas3
+servers:
+  - url: http://127.0.0.1:8000/api
+  - url: https://hackernews-hn22d.herokuapp.com/
 paths:
-  /users:
+  /news:
+    get:
+      summary: Returns a list of submissions
+      description: Optional extended description in Markdown.
+      responses:
+        200:
+          description: OK
+  /comments:
     get:
       summary: Returns a list of users.
       description: Optional extended description in Markdown.
-      produces:
-        - application/json
+      responses:
+        200:
+          description: OK
+  /votes:
+    get:
+      summary: Returns a list of users.
+      description: Optional extended description in Markdown.
       responses:
         200:
           description: OK
