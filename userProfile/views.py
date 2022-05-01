@@ -4,9 +4,11 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 from authentication.models import User
+from comment.models import ActionType
 from news.Counter import Counter
-from news.models import Submission, Vote, ActionType
+from news.models import Submission
 from userProfile.forms import UserForm
+from vote.models import Vote
 
 
 def show(request, user_id):

@@ -1,6 +1,8 @@
 from django import template
 
-from news.models import Vote, Comment, Submission
+from comment.models import Comment
+from news.models import Submission
+from vote.models import Vote
 
 register = template.Library()
 

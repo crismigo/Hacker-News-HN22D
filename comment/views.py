@@ -2,8 +2,8 @@ from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect
 
 # Create your views here.
+from comment.models import ActionType, Comment
 from item.forms import ShowSubmissionComment
-from news.models import Comment, ActionType
 
 
 def addSubmissionComment(request, id_submission):

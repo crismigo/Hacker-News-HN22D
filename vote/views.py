@@ -1,7 +1,9 @@
 from django.shortcuts import redirect
 
 # Create your views here.
-from news.models import Submission, Vote, ActionType, Comment
+from comment.models import ActionType, Comment
+from news.models import Submission
+from vote.models import Vote
 
 
 def vote_submission(request, id):

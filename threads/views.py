@@ -3,7 +3,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from authentication.models import User
-from news.models import Comment
+from comment.models import Comment
 
 
 def viewThread(request, user_id):

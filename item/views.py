@@ -2,8 +2,10 @@ from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect
 
 # Create your views here.
+from comment.models import Comment
 from item.forms import ShowSubmissionComment
-from news.models import Submission, Comment, Vote
+from news.models import Submission
+from vote.models import Vote
 from .forms import EditForm
 
 
