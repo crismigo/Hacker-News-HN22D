@@ -26,4 +26,10 @@ urlpatterns = [
     path('user/', include('userProfile.urls')),
     path('vote/', include('vote.urls')),
     path('threads/', include('threads.urls')),
+
+
+    #API
+    path('api/news/', include('news.urls-api')),
+    path('api/comments/', include('comment.urls-api')),
+    path('api/votes/', include('vote.urls-api')),
 ]
