@@ -1,124 +1,43 @@
+from django.core.paginator import Paginator
+from django.shortcuts import render
+
 # Create your views here.
-from rest_framework import status
-from rest_framework.pagination import PageNumberPagination
-from rest_framework.response import Response
-from rest_framework.views import APIView
-
+from news.Counter import Counter
 from news.models import Submission, SubmissionType
-from news.pagination import PaginationHandlerMixin
-from news.serializers import SubmissionSerializer
 
 
-class BasicPagination(PageNumberPagination):
-    page_size_query_param = 'limit'
+def gen_paginator(request, query, number=30):
+    subm_paginator = Paginator(query, number)
+    page_num = request.GET.get('pages')
+
+    if page_num == None:
+        pages = subm_paginator.page(1)
+    else:
+        pages = subm_paginator.page(page_num)
+
+    page_index = Counter()
+    page_index.count = pages.start_index()
+
+    return pages
 
 
-class NewsApiView(APIView, PaginationHandlerMixin):
-    pagination_class = BasicPagination
-
-    def get(self, request):
-        news = Submission.objects.order_by('-points')
-
-        page = self.paginate_queryset(news)
-        if page is not None:
-            serializer = self.get_paginated_response(SubmissionSerializer(page, many=True).data)
-        else:
-            serializer = SubmissionSerializer(news, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def post(self, request):
-        data = {
-            'title': request.data.get('title'),
-            'type': request.data.get('type'),
-            'author': request.data.get('author'),
-            'url': request.data.get('url'),
-            'text': request.data.get('text'),
-        }
-        serializer = SubmissionSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+def news(request):
+    pages = gen_paginator(request, Submission.objects.order_by('-points'), 30)
+    page_index = Counter()
+    page_index.count = pages.start_index()
+    return render(request, "news.html", {'pages': pages, 'index': page_index})
 
 
-class NewsDetailApiView(APIView):
-
-    def get_object(self, submission_id):
-        try:
-            return Submission.objects.get(id=submission_id)
-        except Submission.DoesNotExist:
-            return None
-
-    def get(self, request, news_id):
-        submission_instance = self.get_object(news_id)
-        if not submission_instance:
-            return Response(
-                {"res": "Object with news id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        serializer = SubmissionSerializer(submission_instance)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def put(self, request, news_id):
-        submission_instance = self.get_object(news_id)
-        if not submission_instance:
-            return Response(
-                {"res": "Object with news id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        data = {
-            'title': request.data.get('title'),
-            'type': request.data.get('type'),
-            'author': request.data.get('author'),
-            'url': request.data.get('url'),
-            'text': request.data.get('text'),
-        }
-        serializer = SubmissionSerializer(instance=submission_instance, data=data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, news_id):
-        submission_instance = self.get_object(news_id)
-        if not submission_instance:
-            return Response(
-                {"res": "Object with todo id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        submission_instance.delete()
-        return Response(
-            {"res": "Object deleted!"},
-            status=status.HTTP_200_OK
-        )
+def newest(request):
+    pages = gen_paginator(request, Submission.objects.order_by('-created_at'), 30)
+    page_index = Counter()
+    page_index.count = pages.start_index()
+    return render(request, "newsest.html", {"pages": pages, 'index': page_index})
 
 
-class NewsNewestApiView(APIView, PaginationHandlerMixin):
-    pagination_class = BasicPagination
-
-    def get(self, request):
-        news = Submission.objects.order_by('-created_at')
-
-        page = self.paginate_queryset(news)
-        if page is not None:
-            serializer = self.get_paginated_response(SubmissionSerializer(page, many=True).data)
-        else:
-            serializer = SubmissionSerializer(news, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-class NewsAskApiView(APIView, PaginationHandlerMixin):
-    pagination_class = BasicPagination
-
-    def get(self, request):
-        s_type = SubmissionType.objects.get(name="ask")
-        news = Submission.objects.filter(type=s_type).order_by('-points')
-
-        page = self.paginate_queryset(news)
-        if page is not None:
-            serializer = self.get_paginated_response(SubmissionSerializer(page, many=True).data)
-        else:
-            serializer = SubmissionSerializer(news, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+def ask(request):
+    type = SubmissionType.objects.get(name="ask")
+    pages = gen_paginator(request, Submission.objects.filter(type=type).order_by('-points'), 30)
+    page_index = Counter()
+    page_index.count = pages.start_index()
+    return render(request, "ask.html", {"pages": pages, 'index': page_index})

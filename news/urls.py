@@ -1,9 +1,10 @@
-from django.urls import path, include
-from .views import NewsApiView, NewsDetailApiView, NewsNewestApiView, NewsAskApiView
+from django.urls import path
+
+from . import views
 
 urlpatterns = [
-    path('', NewsApiView.as_view()),
-    path('<int:news_id>/', NewsDetailApiView.as_view()),
-    path('newest/', NewsNewestApiView.as_view()),
-    path('ask/', NewsAskApiView.as_view()),
+    path('', views.news, name="Home"),
+    path('news/', views.news, name="News"),
+    path('newest/', views.newest, name="Newest"),
+    path('ask/', views.ask, name="Ask"),
 ]

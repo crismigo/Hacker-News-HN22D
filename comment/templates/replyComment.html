@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load unvote %}
+{% load static %}
+{% block styles %}
+    <link href="{% static 'css/comment/replyComment.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}
+    Add Comment
+{% endblock %}
+{% block navbar %}
+
+{% endblock %}
+{% block content %}
+    <div class="small_size">
+        {% if user == comment.user %} <span style="color: #ff6600">* </span>
+
+        {% elif not user.is_authenticated or not comment|commentIsVoted:user %}
+            <a href="{% url 'voteComment' comment.id %}">
+                <img class="upvote" src="{% static 'img/grayarrow.gif' %}" title=upvote alt="upvote">
+            </a>
+        {% else %} <span style="margin-right: 15px;"></span>
+        {% endif %}
+        <span> <a href="{% url 'ShowProfile' comment.user.id %}"> {{ comment.user.username }} </a> </span>
+        <span>{{ comment|timeFromVotes }}</span>
+        <span> | </span>
+        {% if user.is_authenticated and comment|commentIsVoted:user %}
+            <span> <a href="{% url 'unvoteComment' comment.id %}"> unvote </a> </span>
+            <span> | </span>
+        {% endif %}
+    </div>
+    <div class="text">
+        {{ comment.text }}
+    </div>
+    <div class="add-comment">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="form-comment-box">
+                {{ form }}
+            </div>
+            <div class="form-comment-message">
+                        <span>If you haven't already, would you mind reading about HN's <a href="#"><u>approach to comments</u></a> and <a
+                                href="#"><u>site guidelines</u></a>?</span>
+            </div>
+            <div>
+                <input type="submit" value="reply">
+            </div>
+        </form>
+    </div>
+{% endblock %}
