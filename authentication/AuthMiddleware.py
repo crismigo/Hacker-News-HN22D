@@ -11,7 +11,8 @@ def Auth_API_Key(get_response):
         if not hasattr(request, 'user') or not request.user.is_authenticated:
             response = get_response(request)
 
-        elif request.user.is_authenticated and request.user.apiKey == request.headers.get('Authorization'):
+        #elif request.user.is_authenticated and request.user.apiKey == request.headers.get('Authorization'):
+        elif request.user.is_authenticated:
             response = get_response(request)
 
         else:
