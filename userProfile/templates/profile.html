@@ -27,6 +27,10 @@
                     <td class="labels"><label for="{{ form.email.id_for_label }}">email:</label></td>
                     <td>{{ form.email }}</td>
                 </tr>
+                <tr>
+                    <td class="labels">API-KEY:</td>
+                    <td class="labels">{{ user.apiKey|default_if_none:"" }}</td>
+                </tr>
             {% else %}
                 <tr>
                     <td class="labels">about:</td>

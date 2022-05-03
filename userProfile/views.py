@@ -21,6 +21,7 @@ def show(request, user_id):
                     user = User.objects.get(id=user_id)
                     user.about = request.POST.get("about")
                     user.email = request.POST.get("email")
+                    user.apiKey = request.POST.get("apiKey")
                     user.save()
             else:
                 return redirect("Login")
