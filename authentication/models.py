@@ -7,7 +7,7 @@ from django.db import models
 # Create your models here.
 class User(AbstractUser):
     about = models.TextField(null=True, blank=True)
-    apiKey = models.TextField
+    apiKey = models.TextField(null=False, blank=False)
 
     class Meta:
         verbose_name = "User"
