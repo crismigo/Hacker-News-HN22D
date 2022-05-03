@@ -4,9 +4,12 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from comment.models import ActionType, Comment
+from comment.serializers import CommentSerializer
 from news.models import Submission, SubmissionType
 from news.pagination import PaginationHandlerMixin
 from news.serializers import SubmissionSerializer
+from vote.models import Vote
 
 
 class BasicPagination(PageNumberPagination):
@@ -27,19 +30,61 @@ class NewsApiView(APIView, PaginationHandlerMixin):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        data = {
-            'title': request.data.get('title'),
-            'type': request.data.get('type'),
-            'author': request.data.get('author'),
-            'url': request.data.get('url'),
-            'text': request.data.get('text'),
-        }
-        serializer = SubmissionSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        title = request.data.get('title')
+        url = request.data.get('url')
+        text = request.data.get('text')
+        user = request.user
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if url != "":
+            url_exists = Submission.objects.filter(url=url)
+            if url_exists.count() > 0:
+                return Response(
+                    {"res": "Url already exists"},
+                    status=status.HTTP_409_CONFLICT
+                )
+            submision_type = SubmissionType.objects.get(name="url")
+            data = {
+                'title': title,
+                'type': submision_type.id,
+                'author':user.id,
+                'url': url,
+            }
+            serializer = SubmissionSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                print(serializer.data)
+                """if text != "":
+                    action_type = ActionType.objects.get(name="Submission")
+                    data = {
+                        "submission": serializer.data.id,
+                        "type": action_type.id,
+                        "user": user.id,
+                        "text": text
+                    }
+                    comment_serializer = CommentSerializer(data=data)
+                    if comment_serializer.is_valid():
+                        comment_serializer.save()
+                    else:
+                        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)"""
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        if text != "":
+            submision_type = SubmissionType.objects.get(name="ask")
+            data = {
+                'title': title,
+                'type': submision_type.id,
+                'author': user.id,
+                'text': text,
+            }
+            serializer = SubmissionSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({"res":"Los parametros pasados no son correctos"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class NewsDetailApiView(APIView):
