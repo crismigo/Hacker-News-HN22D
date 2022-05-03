@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'threads',
 
     'rest_framework',
+    'rest_framework_api_key',
     'corsheaders',
 ]
 
@@ -56,6 +57,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'authentication.AuthMiddleware.Auth_API_Key',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -150,6 +152,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 30,
     'DEFAULT_PERMISSION_CLASSES': [
-            'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+            #'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+            "rest_framework_api_key.permissions.HasAPIKeyOrReadOnly",
     ],
 }

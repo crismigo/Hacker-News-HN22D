@@ -3,6 +3,7 @@ import json
 import requests
 from django.contrib.auth import login, logout
 from django.shortcuts import redirect
+from rest_framework_api_key.crypto import KeyGenerator
 
 # Create your views here.
 from .models import User
@@ -43,6 +44,7 @@ def callBack(request):
         user.email = user_data["email"]
         user.first_name = user_data["nom"]
         user.last_name = user_data["cognoms"]
+        user.apiKey = KeyGenerator(prefix_length=32, secret_key_length=32)
         user.save()
         login(request, user)
 
