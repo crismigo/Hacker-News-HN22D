@@ -137,13 +137,182 @@ paths:
               examples:
                 errorExample:
                   $ref: '#/components/examples/error404'
-  /votes:
-    get:
-      summary: Returns a list of users.
-      description: Optional extended description in Markdown.
+  /votes/submissions/{subm_id}:
+    post:
+      tags:
+        - "Votes"
+      summary: It creates a new vote of a submission
+      description: ""
+      operationId: "addSubmissionVote"
+      parameters:
+      - name : subm_id
+        in : path
+        description: Submission id
+        required: true
+        schema:
+          type : integer
+          format : int32
+      requestBody:
+        description: Provide the user of the new Vote
+        content:
+          application/json:
+            schema:
+              required:
+                - user
+              type: object
+              properties:
+                user:
+                  type: integer
+                  example: 2
+        required: true
       responses:
-        200:
-          description: OK
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/Vote'
+        '400':
+          description: 'Error: Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+
+    delete:
+      tags:
+        - "Votes"
+      summary: Deletes the vote of a certain submission
+      operationId: UnvoteComment
+      parameters:
+        - name: subm_id
+          in: path
+          description: Submission id
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: Provide the user of the new Vote
+        content:
+          application/json:
+            schema:
+              required:
+                - user
+              type: object
+              properties:
+                user:
+                  type: integer
+                  example: 2
+        required: true
+      responses:
+        '200':
+          description: Vote of submission deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vote'
+        '400':
+          description: 'Error: Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+
+  /votes/comment/{comm_id}:
+    post:
+      tags:
+        - "Votes"
+      summary: It creates a new vote of a comment
+      description: ""
+      operationId: "addCommentVote"
+      parameters:
+        - name: comm_id
+          in: path
+          description: Comment id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Provide the user of the new Vote
+        content:
+          application/json:
+            schema:
+              required:
+                - user
+              type: object
+              properties:
+                user:
+                  type: integer
+                  example: 2
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vote'
+        '400':
+          description: 'Error: Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+
+    delete:
+      tags:
+        - "Votes"
+      summary: Deletes the vote of a certain comment
+      operationId: UnvoteComment
+      parameters:
+        - name: comm_id
+          in: path
+          description: Comment id
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: Provide the user of the new Vote
+        content:
+          application/json:
+            schema:
+              required:
+                - user
+              type: object
+              properties:
+                user:
+                  type: integer
+                  example: 2
+        required: true
+      responses:
+        '200':
+          description: Vote of comment deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vote'
+        '400':
+          description: 'Error: Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+
 
 components:
   schemas:
@@ -180,6 +349,24 @@ components:
         created_at:
           type: string
           format: date-time
+    Vote:
+      type: object
+      properties:
+        submission:
+          type: integer
+          format: int32
+        comment:
+          type: integer
+          format: int64
+        type:
+          type: string
+          enum: [ Submission, Comment ]
+        user:
+          type: string
+          example: 'admin'
+        created_at:
+          type: string
+          format: date-time
 
     AddCommentResult:
       type: object
@@ -190,6 +377,12 @@ components:
           type: string
           example: |
             MjAyMC0wNC0xOCAxMjoyODo0MSBVVEM=
+
+    AddVote:
+      type: object
+      properties:
+        new_tweet:
+          $ref: '#/components/schemas/Vote'
 
     ErrorResult:
       type: object
