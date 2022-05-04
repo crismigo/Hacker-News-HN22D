@@ -53,10 +53,10 @@ class NewsApiView(APIView, PaginationHandlerMixin):
             if serializer.is_valid():
                 serializer.save()
                 print(serializer.data)
-                """if text != "":
+                if text != "":
                     action_type = ActionType.objects.get(name="Submission")
                     data = {
-                        "submission": serializer.data.id,
+                        "submission": serializer.data["id"],
                         "type": action_type.id,
                         "user": user.id,
                         "text": text
@@ -64,8 +64,9 @@ class NewsApiView(APIView, PaginationHandlerMixin):
                     comment_serializer = CommentSerializer(data=data)
                     if comment_serializer.is_valid():
                         comment_serializer.save()
+                        serializer.data["comments"].append(comment_serializer.data)
                     else:
-                        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)"""
+                        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
