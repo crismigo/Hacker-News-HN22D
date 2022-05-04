@@ -115,12 +115,10 @@ class NewsDetailApiView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
         data = {
-            'title': request.data.get('title'),
-            'type': request.data.get('type'),
-            'author': request.data.get('author'),
-            'url': request.data.get('url'),
-            'text': request.data.get('text'),
+            'title': request.data.get('title')
         }
+        if submission_instance.type == SubmissionType.objects.get(name= "ask"):
+            data["text"] = request.data.get('text')
         serializer = SubmissionSerializer(instance=submission_instance, data=data, partial=True)
         if serializer.is_valid():
             serializer.save()
