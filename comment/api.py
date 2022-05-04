@@ -29,13 +29,13 @@ class CommentDetailApiView(APIView):
 
 
 class CommentToCommentDetailApiView(APIView):
-    def post(self, request):
+    def post(self, request, replied_comment_id):
         comment_type = ActionType.objects.get(name="Comment")
         data = {
             'type': comment_type,
-            'user': request.data.get('user'),
+            'user': request.user.id,
             'text': request.data.get('text'),
-            'replied_comment': request.data.get('replied_comment')
+            'replied_comment': replied_comment_id
         }
         serializer = CommentSerializer(data=data)
         if serializer.is_valid():
@@ -46,13 +46,13 @@ class CommentToCommentDetailApiView(APIView):
 
 
 class CommentToSubmissionDetailApiView(APIView):
-    def post(self, request):
+    def post(self, request, submission_id):
         submission_type = ActionType.objects.get(name="Submission")
         data = {
             'type': submission_type,
-            'user': request.data.get('user'),
+            'user': request.user.id,
             'text': request.data.get('text'),
-            'submission': request.data.get('submission')
+            'submission': submission_id
         }
         serializer = CommentSerializer(data=data)
         if serializer.is_valid():

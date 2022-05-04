@@ -3,6 +3,6 @@ from .api import CommentDetailApiView, CommentToSubmissionDetailApiView, Comment
 
 urlpatterns = [
     path('<int:comment_id>/', CommentDetailApiView.as_view()),
-    path('reply/', CommentToCommentDetailApiView.as_view()),
-    path('submission/', CommentToSubmissionDetailApiView.as_view())
+    path('reply/<int:replied_comment_id>/', CommentToCommentDetailApiView.as_view()),
+    path('submission/<int:submission_id>/', CommentToSubmissionDetailApiView.as_view())
 ]
