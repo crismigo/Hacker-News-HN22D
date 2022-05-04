@@ -32,4 +32,5 @@ urlpatterns = [
     path('api/news/', include('news.urls-api')),
     path('api/comments/', include('comment.urls-api')),
     path('api/votes/', include('vote.urls-api')),
+
 ]
