@@ -214,7 +214,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Vote'
+                $ref: '#/components/schemas/VoteDelete'
         '400':
           description: 'Error: Bad Request'
           content:
@@ -223,7 +223,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResult'
               examples:
                 errorExample:
-                  $ref: '#/components/examples/error404'
+                  $ref: '#/components/examples/error400'
 
   /votes/comment/{comm_id}:
     post:
@@ -268,7 +268,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResult'
               examples:
                 errorExample:
-                  $ref: '#/components/examples/error404'
+                  $ref: '#/components/examples/error400'
 
     delete:
       tags:
@@ -302,7 +302,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Vote'
+                $ref: '#/components/schemas/VoteDelete'
         '400':
           description: 'Error: Bad Request'
           content:
@@ -311,7 +311,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResult'
               examples:
                 errorExample:
-                  $ref: '#/components/examples/error404'
+                  $ref: '#/components/examples/error400'
 
 
 components:
@@ -378,11 +378,12 @@ components:
           example: |
             MjAyMC0wNC0xOCAxMjoyODo0MSBVVEM=
 
-    AddVote:
+    VoteDelete:
       type: object
       properties:
-        new_tweet:
-          $ref: '#/components/schemas/Vote'
+        res:
+          type: string
+          example: 'Object Deleted'
 
     ErrorResult:
       type: object
