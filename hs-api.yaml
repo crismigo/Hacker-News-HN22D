@@ -137,7 +137,7 @@ paths:
               examples:
                 errorExample:
                   $ref: '#/components/examples/error404'
-  /votes/submissions/{subm_id}:
+  /news/{subm_id}/vote:
     post:
       tags:
         - "Votes"
@@ -171,7 +171,7 @@ paths:
           content:
             application/json:
               schema:
-                 $ref: '#/components/schemas/Vote'
+                 $ref: '#/components/schemas/VoteVote'
         '400':
           description: 'Error: Bad Request'
           content:
@@ -225,7 +225,7 @@ paths:
                 errorExample:
                   $ref: '#/components/examples/error400'
 
-  /votes/comment/{comm_id}:
+  /comments/{comm_id}/vote:
     post:
       tags:
         - "Votes"
@@ -384,7 +384,19 @@ components:
         res:
           type: string
           example: 'Object Deleted'
-
+        api_key:
+          type: string
+          example: |
+            MjAyMC0wNC0xOCAxMjoyODo0MSBVVEM=
+    VoteVote:
+      type: object
+      properties:
+        new_vote:
+          $ref: '#/components/schemas/Vote'
+        api_key:
+          type: string
+          example: |
+            MjAyMC0wNC0xOCAxMjoyODo0MSBVVEM=
     ErrorResult:
       type: object
       properties:

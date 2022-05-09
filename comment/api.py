@@ -1,4 +1,3 @@
-from django.shortcuts import render
 
 # Create your views here.
 from rest_framework import status
@@ -7,6 +6,8 @@ from rest_framework.views import APIView
 
 from comment.models import Comment, ActionType
 from comment.serializers import CommentSerializer
+from vote.models import Vote
+from vote.serializers import VoteSerializer
 
 
 class CommentDetailApiView(APIView):
@@ -60,3 +61,49 @@ class CommentToSubmissionDetailApiView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class VoteCommentApiView(APIView):
+    def get_comment(self, comment_id):
+        try:
+            return Comment.objects.get(id=comment_id)
+        except Comment.DoesNotExist:
+            return None
+
+    def post(self, request, id):
+        act = ActionType.objects.get(name="Comment")
+        data = {
+            'submission': None,
+            'comment': id,
+            'type': act.id,
+            'user': request.user.id,
+        }
+        serializer = VoteSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        if (Vote.objects.filter(comment=self.get_comment(id)).exists()):
+            return Response({"res: Vote already submitted."}, status=status.HTTP_409_CONFLICT)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id):
+        comment = self.get_comment(id)
+        if comment is None:
+            return Response(
+                {"res": "Object with this id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if not Vote.objects.filter(comment=comment).exists:
+            return Response(
+                {"res": "Vote doesn't exist"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        else:
+            vote = Vote.objects.get(comment=comment).exists
+            vote.delete()
+            return Response(
+                {"res": "Object deleted!"},
+                status=status.HTTP_200_OK
+            )

@@ -4,12 +4,13 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from comment.models import ActionType, Comment
+from comment.models import ActionType
 from comment.serializers import CommentSerializer
 from news.models import Submission, SubmissionType
 from news.pagination import PaginationHandlerMixin
 from news.serializers import SubmissionSerializer
 from vote.models import Vote
+from vote.serializers import VoteSerializer
 
 
 class BasicPagination(PageNumberPagination):
@@ -166,3 +167,61 @@ class NewsAskApiView(APIView, PaginationHandlerMixin):
         else:
             serializer = SubmissionSerializer(news, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class VoteSubmissionApiView(APIView):
+
+    def get_submission(self, submission_id):
+        try:
+            return Submission.objects.get(id=submission_id)
+        except Submission.DoesNotExist:
+            return None
+
+    def get(self, request,id):
+        votes = Vote.objects.all()
+        if not votes:
+            return Response(
+                {"res": "Object with news id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        serializer = VoteSerializer(votes,many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, id):
+
+        act = ActionType.objects.get(name="Submission")
+
+        data = {
+            'submission': id,
+            'comment': None,
+            'type': act.id,
+            'user': request.user.id,
+        }
+        serializer = VoteSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        if (Vote.objects.filter(submission=self.get_submission(id)).exists()):
+            return Response({"res: Vote already submitted."}, status=status.HTTP_409_CONFLICT)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id):
+        submission = self.get_submission(id)
+        if submission is None:
+            return Response(
+                {"res": "Object with this id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if not Vote.objects.filter(submission=submission).exists():
+            return Response(
+                {"res": "Vote doesn't exist"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        else :
+            vote = Vote.objects.get(submission=submission)
+            vote.delete()
+            return Response(
+                {"res": "Object deleted!"},
+                status=status.HTTP_200_OK
+            )
