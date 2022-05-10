@@ -25,7 +25,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Submission'
+                  $ref: '#/components/schemas/SubmissionRead'
   /comments/{commentId}:
     get:
       summary: Returns a comment found by its ID
@@ -358,6 +358,46 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Vote'
+        created_at:
+          type: string
+          format: date-time
+    SubmissionRead:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        title:
+          type: string
+          example: 'News title'
+        type:
+          type: string
+          example: "url"
+        author:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              example: 1
+            username:
+              type: string
+              example: "alex.olle"
+        url:
+          type: string
+          example: 'https://www.google.es/'
+        text:
+          type: string
+          example: 'This is an ask or comment'
+        comments:
+          type: integer
+          format: int64
+          example: 1
+        votes:
+          type: integer
+          format: int64
+          example: 1
         created_at:
           type: string
           format: date-time

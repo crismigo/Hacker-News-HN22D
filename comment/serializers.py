@@ -44,12 +44,12 @@ class CommentDetailedSerializer(serializers.ModelSerializer):
         comment_comm = Comment.objects.filter(replied_comment_id=parent.id)
         comments = []
         for comm in comment_comm:
-            serializer = CommentSerializer(comm)
+            serializer = CommentDetailedSerializer(comm)
             comments.append(serializer.data)
         return comments
 
     def getAuthor(self, comment):
-        user =User.objects.get(id=comment.author_id)
+        user =User.objects.get(id=comment.user_id)
         return {"id":user.id, "username":user.username}
 
     def getType(self,comment):
