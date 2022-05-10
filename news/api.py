@@ -8,7 +8,7 @@ from comment.models import ActionType
 from comment.serializers import CommentSerializer
 from news.models import Submission, SubmissionType
 from news.pagination import PaginationHandlerMixin
-from news.serializers import SubmissionSerializer
+from news.serializers import SubmissionSerializer, SubmissionReadSerializer, SubmissionDetailedSerializer
 from vote.models import Vote
 from vote.serializers import VoteSerializer
 
@@ -25,9 +25,10 @@ class NewsApiView(APIView, PaginationHandlerMixin):
 
         page = self.paginate_queryset(news)
         if page is not None:
-            serializer = self.get_paginated_response(SubmissionSerializer(page, many=True).data)
+            serializer = self.get_paginated_response(SubmissionReadSerializer(page, many=True).data)
         else:
-            serializer = SubmissionSerializer(news, many=True)
+            serializer = SubmissionReadSerializer(news, many=True)
+
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
@@ -40,15 +41,16 @@ class NewsApiView(APIView, PaginationHandlerMixin):
             url_exists = Submission.objects.filter(url=url)
             if url_exists.count() > 0:
                 return Response(
-                    {"res": "Url already exists"},
+                    {"res": "Url already exists", "id": url_exists.id},
                     status=status.HTTP_409_CONFLICT
                 )
             submision_type = SubmissionType.objects.get(name="url")
             data = {
                 'title': title,
                 'type': submision_type.id,
-                'author':user.id,
+                'author': user.id,
                 'url': url,
+                'points': 1,
             }
             serializer = SubmissionSerializer(data=data)
             if serializer.is_valid():
@@ -86,11 +88,10 @@ class NewsApiView(APIView, PaginationHandlerMixin):
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response({"res":"Los parametros pasados no son correctos"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"res": "Los parametros pasados no son correctos"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class NewsDetailApiView(APIView):
-
     def get_object(self, submission_id):
         try:
             return Submission.objects.get(id=submission_id)
@@ -105,7 +106,7 @@ class NewsDetailApiView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        serializer = SubmissionSerializer(submission_instance)
+        serializer = SubmissionDetailedSerializer(submission_instance)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, news_id):
@@ -118,7 +119,7 @@ class NewsDetailApiView(APIView):
         data = {
             'title': request.data.get('title')
         }
-        if submission_instance.type == SubmissionType.objects.get(name= "ask"):
+        if submission_instance.type == SubmissionType.objects.get(name="ask"):
             data["text"] = request.data.get('text')
         serializer = SubmissionSerializer(instance=submission_instance, data=data, partial=True)
         if serializer.is_valid():
@@ -148,9 +149,9 @@ class NewsNewestApiView(APIView, PaginationHandlerMixin):
 
         page = self.paginate_queryset(news)
         if page is not None:
-            serializer = self.get_paginated_response(SubmissionSerializer(page, many=True).data)
+            serializer = self.get_paginated_response(SubmissionReadSerializer(page, many=True).data)
         else:
-            serializer = SubmissionSerializer(news, many=True)
+            serializer = SubmissionReadSerializer(news, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -163,65 +164,7 @@ class NewsAskApiView(APIView, PaginationHandlerMixin):
 
         page = self.paginate_queryset(news)
         if page is not None:
-            serializer = self.get_paginated_response(SubmissionSerializer(page, many=True).data)
+            serializer = self.get_paginated_response(SubmissionReadSerializer(page, many=True).data)
         else:
-            serializer = SubmissionSerializer(news, many=True)
+            serializer = SubmissionReadSerializer(news, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-class VoteSubmissionApiView(APIView):
-
-    def get_submission(self, submission_id):
-        try:
-            return Submission.objects.get(id=submission_id)
-        except Submission.DoesNotExist:
-            return None
-
-    def get(self, request,id):
-        votes = Vote.objects.all()
-        if not votes:
-            return Response(
-                {"res": "Object with news id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        serializer = VoteSerializer(votes,many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def post(self, request, id):
-
-        act = ActionType.objects.get(name="Submission")
-
-        data = {
-            'submission': id,
-            'comment': None,
-            'type': act.id,
-            'user': request.user.id,
-        }
-        serializer = VoteSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        if (Vote.objects.filter(submission=self.get_submission(id)).exists()):
-            return Response({"res: Vote already submitted."}, status=status.HTTP_409_CONFLICT)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, id):
-        submission = self.get_submission(id)
-        if submission is None:
-            return Response(
-                {"res": "Object with this id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        if not Vote.objects.filter(submission=submission).exists():
-            return Response(
-                {"res": "Vote doesn't exist"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        else :
-            vote = Vote.objects.get(submission=submission)
-            vote.delete()
-            return Response(
-                {"res": "Object deleted!"},
-                status=status.HTTP_200_OK
-            )
