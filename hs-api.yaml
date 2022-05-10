@@ -399,16 +399,16 @@ components:
       properties:
         submission:
           type: integer
-          format: int32
+          format: int64
         comment:
           type: integer
           format: int64
         type:
-          type: string
-          enum: [ Submission, Comment ]
+          type: integer
+          format: int64
         user:
-          type: string
-          example: 'admin'
+          type: integer
+          example: int64
         created_at:
           type: string
           format: date-time
@@ -429,19 +429,13 @@ components:
         res:
           type: string
           example: 'Object Deleted'
-        api_key:
-          type: string
-          example: |
-            MjAyMC0wNC0xOCAxMjoyODo0MSBVVEM=
+
     VoteVote:
       type: object
       properties:
         new_vote:
           $ref: '#/components/schemas/Vote'
-        api_key:
-          type: string
-          example: |
-            MjAyMC0wNC0xOCAxMjoyODo0MSBVVEM=
+
     ErrorResult:
       type: object
       properties:
