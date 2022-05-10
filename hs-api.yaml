@@ -294,6 +294,8 @@ paths:
 
   /comments/:
     post:
+      tags:
+        - Comments
       summary: adds a new comment to an existent Comment
       requestBody:
         description: Provide the submission or replied_comment,type, & text of the new Comment
@@ -323,6 +325,8 @@ paths:
 
   /comments/{commentId}:
     get:
+      tags:
+        - Comments
       summary: Returns a comment found by its ID
       parameters:
         - name: commentID
