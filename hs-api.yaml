@@ -291,6 +291,36 @@ paths:
               examples:
                 errorExample:
                   $ref: '#/components/examples/error403'
+
+  /comments/:
+    post:
+      summary: adds a new comment to an existent Comment
+      requestBody:
+        description: Provide the submission or replied_comment,type, & text of the new Comment
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/CommentReply'
+                - $ref: '#/components/schemas/CommentSubmission'
+        required: true
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddCommentResult'
+        '400':
+          description: 'Error: Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+
   /comments/{commentId}:
     get:
       summary: Returns a comment found by its ID
@@ -319,95 +349,7 @@ paths:
                 errorExample:
                   $ref: '#/components/examples/error404'
 
-  /comments/reply:
-    post:
-      summary: adds a new comment to an existent Comment
-      requestBody:
-        description: Provide the type, user, text & replied_comment of the new Comment
-        content:
-          application/json:
-            schema:
-              required:
-                - type
-                - user
-                - text
-                - replied_comment
-              type: object
-              properties:
-                type:
-                  type: string
-                  enum: [ Submission, Comment ]
-                user:
-                  type: integer
-                  example: 2
-                text:
-                  type: string
-                  example: My content of the comment
-                replied_comment:
-                  type: integer
-                  format: int64
-        required: true
-      responses:
-        '201':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AddCommentResult'
-        '400':
-          description: 'Error: Bad Request'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResult'
-              examples:
-                errorExample:
-                  $ref: '#/components/examples/error404'
 
-  /comments/submission:
-    post:
-      summary: adds a new comment to an existent Submission
-      requestBody:
-        description: Provide the type, user, text & submission of the new Comment
-        content:
-          application/json:
-            schema:
-              required:
-                - type
-                - user
-                - text
-                - submission
-              type: object
-              properties:
-                type:
-                  type: string
-                  enum: [ Submission, Comment ]
-                user:
-                  type: integer
-                  example: 2
-                text:
-                  type: string
-                  example: My content of the comment
-                submission:
-                  type: integer
-                  format: int64
-        required: true
-      responses:
-        '201':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AddCommentResult'
-        '400':
-          description: 'Error: Bad Request'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResult'
-              examples:
-                errorExample:
-                  $ref: '#/components/examples/error404'
   /news/{subm_id}/vote:
     post:
       tags:
@@ -674,6 +616,46 @@ paths:
 
 components:
   schemas:
+    CommentReply:
+      required:
+        - type
+        - user
+        - text
+        - replied_comment
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [ Comment ]
+        user:
+          type: integer
+          example: 2
+        text:
+          type: string
+          example: My content of the comment
+        replied_comment:
+          type: integer
+          format: int64
+    CommentSubmission:
+      required:
+        - type
+        - user
+        - text
+        - submission
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [ Submission ]
+        user:
+          type: integer
+          example: 2
+        text:
+          type: string
+          example: My content of the comment
+        submission:
+          type: integer
+          format: int64
     Submission:
       type: object
       properties:
