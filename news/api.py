@@ -36,12 +36,13 @@ class NewsApiView(APIView, PaginationHandlerMixin):
         url = request.data.get('url')
         text = request.data.get('text')
         user = request.user
+        print(request.data)
 
         if url != "":
             url_exists = Submission.objects.filter(url=url)
             if url_exists.count() > 0:
                 return Response(
-                    {"res": "Url already exists", "id": url_exists.id},
+                    {"res": "Url already exists", "id": url_exists[0].id},
                     status=status.HTTP_409_CONFLICT
                 )
             submision_type = SubmissionType.objects.get(name="url")
@@ -137,7 +138,7 @@ class NewsDetailApiView(APIView):
         submission_instance.delete()
         return Response(
             {"res": "Object deleted!"},
-            status=status.HTTP_200_OK
+            status=status.HTTP_204_NO_CONTENT
         )
 
 

@@ -15,8 +15,14 @@ servers:
 paths:
   /news/:
     get:
-      summary: Returns a list of submissions
-      description: Optional extended description in Markdown.
+      tags:
+        - News
+      summary: Retorna una llista pagina de totes les news que hi hagi en el sistema, ordenades per nombre de vots.
+      parameters:
+        - in: query
+          name: page
+          required: false
+          description: Nombre de pàgina a visualitzar
       responses:
         '200':
           description: OK
@@ -26,6 +32,265 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SubmissionRead'
+        '404':
+          description: 'Error: Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+    post:
+      tags:
+        - News
+      summary: Crea una nova instància de News
+      operationId: NewNews
+      requestBody:
+        required: true
+        description: Proporciona els camps necessaris per crear una nova news
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: 'La meva primera news!'
+                url:
+                  type: string
+                  example: 'https://atenea.upc.edu/course/view.php?id=75442'
+                text:
+                  type: string
+                  example: 'La meva pregunta és ...'
+              required:
+                - title
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Submission'
+        '400':
+          description: 'Error: Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error400'
+        '404':
+          description: 'Error: Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+        '409':
+          description: 'Error: Conflict'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error409'
+  /news/newest/:
+    get:
+      tags:
+        - News
+      summary: Retorna una llista pagina de totes les news que hi hagi en el sistema, ordenades de més recents a menys recents.
+      parameters:
+        - in: query
+          name: page
+          required: false
+          description: Nombre de pàgina a visualitzar
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SubmissionRead'
+        '404':
+          description: 'Error: Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /news/ask:
+    get:
+      tags:
+        - News
+      summary: Retorna una llista pagina de totes les news de tipus ask que hi hagi en el sistema, ordenades per nombre de vots.
+      parameters:
+        - in: query
+          name: page
+          required: false
+          description: Nombre de pàgina a visualitzar
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SubmissionRead'
+        '404':
+          description: 'Error: Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /news/{id}/:
+    get:
+      tags:
+        - News
+      summary: Retorna la news amb la id passada per paràmetre o error en cas que no existeixi.
+      description: Retorna una única news
+      operationId: getNewsById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: La id de la news a consultar
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SubmissionDetailed'
+        '404':
+          description: 'Error: Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+    put:
+      tags:
+        - News
+      summary: Modifica una instància concreta de news
+      operationId: EditNews
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: La id de la news a consultar
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        description: Proporciona els camps necessaris per crear una nova news
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: 'La meva primera news!'
+                text:
+                  type: string
+                  example: 'La meva pregunta és ...'
+              required:
+                - title
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Submission'
+        '400':
+          description: 'Error: Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error400'
+        '404':
+          description: 'Error: Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+    delete:
+      tags:
+        - News
+      summary: Deletes a News
+      operationId: deleteNews
+      parameters:
+        - name: id
+          in: path
+          description: News id to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        204:
+          description: News Deleted
+          content:
+            application/json: { }
+        404:
+          description: 'Error: Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+        401:
+          description: 'Error: Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        403:
+          description: 'Error: Forbidden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error403'
   /comments/{commentId}:
     get:
       summary: Returns a comment found by its ID
@@ -361,6 +626,39 @@ components:
         created_at:
           type: string
           format: date-time
+    SubmissionDetailed:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        title:
+          type: string
+          example: 'News title'
+        type:
+          type: string
+          example: "url"
+        author:
+          type: string
+          example: "alex.olle"
+        url:
+          type: string
+          example: 'https://www.google.es/'
+        text:
+          type: string
+          example: 'This is an ask or comment'
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+        votes:
+          type: integer
+          format: int64
+          example: 1
+        created_at:
+          type: string
+          format: date-time
     SubmissionRead:
       type: object
       properties:
@@ -486,6 +784,7 @@ components:
             - 401
             - 403
             - 404
+            - 409
         error:
           type: string
           enum:
@@ -493,6 +792,7 @@ components:
             - Unauthorized
             - Forbidden
             - Not Found
+            - Conflict
         message:
           type: string
   examples:
@@ -516,6 +816,11 @@ components:
         status: 404
         error: "Not Found"
         message: "No Tweet with that ID"
+    error409:
+      value:
+        status: 409
+        error: "Conflict"
+        message: "Ja existeix aquesta instància"
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
