@@ -3,11 +3,13 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from authentication.models import User
 from comment.models import Comment, ActionType
 from news.models import Submission
-from news.serializers import SubmissionSerializer
 from vote.models import Vote
 from vote.serializers import VoteSerializer
+
+import json
 
 class VoteSubmissionApiView(APIView):
 
@@ -31,12 +33,13 @@ class VoteSubmissionApiView(APIView):
     def post(self, request, id):
 
         act = ActionType.objects.get(name="Submission")
-
+        body = json.loads(request.body.decode('utf-8'))
+        user = body.get("user")
         data = {
             'submission': id,
             'comment': None,
             'type': act.id,
-            'user': request.user.id,
+            'user': user,
         }
         serializer = VoteSerializer(data=data)
         if serializer.is_valid():
@@ -48,19 +51,21 @@ class VoteSubmissionApiView(APIView):
 
     def delete(self, request, id):
         submission = self.get_submission(id)
+        user = request.data.get("user")
+        userVal = User.objects.get(id=user)
         if submission is None:
             return Response(
                 {"res": "Object with this id does not exists"},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        if not Vote.objects.filter(submission=submission).exists():
+        if not Vote.objects.filter(submission=submission,user=userVal).exists():
             return Response(
                 {"res": "Vote doesn't exist"},
                 status=status.HTTP_400_BAD_REQUEST
             )
         else:
-            vote = Vote.objects.get(submission=submission)
+            vote = Vote.objects.get(submission=submission,user=userVal)
             vote.delete()
             return Response(
                 {"res": "Object deleted!"},
@@ -76,11 +81,13 @@ class VoteCommentApiView(APIView):
 
     def post(self, request, id):
         act = ActionType.objects.get(name="Comment")
+        body = json.loads(request.body.decode('utf-8'))
+        user = body.get("user")
         data = {
             'submission': None,
             'comment': id,
             'type': act.id,
-            'user': request.user.id,
+            'user': user,
         }
         serializer = VoteSerializer(data=data)
         if serializer.is_valid():
@@ -92,25 +99,37 @@ class VoteCommentApiView(APIView):
 
     def delete(self, request, id):
         comment = self.get_comment(id)
-        if comment is None:
+        user = request.data.get("user")
+        if User.objects.filter(id=user).exists():
+            userVal = User.objects.get(id=user)
+            if userVal is None:
+                return Response(
+                    {"res": "User with this id does not exists"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            if comment is None:
+                return Response(
+                    {"res": "Object with this id does not exists"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            if not Vote.objects.filter(comment=comment,user=userVal).exists():
+                return Response(
+                    {"res": "Vote doesn't exist"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            else:
+                vote = Vote.objects.get(comment=comment,user=userVal)
+                vote.delete()
+                return Response(
+                    {"res": "Object deleted!"},
+                    status=status.HTTP_200_OK
+                )
+        else :
             return Response(
-                {"res": "Object with this id does not exists"},
+                {"res": "User with that id doesn't exist!"},
                 status=status.HTTP_400_BAD_REQUEST
             )
-
-        if not Vote.objects.filter(comment=comment).exists:
-            return Response(
-                {"res": "Vote doesn't exist"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        else:
-            vote = Vote.objects.get(comment=comment).exists
-            vote.delete()
-            return Response(
-                {"res": "Object deleted!"},
-                status=status.HTTP_200_OK
-            )
-
 
 
 

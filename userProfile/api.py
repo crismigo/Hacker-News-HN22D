@@ -61,7 +61,7 @@ class UserUpvotedComments(APIView):
         act = ActionType.objects.get(name="Comment")
         if User.objects.filter(id=user_id).exists():
             user = User.objects.get(id=user_id)
-            votes = Vote.objects.filter(user=user_id, type=act)
+            votes = Vote.objects.filter(user=user, type=act)
 
             serializer = VoteSerializer(votes, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)

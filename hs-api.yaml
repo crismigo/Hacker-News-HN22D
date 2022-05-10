@@ -422,7 +422,7 @@ paths:
         required: true
         schema:
           type : integer
-          format : int32
+          format : int64
       requestBody:
         description: Provide the user of the new Vote
         content:
@@ -434,7 +434,7 @@ paths:
               properties:
                 user:
                   type: integer
-                  example: 2
+                  format: int64
         required: true
       responses:
         '201':
@@ -452,6 +452,15 @@ paths:
               examples:
                 errorExample:
                   $ref: '#/components/examples/error404'
+        '409':
+          description: 'Error: Conflict'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error409'
 
     delete:
       tags:
@@ -465,7 +474,7 @@ paths:
           required: true
           schema:
             type: integer
-            format: int32
+            format: int64
       requestBody:
         description: Provide the user of the new Vote
         content:
@@ -553,7 +562,7 @@ paths:
           required: true
           schema:
             type: integer
-            format: int32
+            format: int64
       requestBody:
         description: Provide the user of the new Vote
         content:
@@ -583,7 +592,85 @@ paths:
               examples:
                 errorExample:
                   $ref: '#/components/examples/error400'
+        '409':
+          description: 'Error: Conflict'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error409'
+  /user/{user_id}/submissions:
+    get:
+      tags:
+        - User
+      summary: Returns a list of submissions of the user with that user_id.
+      description: User submissions.
+      parameters:
+        - name: user_id
+          in: path
+          description: User id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SubmissionRead'
 
+  /user/{user_id}/upvoted/submissions:
+    get:
+      tags:
+        - Upvoted
+      summary: Returns a list of upvoted submissions of the user with that user_id.
+      description: Upvoted submissions from the user.
+      parameters:
+        - name: user_id
+          in: path
+          description: User id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SubmissionRead'
+  /user/{user_id}/upvoted/comments:
+    get:
+      tags:
+        - Upvoted
+      summary: Returns a list of upvoted comments of the user with that user_id.
+      description: Upvoted comments from the user.
+      parameters:
+        - name: user_id
+          in: path
+          description: User id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
 
 components:
   schemas:
@@ -746,7 +833,7 @@ components:
           format: int64
         user:
           type: integer
-          example: int64
+          format: int64
         created_at:
           type: string
           format: date-time
