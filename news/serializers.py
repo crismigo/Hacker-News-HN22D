@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from authentication.models import User
 from comment.models import Comment
-from comment.serializers import CommentSerializer
+from comment.serializers import CommentSerializer, CommentDetailedSerializer
 from news.models import Submission, SubmissionType
 from vote.models import Vote
 from vote.serializers import VoteSerializer
@@ -65,7 +65,7 @@ class SubmissionDetailedSerializer(serializers.ModelSerializer):
         subm_comm = Comment.objects.filter(submission_id=submission.id)
         comments = []
         for comm in subm_comm:
-            serializer = CommentSerializer(comm)
+            serializer = CommentDetailedSerializer(comm)
             comments.append(serializer.data)
         return comments
 

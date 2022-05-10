@@ -29,15 +29,26 @@ class CommentDetailApiView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class CommentToCommentDetailApiView(APIView):
-    def post(self, request, replied_comment_id):
-        comment_type = ActionType.objects.get(name="Comment")
-        data = {
-            'type': comment_type,
-            'user': request.user.id,
-            'text': request.data.get('text'),
-            'replied_comment': replied_comment_id
-        }
+class CommentApiView(APIView):
+    def post(self, request):
+        if request.data.get('replied_comment'):
+            comment_type = ActionType.objects.get(name="Comment")
+            data = {
+                'type': comment_type,
+                'user': request.user.id,
+                'text': request.data.get('text'),
+                'replied_comment': request.data.get('replied_comment'),
+                'submission': "",
+            }
+        else:
+            submission_type = ActionType.objects.get(name="Submission")
+            data = {
+                'type': submission_type,
+                'user': request.user.id,
+                'text': request.data.get('text'),
+                'submission': request.data.get('submission'),
+                "replied_comment":"",
+            }
         serializer = CommentSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -45,22 +56,6 @@ class CommentToCommentDetailApiView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-class CommentToSubmissionDetailApiView(APIView):
-    def post(self, request, submission_id):
-        submission_type = ActionType.objects.get(name="Submission")
-        data = {
-            'type': submission_type,
-            'user': request.user.id,
-            'text': request.data.get('text'),
-            'submission': submission_id
-        }
-        serializer = CommentSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 

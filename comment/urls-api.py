@@ -1,9 +1,8 @@
 from django.urls import path, include
-from .api import CommentDetailApiView, CommentToSubmissionDetailApiView, CommentToCommentDetailApiView
+from .api import CommentDetailApiView, CommentApiView
 
 urlpatterns = [
+    path('', CommentApiView.as_view()),
     path('<int:comment_id>/', CommentDetailApiView.as_view()),
-    path('reply/<int:replied_comment_id>/', CommentToCommentDetailApiView.as_view()),
-    path('submission/<int:submission_id>/', CommentToSubmissionDetailApiView.as_view()),
     path('comments/<int:id>/vote', include("vote.urls-api-comments")),
 ]
