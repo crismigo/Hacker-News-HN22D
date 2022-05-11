@@ -4,6 +4,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from authentication.permissions import Check_API_KEY_Auth, ReadOnly
 from comment.models import ActionType
 from comment.serializers import CommentSerializer
 from news.models import Submission, SubmissionType
@@ -19,6 +20,7 @@ class BasicPagination(PageNumberPagination):
 
 class NewsApiView(APIView, PaginationHandlerMixin):
     pagination_class = BasicPagination
+    permission_classes = [Check_API_KEY_Auth|ReadOnly]
 
     def get(self, request):
         news = Submission.objects.order_by('-points')
@@ -36,7 +38,6 @@ class NewsApiView(APIView, PaginationHandlerMixin):
         url = request.data.get('url')
         text = request.data.get('text')
         user = request.user
-        print(request.data)
 
         if url != "":
             url_exists = Submission.objects.filter(url=url)
@@ -56,7 +57,6 @@ class NewsApiView(APIView, PaginationHandlerMixin):
             serializer = SubmissionSerializer(data=data)
             if serializer.is_valid():
                 serializer.save()
-                print(serializer.data)
                 if text != "":
                     action_type = ActionType.objects.get(name="Submission")
                     data = {

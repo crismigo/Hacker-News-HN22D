@@ -1,4 +1,6 @@
 import json
+import random
+import string
 
 import requests
 from django.contrib.auth import login, logout
@@ -38,13 +40,16 @@ def callBack(request):
         return redirect("Home")
     try:
         user = User.objects.get(username=username)
+        if not user.apiKey:
+            user.apiKey = generate_key()
+            user.save()
         login(request, user)
     except User.DoesNotExist:
         user = User(username=username)
         user.email = user_data["email"]
         user.first_name = user_data["nom"]
         user.last_name = user_data["cognoms"]
-        user.apiKey = generate_key
+        user.apiKey = generate_key()
         user.save()
         login(request, user)
 
@@ -52,7 +57,10 @@ def callBack(request):
 
 
 def generate_key():
-    return KeyGenerator(prefix_length=32, secret_key_length=32)
+    chars = ''.join([string.ascii_letters, string.digits, string.punctuation]).replace('\'', '').replace('"','').replace('\\', '')
+
+    SECRET_KEY = ''.join([random.SystemRandom().choice(chars) for i in range(32)])
+    return SECRET_KEY
 
 def loginView(request):
     callback = request.build_absolute_uri('/auth/callback')

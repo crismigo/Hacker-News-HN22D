@@ -46,6 +46,8 @@ paths:
         - News
       summary: Crea una nova instància de News
       operationId: NewNews
+      security:
+        - ApiKeyAuth: []
       requestBody:
         required: true
         description: Proporciona els camps necessaris per crear una nova news
@@ -1060,5 +1062,5 @@ components:
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
-      name: X-API-KEY #Custom headers in rails apps must have the X- prefix
+      name: Authorization #Custom headers in rails apps must have the X- prefix
       in: header

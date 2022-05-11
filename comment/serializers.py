@@ -38,7 +38,7 @@ class CommentDetailedSerializer(serializers.ModelSerializer):
     type = serializers.SerializerMethodField("getType")
 
     def getVotes(self, parent):
-        return Vote.objects.filter(comment_id=parent.id).count()+1
+        return Vote.objects.filter(comment_id=parent.id).count() + 1
 
     def getComments(self, parent):
         comment_comm = Comment.objects.filter(replied_comment_id=parent.id)
@@ -49,16 +49,17 @@ class CommentDetailedSerializer(serializers.ModelSerializer):
         return comments
 
     def getAuthor(self, comment):
-        user =User.objects.get(id=comment.user_id)
-        return {"id":user.id, "username":user.username}
+        user = User.objects.get(id=comment.user_id)
+        return {"id": user.id, "username": user.username}
 
-    def getType(self,comment):
-        type =ActionType.objects.get(id=comment.type_id)
+    def getType(self, comment):
+        type = ActionType.objects.get(id=comment.type_id)
         return type.name
 
     class Meta:
         model = Comment
         fields = ["id", "submission", "replied_comment", "type", "user", "text", "comments", "votes", "created_at"]
+
 
 class CommentThreadsSerializer(serializers.ModelSerializer):
     comments = serializers.SerializerMethodField("getComments")
@@ -67,7 +68,7 @@ class CommentThreadsSerializer(serializers.ModelSerializer):
     type = serializers.SerializerMethodField("getType")
 
     def getVotes(self, parent):
-        return Vote.objects.filter(comment_id=parent.id).count()+1
+        return Vote.objects.filter(comment_id=parent.id).count() + 1
 
     def getComments(self, parent):
         comment_comm = Comment.objects.filter(replied_comment_id=parent.id)
@@ -78,11 +79,11 @@ class CommentThreadsSerializer(serializers.ModelSerializer):
         return comments
 
     def getAuthor(self, comment):
-        user =User.objects.get(id=comment.user_id)
-        return {"id":user.id, "username":user.username}
+        user = User.objects.get(id=comment.user_id)
+        return {"id": user.id, "username": user.username}
 
-    def getType(self,comment):
-        type =ActionType.objects.get(id=comment.type_id)
+    def getType(self, comment):
+        type = ActionType.objects.get(id=comment.type_id)
         return type.name
 
     class Meta:
