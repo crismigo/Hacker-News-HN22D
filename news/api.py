@@ -93,6 +93,7 @@ class NewsApiView(APIView, PaginationHandlerMixin):
 
 
 class NewsDetailApiView(APIView):
+    permission_classes = [Check_API_KEY_Auth | ReadOnly]
     def get_object(self, submission_id):
         try:
             return Submission.objects.get(id=submission_id)
@@ -143,6 +144,7 @@ class NewsDetailApiView(APIView):
 
 
 class NewsNewestApiView(APIView, PaginationHandlerMixin):
+    permission_classes = [Check_API_KEY_Auth | ReadOnly]
     pagination_class = BasicPagination
 
     def get(self, request):
@@ -157,6 +159,7 @@ class NewsNewestApiView(APIView, PaginationHandlerMixin):
 
 
 class NewsAskApiView(APIView, PaginationHandlerMixin):
+    permission_classes = [Check_API_KEY_Auth | ReadOnly]
     pagination_class = BasicPagination
 
     def get(self, request):

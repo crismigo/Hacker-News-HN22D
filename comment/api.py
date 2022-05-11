@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from authentication.permissions import Check_API_KEY_Auth, ReadOnly
 from comment.models import Comment, ActionType
 from comment.serializers import CommentSerializer
 from vote.models import Vote
@@ -11,6 +12,7 @@ from vote.serializers import VoteSerializer
 
 
 class CommentDetailApiView(APIView):
+    permission_classes = [Check_API_KEY_Auth | ReadOnly]
     def get_object(self, comment_id):
         try:
             return Comment.objects.get(id=comment_id)
@@ -30,6 +32,7 @@ class CommentDetailApiView(APIView):
 
 
 class CommentApiView(APIView):
+    permission_classes = [Check_API_KEY_Auth | ReadOnly]
     def post(self, request):
         if request.data.get('replied_comment'):
             comment_type = ActionType.objects.get(name="Comment")
