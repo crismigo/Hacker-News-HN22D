@@ -547,6 +547,98 @@ paths:
               examples:
                 errorExample:
                   $ref: '#/components/examples/error409'
+
+  /user/{user_id}/:
+    get:
+      tags:
+        - User
+      summary: Retorna la informació de l'usuari amb la id passada per paràmetre o error en cas que no existeixi.
+      description: Retorna un únic usuari
+      operationId: getUserById
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          description: La id del usuari a consultar
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserInfo'
+        '404':
+          description: 'Error: Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+    put:
+      tags:
+        - User
+      summary: Modifica una instància concreta de user
+      operationId: EditUser
+      parameters:
+        - name: user_id
+          in: path
+          description: User id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        description: Proporciona els camps necessaris per crear editar un usuari
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: 'alex.olle@example.com'
+                about:
+                  type: string
+                  example: "A mi m'agrada..."
+              required:
+                - email
+                - about
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserInfo'
+        '400':
+          description: 'Error: Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error400'
+        '404':
+          description: 'Error: Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+
   /user/{user_id}/submissions:
     get:
       tags:
@@ -570,6 +662,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SubmissionRead'
+
 
   /user/{user_id}/upvoted/submissions:
     get:
@@ -617,7 +710,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Comment'
-
 components:
   schemas:
     CommentReply:
@@ -823,7 +915,27 @@ components:
         created_at:
           type: string
           format: date-time
-
+    UserInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        username:
+          type: string
+          example: "alex.olle"
+        email:
+          type: string
+          example: "alex.olle@gmail.com"
+        date_joined:
+          type: string
+          example: "17/05/2022"
+        about:
+          type: string
+          format: "Els meus gustos son..."
+        apikey:
+          type: string
     AddCommentResult:
       type: object
       properties:

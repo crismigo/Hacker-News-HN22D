@@ -34,7 +34,7 @@ class CommentApiView(APIView):
         if request.data.get('replied_comment'):
             comment_type = ActionType.objects.get(name="Comment")
             data = {
-                'type': comment_type,
+                'type': comment_type.id,
                 'user': request.user.id,
                 'text': request.data.get('text'),
                 'replied_comment': request.data.get('replied_comment'),
@@ -43,7 +43,7 @@ class CommentApiView(APIView):
         else:
             submission_type = ActionType.objects.get(name="Submission")
             data = {
-                'type': submission_type,
+                'type': submission_type.id,
                 'user': request.user.id,
                 'text': request.data.get('text'),
                 'submission': request.data.get('submission'),
