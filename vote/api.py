@@ -4,14 +4,16 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from authentication.models import User
+from authentication.permissions import ReadOnly
 from comment.models import Comment, ActionType
 from news.models import Submission
+from authentication.permissions import Check_API_KEY_Auth
 from vote.models import Vote
-from vote.serializers import VoteSerializer
+from vote.serializers import VoteSerializerSubm,VoteSerializerComm
 
-import json
 
 class VoteSubmissionApiView(APIView):
+    permission_classes = [Check_API_KEY_Auth | ReadOnly]
 
     def get_submission(self, submission_id):
         try:
@@ -22,16 +24,15 @@ class VoteSubmissionApiView(APIView):
     def post(self, request, id):
 
             act = ActionType.objects.get(name="Submission")
-            body = json.loads(request.body.decode('utf-8'))
-            user = body.get("user")
+            user = request.user
             data = {
                 'submission': id,
                 'comment': None,
                 'type': act.id,
-                'user': user,
+                'user': user.id,
             }
-            if User.objects.filter(id=user).exists():
-                userVal = User.objects.get(id=user)
+            if User.objects.filter(id=user.id).exists():
+                userVal = User.objects.get(id=user.id)
                 if userVal is None:
                     return Response(
                         {"res": "User with this id does not exists"},
@@ -44,7 +45,7 @@ class VoteSubmissionApiView(APIView):
                             {"res": "The User who posted the submission can't vote his own submission."},
                             status=status.HTTP_400_BAD_REQUEST
                         )
-                    serializer = VoteSerializer(data=data)
+                    serializer = VoteSerializerSubm(data=data)
                     if serializer.is_valid():
                         serializer.save()
                         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -63,11 +64,12 @@ class VoteSubmissionApiView(APIView):
                 )
 
     def delete(self, request, id):
-        submission = self.get_submission(id)
-        user = request.data.get("user")
 
-        if User.objects.filter(id=user).exists():
-            userVal = User.objects.get(id=user)
+        submission = self.get_submission(id)
+        user = request.user
+
+        if User.objects.filter(id=user.id).exists():
+            userVal = User.objects.get(id=user.id)
             if userVal is None:
                 return Response(
                     {"res": "User with this id does not exists"},
@@ -98,6 +100,7 @@ class VoteSubmissionApiView(APIView):
             )
 
 class VoteCommentApiView(APIView):
+    permission_classes = [Check_API_KEY_Auth | ReadOnly]
     def get_comment(self, comment_id):
         try:
             return Comment.objects.get(id=comment_id)
@@ -105,18 +108,17 @@ class VoteCommentApiView(APIView):
             return None
 
     def post(self, request, id):
-        act = ActionType.objects.get(name="Comment")
-        body = json.loads(request.body.decode('utf-8'))
-        user = body.get("user")
 
+        act = ActionType.objects.get(name="Comment")
+        user = request.user
         data = {
             'submission': None,
             'comment': id,
             'type': act.id,
-            'user': user,
+            'user': user.id,
         }
-        if User.objects.filter(id=user).exists():
-            userVal = User.objects.get(id=user)
+        if User.objects.filter(id=user.id).exists():
+            userVal = User.objects.get(id=user.id)
             if userVal is None:
                 return Response(
                     {"res": "User with this id does not exists"},
@@ -129,7 +131,7 @@ class VoteCommentApiView(APIView):
                         {"res": "The User who pos   ted the comment can't vote his own comment."},
                         status=status.HTTP_400_BAD_REQUEST
                     )
-                serializer = VoteSerializer(data=data)
+                serializer = VoteSerializerComm(data=data)
                 if serializer.is_valid():
                     serializer.save()
                     return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -149,10 +151,11 @@ class VoteCommentApiView(APIView):
             )
 
     def delete(self, request, id):
+
         comment = self.get_comment(id)
-        user = request.data.get("user")
-        if User.objects.filter(id=user).exists():
-            userVal = User.objects.get(id=user)
+        user = request.user
+        if User.objects.filter(id=user.id).exists():
+            userVal = User.objects.get(id=user.id)
             if userVal is None:
                 return Response(
                     {"res": "User with this id does not exists"},

@@ -8,7 +8,7 @@ from authentication.permissions import Check_API_KEY_Auth, ReadOnly
 from comment.models import Comment, ActionType
 from comment.serializers import CommentSerializer
 from vote.models import Vote
-from vote.serializers import VoteSerializer
+from vote.serializers import VoteSerializerSubm
 
 
 class CommentDetailApiView(APIView):

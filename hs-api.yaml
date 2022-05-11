@@ -17,12 +17,12 @@ paths:
     get:
       tags:
         - News
-      summary: Retorna una llista pagina de totes les news que hi hagi en el sistema, ordenades per nombre de vots.
+      summary: Returns a paginated list of News, ordered by the number of votes of each one.
       parameters:
         - in: query
           name: page
           required: false
-          description: Nombre de pàgina a visualitzar
+          description: Number of page to display.
       responses:
         '200':
           description: OK
@@ -44,13 +44,13 @@ paths:
     post:
       tags:
         - News
-      summary: Crea una nova instància de News
+      summary: Creates a new instance of News.
       operationId: NewNews
       security:
         - ApiKeyAuth: []
       requestBody:
         required: true
-        description: Proporciona els camps necessaris per crear una nova news
+        description: Provide the neecesary fields to create a new News.
         content:
           application/json:
             schema:
@@ -58,13 +58,13 @@ paths:
               properties:
                 title:
                   type: string
-                  example: 'La meva primera news!'
+                  example: 'My first news!'
                 url:
                   type: string
                   example: 'https://atenea.upc.edu/course/view.php?id=75442'
                 text:
                   type: string
-                  example: 'La meva pregunta és ...'
+                  example: 'My Question is about ...'
               required:
                 - title
       responses:
@@ -85,6 +85,24 @@ paths:
               examples:
                 errorExample:
                   $ref: '#/components/examples/error400'
+        '401':
+          description: 'Error: Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        '403':
+          description: 'Error: Forbidden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error403'
         '404':
           description: 'Error: Not Found'
           content:
@@ -107,12 +125,12 @@ paths:
     get:
       tags:
         - News
-      summary: Retorna una llista pagina de totes les news que hi hagi en el sistema, ordenades de més recents a menys recents.
+      summary: Returns a paginated list of News , ordered by the creation of each news from most recent to least recent.
       parameters:
         - in: query
           name: page
           required: false
-          description: Nombre de pàgina a visualitzar
+          description: Number of page to display.
       responses:
         '200':
           description: OK
@@ -135,12 +153,12 @@ paths:
     get:
       tags:
         - News
-      summary: Retorna una llista pagina de totes les news de tipus ask que hi hagi en el sistema, ordenades per nombre de vots.
+      summary: Returns a paginated list of News of type ask , ordered by the number of votes.
       parameters:
         - in: query
           name: page
           required: false
-          description: Nombre de pàgina a visualitzar
+          description: Number of page to display.
       responses:
         '200':
           description: OK
@@ -163,14 +181,14 @@ paths:
     get:
       tags:
         - News
-      summary: Retorna la news amb la id passada per paràmetre o error en cas que no existeixi.
-      description: Retorna una única news
+      summary: Return the News with the given id and its comments or error if it doesn't exist.
+      description: It returns a unique News.
       operationId: getNewsById
       parameters:
         - in: path
           name: id
           required: true
-          description: La id de la news a consultar
+          description: Id of the News.
           schema:
             type: integer
             format: int64
@@ -195,19 +213,21 @@ paths:
     put:
       tags:
         - News
-      summary: Modifica una instància concreta de news
+      summary: Modifies a concrete instance of News.
       operationId: EditNews
+      security:
+        - ApiKeyAuth: [ ]
       parameters:
         - in: path
           name: id
           required: true
-          description: La id de la news a consultar
+          description: The id of the News to look up.
           schema:
             type: integer
             format: int64
       requestBody:
         required: true
-        description: Proporciona els camps necessaris per crear una nova news
+        description: Provide the necessary fields to modify a new News.
         content:
           application/json:
             schema:
@@ -215,10 +235,10 @@ paths:
               properties:
                 title:
                   type: string
-                  example: 'La meva primera news!'
+                  example: 'Modified News!'
                 text:
                   type: string
-                  example: 'La meva pregunta és ...'
+                  example: 'My question is about ...'
               required:
                 - title
       responses:
@@ -239,6 +259,24 @@ paths:
               examples:
                 errorExample:
                   $ref: '#/components/examples/error400'
+        '401':
+          description: 'Error: Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        '403':
+          description: 'Error: Forbidden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error403'
         '404':
           description: 'Error: Not Found'
           content:
@@ -253,6 +291,8 @@ paths:
         - News
       summary: Deletes a News
       operationId: deleteNews
+      security:
+        - ApiKeyAuth: [ ]
       parameters:
         - name: id
           in: path
@@ -262,10 +302,28 @@ paths:
             type: integer
             format: int64
       responses:
-        204:
+        '204':
           description: News Deleted
           content:
             application/json: { }
+        '401':
+          description: 'Error: Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        '403':
+          description: 'Error: Forbidden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error403'
         404:
           description: 'Error: Not Found'
           content:
@@ -275,30 +333,15 @@ paths:
               examples:
                 errorExample:
                   $ref: '#/components/examples/error404'
-        401:
-          description: 'Error: Unauthorized'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResult'
-              examples:
-                errorExample:
-                  $ref: '#/components/examples/error401'
-        403:
-          description: 'Error: Forbidden'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResult'
-              examples:
-                errorExample:
-                  $ref: '#/components/examples/error403'
+
 
   /comments/:
     post:
       tags:
         - Comments
-      summary: adds a new comment to an existent Comment
+      summary: Adds a new comment to an existent Comment or an existent submission.
+      security:
+        - ApiKeyAuth: [ ]
       requestBody:
         description: Provide the submission or replied_comment,type, & text of the new Comment
         content:
@@ -324,6 +367,24 @@ paths:
               examples:
                 errorExample:
                   $ref: '#/components/examples/error404'
+        '401':
+          description: 'Error: Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        '403':
+          description: 'Error: Forbidden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error403'
 
   /comments/{commentId}/:
     get:
@@ -363,6 +424,8 @@ paths:
       summary: It creates a new vote of a submission
       description: ""
       operationId: "addSubmissionVote"
+      security:
+        - ApiKeyAuth: []
       parameters:
       - name : subm_id
         in : path
@@ -371,19 +434,7 @@ paths:
         schema:
           type : integer
           format : int64
-      requestBody:
-        description: Provide the user of the new Vote
-        content:
-          application/json:
-            schema:
-              required:
-                - user
-              type: object
-              properties:
-                user:
-                  type: integer
-                  format: int64
-        required: true
+
       responses:
         '201':
           description: Successful operation
@@ -400,6 +451,24 @@ paths:
               examples:
                 errorExample:
                   $ref: '#/components/examples/error400'
+        '401':
+          description: 'Error: Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        '403':
+          description: 'Error: Forbidden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error403'
         '409':
           description: 'Error: Conflict'
           content:
@@ -415,6 +484,8 @@ paths:
         - "Votes"
       summary: Deletes the vote of a certain submission
       operationId: UnvoteComment
+      security:
+        - ApiKeyAuth: []
       parameters:
         - name: subm_id
           in: path
@@ -423,19 +494,7 @@ paths:
           schema:
             type: integer
             format: int64
-      requestBody:
-        description: Provide the user of the new Vote
-        content:
-          application/json:
-            schema:
-              required:
-                - user
-              type: object
-              properties:
-                user:
-                  type: integer
-                  example: 2
-        required: true
+
       responses:
         '200':
           description: Vote of submission deleted
@@ -452,6 +511,24 @@ paths:
               examples:
                 errorExample:
                   $ref: '#/components/examples/error400'
+        '401':
+          description: 'Error: Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        '403':
+          description: 'Error: Forbidden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error403'
 
   /comments/{comm_id}/vote/:
     post:
@@ -459,6 +536,8 @@ paths:
         - "Votes"
       summary: It creates a new vote of a comment
       description: ""
+      security:
+        - ApiKeyAuth: []
       operationId: "addCommentVote"
       parameters:
         - name: comm_id
@@ -468,26 +547,13 @@ paths:
           schema:
             type: integer
             format: int64
-      requestBody:
-        description: Provide the user of the new Vote
-        content:
-          application/json:
-            schema:
-              required:
-                - user
-              type: object
-              properties:
-                user:
-                  type: integer
-                  example: 2
-        required: true
       responses:
         '201':
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Vote'
+                $ref: '#/components/schemas/VoteComm'
         '400':
           description: 'Error: Bad Request'
           content:
@@ -497,6 +563,24 @@ paths:
               examples:
                 errorExample:
                   $ref: '#/components/examples/error400'
+        '401':
+          description: 'Error: Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        '403':
+          description: 'Error: Forbidden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error403'
         '409':
           description: 'Error: Conflict'
           content:
@@ -512,6 +596,8 @@ paths:
         - "Votes"
       summary: Deletes the vote of a certain comment
       operationId: UnvoteComment
+      security:
+        - ApiKeyAuth: []
       parameters:
         - name: comm_id
           in: path
@@ -520,19 +606,6 @@ paths:
           schema:
             type: integer
             format: int64
-      requestBody:
-        description: Provide the user of the new Vote
-        content:
-          application/json:
-            schema:
-              required:
-                - user
-              type: object
-              properties:
-                user:
-                  type: integer
-                  example: 2
-        required: true
       responses:
         '200':
           description: Vote of comment deleted
@@ -549,20 +622,38 @@ paths:
               examples:
                 errorExample:
                   $ref: '#/components/examples/error400'
+        '401':
+          description: 'Error: Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        '403':
+          description: 'Error: Forbidden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error403'
 
 
   /user/{user_id}/:
     get:
       tags:
         - User
-      summary: Retorna la informació de l'usuari amb la id passada per paràmetre o error en cas que no existeixi.
-      description: Retorna un únic usuari
+      summary: Return the info of the user with the given id or error if it doesn't exist.
+      description: Retorns a unique user.
       operationId: getUserById
       parameters:
         - in: path
           name: user_id
           required: true
-          description: La id del usuari a consultar
+          description: The id of the user to look up.
           schema:
             type: integer
             format: int64
@@ -587,8 +678,10 @@ paths:
     put:
       tags:
         - User
-      summary: Modifica una instància concreta de user
+      summary: Modifies an instancce of user.
       operationId: EditUser
+      security:
+        - ApiKeyAuth: [ ]
       parameters:
         - name: user_id
           in: path
@@ -599,7 +692,7 @@ paths:
             format: int64
       requestBody:
         required: true
-        description: Proporciona els camps necessaris per crear editar un usuari
+        description: Provide the needed camps to modify the user.
         content:
           application/json:
             schema:
@@ -610,7 +703,7 @@ paths:
                   example: 'alex.olle@example.com'
                 about:
                   type: string
-                  example: "A mi m'agrada..."
+                  example: "I like..."
               required:
                 - email
                 - about
@@ -632,6 +725,24 @@ paths:
               examples:
                 errorExample:
                   $ref: '#/components/examples/error400'
+        '401':
+          description: 'Error: Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        '403':
+          description: 'Error: Forbidden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error403'
         '404':
           description: 'Error: Not Found'
           content:
@@ -699,20 +810,14 @@ paths:
                   $ref: '#/components/examples/error400'
 
 
-  /user/{user_id}/upvoted/submissions/:
+  /user/upvoted/submissions/:
     get:
       tags:
         - Upvoted
       summary: Returns a list of upvoted submissions of the user with that user_id.
       description: Upvoted submissions from the user.
-      parameters:
-        - name: user_id
-          in: path
-          description: User id
-          required: true
-          schema:
-            type: integer
-            format: int64
+      security:
+        - ApiKeyAuth: []
       responses:
         '200':
           description: OK
@@ -731,20 +836,32 @@ paths:
               examples:
                 errorExample:
                   $ref: '#/components/examples/error400'
-  /user/{user_id}/upvoted/comments/:
+        '401':
+          description: 'Error: Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        '403':
+          description: 'Error: Forbidden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error403'
+  /user/upvoted/comments/:
     get:
       tags:
         - Upvoted
       summary: Returns a list of upvoted comments of the user with that user_id.
       description: Upvoted comments from the user.
-      parameters:
-        - name: user_id
-          in: path
-          description: User id
-          required: true
-          schema:
-            type: integer
-            format: int64
+      security:
+        - ApiKeyAuth: []
       responses:
         '200':
           description: OK
@@ -763,6 +880,24 @@ paths:
               examples:
                 errorExample:
                   $ref: '#/components/examples/error400'
+        '401':
+          description: 'Error: Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        '403':
+          description: 'Error: Forbidden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error403'
 components:
   schemas:
     CommentReply:
@@ -840,7 +975,7 @@ components:
         votes:
           type: array
           items:
-            $ref: '#/components/schemas/Vote'
+            $ref: '#/components/schemas/VoteSubm'
         created_at:
           type: string
           format: date-time
@@ -950,21 +1085,42 @@ components:
         created_at:
           type: string
           format: date-time
-    Vote:
+    VoteSubm:
       type: object
       properties:
         submission:
           type: integer
           format: int64
+          example: 4
         comment:
-          type: integer
-          format: int64
+          type: String
+          example: null
         type:
-          type: integer
-          format: int64
+          type: string
+          example: "Submission"
         user:
           type: integer
           format: int64
+        created_at:
+          type: string
+          format: date-time
+    VoteComm:
+      type: object
+      properties:
+        submission:
+          type: String
+          example: "null"
+        comment:
+          type: integer
+          format: int64
+          example: 2
+        type:
+          type: string
+          example: "Comment"
+        user:
+          type: integer
+          format: int64
+          example: 3
         created_at:
           type: string
           format: date-time
@@ -986,7 +1142,7 @@ components:
           example: "17/05/2022"
         about:
           type: string
-          format: "Els meus gustos son..."
+          format: "My hobbies are..."
         apikey:
           type: string
     AddCommentResult:
@@ -1010,7 +1166,7 @@ components:
       type: object
       properties:
         new_vote:
-          $ref: '#/components/schemas/Vote'
+          $ref: '#/components/schemas/VoteSubm'
 
     ErrorResult:
       type: object

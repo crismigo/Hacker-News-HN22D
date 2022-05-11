@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from authentication.models import User
+from authentication.permissions import Check_API_KEY_Auth, ReadOnly
 from comment.serializers import CommentThreadsSerializer
 from comment.models import ActionType, Comment
 from comment.serializers import CommentSerializer
@@ -12,6 +13,9 @@ from userProfile.serializers import UserSerializer
 from vote.models import Vote
 
 class UserGetUpdateProfile(APIView):
+
+    permission_classes = [Check_API_KEY_Auth | ReadOnly]
+
     def get_object(self, user_id):
         try:
             return User.objects.get(id=user_id)
@@ -81,11 +85,11 @@ class UserOwnSubmissions(APIView):
 
 
 class UserUpvotedSubmissions(APIView):
-
-    def get(self, request, user_id):
+    permission_classes = [Check_API_KEY_Auth]
+    def get(self, request):
         act = ActionType.objects.get(name="Submission")
-        if User.objects.filter(id=user_id).exists():
-            user = User.objects.get(id=user_id)
+        if User.objects.filter(id=request.user.id).exists():
+            user = User.objects.get(id=request.user.id)
             votes = Vote.objects.filter(user=user, type=act)
             submissions = []
             for vote in votes:
@@ -100,11 +104,11 @@ class UserUpvotedSubmissions(APIView):
 
 
 class UserUpvotedComments(APIView):
-
-    def get(self, request, user_id):
+    permission_classes = [Check_API_KEY_Auth]
+    def get(self, request):
         act = ActionType.objects.get(name="Comment")
-        if User.objects.filter(id=user_id).exists():
-            user = User.objects.get(id=user_id)
+        if User.objects.filter(id=request.user.id).exists():
+            user = User.objects.get(id=request.user.id)
             votes = Vote.objects.filter(user=user, type=act)
             comments = []
             for vote in votes:

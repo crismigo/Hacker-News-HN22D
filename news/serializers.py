@@ -5,7 +5,7 @@ from comment.models import Comment
 from comment.serializers import CommentSerializer, CommentDetailedSerializer
 from news.models import Submission, SubmissionType
 from vote.models import Vote
-from vote.serializers import VoteSerializer
+from vote.serializers import VoteSerializerSubm
 
 def getRepliedComments(comment):
     replied_comments = Comment.objects.filter(replied_comment=comment.id)

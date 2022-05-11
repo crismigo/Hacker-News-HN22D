@@ -3,7 +3,7 @@ from rest_framework import serializers
 from authentication.models import User
 from comment.models import Comment, ActionType
 from vote.models import Vote
-from vote.serializers import VoteSerializer
+from vote.serializers import VoteSerializerComm
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -14,7 +14,7 @@ class CommentSerializer(serializers.ModelSerializer):
         comment_votes = Vote.objects.filter(comment_id=parent.id)
         votes = []
         for comm in comment_votes:
-            serializer = VoteSerializer(comm)
+            serializer = VoteSerializerComm(comm)
             votes.append(serializer.data)
         return votes
 

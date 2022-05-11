@@ -11,7 +11,7 @@ from news.models import Submission, SubmissionType
 from news.pagination import PaginationHandlerMixin
 from news.serializers import SubmissionSerializer, SubmissionReadSerializer, SubmissionDetailedSerializer
 from vote.models import Vote
-from vote.serializers import VoteSerializer
+from vote.serializers import VoteSerializerSubm
 
 
 class BasicPagination(PageNumberPagination):
@@ -19,6 +19,7 @@ class BasicPagination(PageNumberPagination):
 
 
 class NewsApiView(APIView, PaginationHandlerMixin):
+    permission_classes = [Check_API_KEY_Auth | ReadOnly]
     pagination_class = BasicPagination
     permission_classes = [Check_API_KEY_Auth|ReadOnly]
 
