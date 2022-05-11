@@ -678,7 +678,7 @@ paths:
     put:
       tags:
         - User
-      summary: Modifies an instancce of user.
+      summary: Modifies an instance of user.
       operationId: EditUser
       security:
         - ApiKeyAuth: [ ]

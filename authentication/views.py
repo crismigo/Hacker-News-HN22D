@@ -5,7 +5,6 @@ import string
 import requests
 from django.contrib.auth import login, logout
 from django.shortcuts import redirect
-from rest_framework_api_key.crypto import KeyGenerator
 
 # Create your views here.
 from .models import User
