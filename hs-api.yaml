@@ -1062,5 +1062,5 @@ components:
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
-      name: Authorization #Custom headers in rails apps must have the X- prefix
+      name: API-KEY
       in: header

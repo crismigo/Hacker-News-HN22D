@@ -149,13 +149,10 @@ CORS_ALLOW_ALL_ORIGINS = True
 ]"""
 
 CORS_ALLOW_HEADERS = ('content-disposition', 'accept-encoding',
-                      'content-type', 'accept', 'origin', 'authorization', 'API_KEY')
+                      'content-type', 'accept', 'origin', 'authorization', 'API-KEY')
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 30,
-    'DEFAULT_PERMISSION_CLASSES': [
-            #'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-            #"rest_framework_api_key.permissions.HasAPIKeyOrReadOnly",
-    ],
+    'DEFAULT_PERMISSION_CLASSES': [],
 }

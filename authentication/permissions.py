@@ -8,7 +8,9 @@ from authentication.models import User
 
 class Check_API_KEY_Auth(BasePermission):
     def has_permission(self, request, view):
-        key = request.headers.get('Authorization')
+        key = request.META.get('HTTP_API_KEY')
+        print(request.META)
+        print(key)
         if key:
             user = User.objects.filter(apiKey=key)
             if user.count()>0:
