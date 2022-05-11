@@ -6,5 +6,5 @@ urlpatterns = [
     path('<int:news_id>/', NewsDetailApiView.as_view()),
     path('newest/', NewsNewestApiView.as_view()),
     path('ask/', NewsAskApiView.as_view()),
-    path('<int:id>/vote', include('vote.urls-api-submissions')),
+    path('<int:id>/vote/', include('vote.urls-api-submissions')),
 ]

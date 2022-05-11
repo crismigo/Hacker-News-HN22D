@@ -3,14 +3,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from authentication.models import User
-from comment.models import ActionType, Comment
 from comment.serializers import CommentThreadsSerializer
+from comment.models import ActionType, Comment
+from comment.serializers import CommentSerializer
 from news.models import Submission
-from news.serializers import SubmissionSerializer
+from news.serializers import SubmissionReadSerializer
 from userProfile.serializers import UserSerializer
 from vote.models import Vote
-from vote.serializers import VoteSerializer
-
 
 class UserGetUpdateProfile(APIView):
     def get_object(self, user_id):
@@ -72,7 +71,7 @@ class UserOwnSubmissions(APIView):
         if User.objects.filter(id=user_id).exists():
             user = User.objects.get(id=user_id)
             submissions = Submission.objects.filter(author=user)
-            serializer = SubmissionSerializer(submissions, many=True)
+            serializer = SubmissionReadSerializer(submissions, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(
@@ -88,8 +87,10 @@ class UserUpvotedSubmissions(APIView):
         if User.objects.filter(id=user_id).exists():
             user = User.objects.get(id=user_id)
             votes = Vote.objects.filter(user=user, type=act)
-
-            serializer = VoteSerializer(votes, many=True)
+            submissions = []
+            for vote in votes:
+                submissions.append(Submission.objects.get(id=vote.submission.id))
+            serializer = SubmissionReadSerializer(submissions, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(
@@ -105,8 +106,10 @@ class UserUpvotedComments(APIView):
         if User.objects.filter(id=user_id).exists():
             user = User.objects.get(id=user_id)
             votes = Vote.objects.filter(user=user, type=act)
-
-            serializer = VoteSerializer(votes, many=True)
+            comments = []
+            for vote in votes:
+                comments.append(Comment.objects.get(id=vote.comment.id))
+            serializer = CommentSerializer(comments, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(

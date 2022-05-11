@@ -19,57 +19,82 @@ class VoteSubmissionApiView(APIView):
         except Submission.DoesNotExist:
             return None
 
-    def get(self, request, id):
-        votes = Vote.objects.all()
-        if not votes:
-            return Response(
-                {"res": "Object with news id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        serializer = VoteSerializer(votes, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
     def post(self, request, id):
 
-        act = ActionType.objects.get(name="Submission")
-        body = json.loads(request.body.decode('utf-8'))
-        user = body.get("user")
-        data = {
-            'submission': id,
-            'comment': None,
-            'type': act.id,
-            'user': user,
-        }
-        serializer = VoteSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        if (Vote.objects.filter(submission=self.get_submission(id)).exists()):
-            return Response({"res: Vote already submitted."}, status=status.HTTP_409_CONFLICT)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            act = ActionType.objects.get(name="Submission")
+            body = json.loads(request.body.decode('utf-8'))
+            user = body.get("user")
+            data = {
+                'submission': id,
+                'comment': None,
+                'type': act.id,
+                'user': user,
+            }
+            if User.objects.filter(id=user).exists():
+                userVal = User.objects.get(id=user)
+                if userVal is None:
+                    return Response(
+                        {"res": "User with this id does not exists"},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+                if(Submission.objects.filter(id=id).exists()):
+                    subm = Submission.objects.get(id=id)
+                    if(userVal == subm.author):
+                        return Response(
+                            {"res": "The User who posted the submission can't vote his own submission."},
+                            status=status.HTTP_400_BAD_REQUEST
+                        )
+                    serializer = VoteSerializer(data=data)
+                    if serializer.is_valid():
+                        serializer.save()
+                        return Response(serializer.data, status=status.HTTP_201_CREATED)
+                    if (Vote.objects.filter(submission=self.get_submission(id)).exists()):
+                        return Response({"res: Vote already submitted."}, status=status.HTTP_409_CONFLICT)
+                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                else:
+                    return Response(
+                        {"res": "Submission with that id doesn't exist!"},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+            else:
+                return Response(
+                    {"res": "User with that id doesn't exist!"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
 
     def delete(self, request, id):
         submission = self.get_submission(id)
         user = request.data.get("user")
-        userVal = User.objects.get(id=user)
-        if submission is None:
-            return Response(
-                {"res": "Object with this id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
 
-        if not Vote.objects.filter(submission=submission,user=userVal).exists():
-            return Response(
-                {"res": "Vote doesn't exist"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        if User.objects.filter(id=user).exists():
+            userVal = User.objects.get(id=user)
+            if userVal is None:
+                return Response(
+                    {"res": "User with this id does not exists"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            if submission is None:
+                return Response(
+                    {"res": "Submission with this id does not exists"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            if not Vote.objects.filter(submission=submission,user=userVal).exists():
+                return Response(
+                    {"res": "Vote doesn't exist"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            else:
+                vote = Vote.objects.get(submission=submission,user=userVal)
+                vote.delete()
+                return Response(
+                    {"res": "Object deleted!"},
+                    status=status.HTTP_200_OK
+                )
         else:
-            vote = Vote.objects.get(submission=submission,user=userVal)
-            vote.delete()
             return Response(
-                {"res": "Object deleted!"},
-                status=status.HTTP_200_OK
+                {"res": "User with that id doesn't exist!"},
+                status=status.HTTP_400_BAD_REQUEST
             )
 
 class VoteCommentApiView(APIView):
@@ -83,19 +108,45 @@ class VoteCommentApiView(APIView):
         act = ActionType.objects.get(name="Comment")
         body = json.loads(request.body.decode('utf-8'))
         user = body.get("user")
+
         data = {
             'submission': None,
             'comment': id,
             'type': act.id,
             'user': user,
         }
-        serializer = VoteSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        if (Vote.objects.filter(comment=self.get_comment(id)).exists()):
-            return Response({"res: Vote already submitted."}, status=status.HTTP_409_CONFLICT)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if User.objects.filter(id=user).exists():
+            userVal = User.objects.get(id=user)
+            if userVal is None:
+                return Response(
+                    {"res": "User with this id does not exists"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            if(Comment.objects.filter(id=id).exists()):
+                comment = Comment.objects.get(id=id)
+                if (userVal == comment.user):
+                    return Response(
+                        {"res": "The User who pos   ted the comment can't vote his own comment."},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+                serializer = VoteSerializer(data=data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response(serializer.data, status=status.HTTP_201_CREATED)
+                if (Vote.objects.filter(comment=self.get_comment(id)).exists()):
+                    return Response({"res: Vote already submitted."}, status=status.HTTP_409_CONFLICT)
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            else :
+                return Response(
+                    {"res": "Comment with that id doesn't exist!"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+        else:
+            return Response(
+                {"res": "User with that id doesn't exist!"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
     def delete(self, request, id):
         comment = self.get_comment(id)
@@ -109,7 +160,7 @@ class VoteCommentApiView(APIView):
                 )
             if comment is None:
                 return Response(
-                    {"res": "Object with this id does not exists"},
+                    {"res": "Comment with this id does not exists"},
                     status=status.HTTP_400_BAD_REQUEST
                 )
 

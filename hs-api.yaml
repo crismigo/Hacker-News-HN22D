@@ -323,7 +323,7 @@ paths:
                 errorExample:
                   $ref: '#/components/examples/error404'
 
-  /comments/{commentId}:
+  /comments/{commentId}/:
     get:
       tags:
         - Comments
@@ -354,7 +354,7 @@ paths:
                   $ref: '#/components/examples/error404'
 
 
-  /news/{subm_id}/vote:
+  /news/{subm_id}/vote/:
     post:
       tags:
         - "Votes"
@@ -397,7 +397,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResult'
               examples:
                 errorExample:
-                  $ref: '#/components/examples/error404'
+                  $ref: '#/components/examples/error400'
         '409':
           description: 'Error: Conflict'
           content:
@@ -451,7 +451,7 @@ paths:
                 errorExample:
                   $ref: '#/components/examples/error400'
 
-  /comments/{comm_id}/vote:
+  /comments/{comm_id}/vote/:
     post:
       tags:
         - "Votes"
@@ -495,6 +495,15 @@ paths:
               examples:
                 errorExample:
                   $ref: '#/components/examples/error400'
+        '409':
+          description: 'Error: Conflict'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error409'
 
     delete:
       tags:
@@ -538,15 +547,7 @@ paths:
               examples:
                 errorExample:
                   $ref: '#/components/examples/error400'
-        '409':
-          description: 'Error: Conflict'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResult'
-              examples:
-                errorExample:
-                  $ref: '#/components/examples/error409'
+
 
   /user/{user_id}/:
     get:
@@ -662,7 +663,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Comment'
 
-  /user/{user_id}/submissions:
+  /user/{user_id}/submissions/:
     get:
       tags:
         - User
@@ -685,9 +686,18 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SubmissionRead'
+        '400':
+          description: 'Error: Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error400'
 
 
-  /user/{user_id}/upvoted/submissions:
+  /user/{user_id}/upvoted/submissions/:
     get:
       tags:
         - Upvoted
@@ -710,7 +720,16 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SubmissionRead'
-  /user/{user_id}/upvoted/comments:
+        '400':
+          description: 'Error: Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error400'
+  /user/{user_id}/upvoted/comments/:
     get:
       tags:
         - Upvoted
@@ -733,6 +752,15 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Comment'
+        '400':
+          description: 'Error: Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error400'
 components:
   schemas:
     CommentReply:
@@ -1008,7 +1036,7 @@ components:
       value:
         status: 400
         error: "Bad Request"
-        message: "Content is too long (maximum is 280 characters)"
+        message: "The data entered is incorrect"
     error401:
       value:
         status: 401
@@ -1023,12 +1051,12 @@ components:
       value:
         status: 404
         error: "Not Found"
-        message: "No Tweet with that ID"
+        message: "The page hasn't been found"
     error409:
       value:
         status: 409
         error: "Conflict"
-        message: "Ja existeix aquesta instància"
+        message: "The instance already exists"
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
