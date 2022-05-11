@@ -88,10 +88,10 @@ WSGI_APPLICATION = 'HackerNews.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd6ct7kpltl28gr',
-        'USER': 'msglzoxwzmdcey',
-        'PASSWORD': '5bc602a12c679105f8dfb2a328d94c8365c79345fe3da4c7347bdee0c852b89e',
-        'HOST': 'ec2-99-81-137-11.eu-west-1.compute.amazonaws.com',
+        'NAME': 'd85kb5bh7gf87r',
+        'USER': 'euezqyfyuhwawi',
+        'PASSWORD': 'be3cf314fa602c4f11c519be0d26c1366afdaf47a65570f71eb9e5695a5705b9',
+        'HOST': 'ec2-63-32-248-14.eu-west-1.compute.amazonaws.com',
         'PORT': '5432',
     }
 }
