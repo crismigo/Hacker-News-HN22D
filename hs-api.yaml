@@ -638,6 +638,29 @@ paths:
               examples:
                 errorExample:
                   $ref: '#/components/examples/error404'
+  /user/{user_id}/threads/:
+    get:
+      tags:
+        - User
+      summary: Returns a list of comments of the user with that user_id.
+      description: User Comments.
+      parameters:
+        - name: user_id
+          in: path
+          description: User id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
 
   /user/{user_id}/submissions:
     get:

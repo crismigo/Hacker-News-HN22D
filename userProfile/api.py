@@ -3,7 +3,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from authentication.models import User
-from comment.models import ActionType
+from comment.models import ActionType, Comment
+from comment.serializers import CommentThreadsSerializer
 from news.models import Submission
 from news.serializers import SubmissionSerializer
 from userProfile.serializers import UserSerializer
@@ -47,9 +48,22 @@ class UserGetUpdateProfile(APIView):
 
 
 class UserThreads(APIView):
+    def get_object(self, user_id):
+        try:
+            return User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return None
 
     def get(self, request, user_id):
-        pass
+        user_instance = self.get_object(user_id)
+        if not user_instance:
+            return Response(
+                {"res": "User with the id doesn't exist"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        comments = Comment.objects.filter(user_id=user_instance.id)
+        serializer = CommentThreadsSerializer(comments,many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class UserOwnSubmissions(APIView):
