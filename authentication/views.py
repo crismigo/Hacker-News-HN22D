@@ -44,12 +44,15 @@ def callBack(request):
         user.email = user_data["email"]
         user.first_name = user_data["nom"]
         user.last_name = user_data["cognoms"]
-        user.apiKey = KeyGenerator(prefix_length=32, secret_key_length=32)
+        user.apiKey = generate_key
         user.save()
         login(request, user)
 
     return redirect(back_page)
 
+
+def generate_key():
+    return KeyGenerator(prefix_length=32, secret_key_length=32)
 
 def loginView(request):
     callback = request.build_absolute_uri('/auth/callback')

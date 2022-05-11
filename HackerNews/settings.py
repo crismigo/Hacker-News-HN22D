@@ -22,6 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-ht365)@%jmchj5t0-8yizc62#exhxx9_7$(p+&j8is-=$pjlrn'
 
+API_KEY = 'HACKERS22d'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
