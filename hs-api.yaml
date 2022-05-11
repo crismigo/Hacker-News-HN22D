@@ -4,14 +4,13 @@ info:
   description: "
     This is the Open API documentation for the REST API of our beloved
     application **HackerNews** deployed at
-    <https://asw-api-demo.herokuapp.com/>. <br>All operations are executable.
-    Only one operation requires authentication: `deleteTweet`. In this case, you
-    must **Authorize** your request by providing the api_key vaule you got when
-    you created the tweet."
+    <https://hackernews-hn22d.herokuapp.com/>. <br>All operations are executable. 
+    All PUT,POST,DELETE and two GET from UPVOTE tag require authentication:  You have to go to the login page of Heroku, log in and then go to your profile and get the APIKEY value, and in the Swagger go to button **Authorize**  and provide the api_key vaule you got when
+    you logged in."
   version: 1.0.0.oas3
 servers:
   - url: http://127.0.0.1:8000/api
-  - url: https://hacker-news-hn22d.herokuapp.com/
+  - url: https://hackernews-hn22d.herokuapp.com/
 paths:
   /news/:
     get:
@@ -23,6 +22,9 @@ paths:
           name: page
           required: false
           description: Number of page to display.
+          schema:
+            type: integer
+            minimum: 1
       responses:
         '200':
           description: OK
@@ -131,6 +133,9 @@ paths:
           name: page
           required: false
           description: Number of page to display.
+          schema:
+            type: integer
+            minimum: 1
       responses:
         '200':
           description: OK
@@ -159,6 +164,9 @@ paths:
           name: page
           required: false
           description: Number of page to display.
+          schema:
+            type: integer
+            minimum: 1
       responses:
         '200':
           description: OK
@@ -392,7 +400,7 @@ paths:
         - Comments
       summary: Returns a comment found by its ID
       parameters:
-        - name: commentID
+        - name: commentId
           in: path
           description: ID of the comment to return
           required: true
@@ -483,7 +491,7 @@ paths:
       tags:
         - "Votes"
       summary: Deletes the vote of a certain submission
-      operationId: UnvoteComment
+      operationId: UnvoteSubmission
       security:
         - ApiKeyAuth: []
       parameters:
@@ -1093,7 +1101,7 @@ components:
           format: int64
           example: 4
         comment:
-          type: String
+          type: string
           example: null
         type:
           type: string
@@ -1108,7 +1116,7 @@ components:
       type: object
       properties:
         submission:
-          type: String
+          type: string
           example: "null"
         comment:
           type: integer
