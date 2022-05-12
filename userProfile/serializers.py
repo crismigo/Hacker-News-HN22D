@@ -8,4 +8,4 @@ from vote.models import Vote
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "username", "email", "date_joined", "about","apiKey"]
+        fields = ["id", "username", "email", "date_joined", "about"]
