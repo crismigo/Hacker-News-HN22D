@@ -5,12 +5,12 @@ info:
     This is the Open API documentation for the REST API of our beloved
     application **HackerNews** deployed at
     <https://hackernews-hn22d.herokuapp.com/>. <br>All operations are executable. 
-    All PUT,POST,DELETE and two GET from UPVOTE tag require authentication:  You have to go to the login page of Heroku, log in and then go to your profile and get the APIKEY value, and in the Swagger go to button **Authorize**  and provide the api_key vaule you got when
+    All PUT,POST,DELETE and two GETs from UPVOTE tag require authentication:  You have to go to the login page of Heroku, log in and then go to your profile and get the APIKEY value, and in the Swagger go to button **Authorize**  and provide the api_key vaule you got when
     you logged in."
   version: 1.0.0.oas3
 servers:
+  - url: https://hackernews-hn22d.herokuapp.com/api/v1
   - url: http://127.0.0.1:8000/api
-  - url: https://hackernews-hn22d.herokuapp.com/
 paths:
   /news/:
     get:
@@ -189,7 +189,7 @@ paths:
     get:
       tags:
         - News
-      summary: Return the News with the given id and its comments or error if it doesn't exist.
+      summary: Return the News with the given id and its tree of  comments or error if it doesn't exist.
       description: It returns a unique News.
       operationId: getNewsById
       parameters:
