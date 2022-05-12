@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ht365)@%jmchj5t0-8yizc62#exhxx9_7$(p+&j8is-=$pjlrn'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -57,7 +57,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    #'authentication.AuthMiddleware.Auth_API_Key',
+    # 'authentication.AuthMiddleware.Auth_API_Key',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -142,11 +142,11 @@ django_heroku.settings(locals(), databases=False)
 
 STATICFILES_STORAGE = ('whitenoise.storage.CompressedManifestStaticFilesStorage')
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
 
-"""CORS_ALLOWED_ORIGINS = [
-    'http://127.0.0.1:8000/',
-]"""
+CORS_ALLOWED_ORIGINS = [
+    'https://app.swaggerhub.com/',
+]
 
 CORS_ALLOW_HEADERS = ('content-disposition', 'accept-encoding',
                       'content-type', 'accept', 'origin', 'authorization', 'API-KEY')
