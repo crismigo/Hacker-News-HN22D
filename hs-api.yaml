@@ -11,7 +11,7 @@ info:
   version: 1.0.0.oas3
 servers:
   - url: http://127.0.0.1:8000/api
-  - url: https://hacker-news-hn22d.herokuapp.com/
+  - url: https://hackernews-hn22d.herokuapp.com/api
 paths:
   /news/:
     get:
