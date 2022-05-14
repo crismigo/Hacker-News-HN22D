@@ -39,6 +39,11 @@ class UserGetUpdateProfile(APIView):
                 {"res": "User with the id doesn't exist"},
                 status=status.HTTP_400_BAD_REQUEST
             )
+        if user_instance.id != user_id:
+            return Response(
+                {"res": "Only authenticated user can be modified"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         data = {
             'email': request.data.get('email'),
             'about': request.data.get('about'),
