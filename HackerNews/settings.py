@@ -23,9 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ht365)@%jmchj5t0-8yizc62#exhxx9_7$(p+&j8is-=$pjlrn'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+
+SECURE_SSL_REDIRECT = False
 
 # Application definition
 
@@ -88,10 +90,10 @@ WSGI_APPLICATION = 'HackerNews.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd85kb5bh7gf87r',
-        'USER': 'euezqyfyuhwawi',
-        'PASSWORD': 'be3cf314fa602c4f11c519be0d26c1366afdaf47a65570f71eb9e5695a5705b9',
-        'HOST': 'ec2-63-32-248-14.eu-west-1.compute.amazonaws.com',
+        'NAME': 'd4fmpkmnk1j3mt',
+        'USER': 'golrxiqjctjwgh',
+        'PASSWORD': 'c067f0db2157affea03157207138dd6b4c487a1c33c6c2ff6961b541f5d3b5a3',
+        'HOST': 'ec2-52-30-159-47.eu-west-1.compute.amazonaws.com',
         'PORT': '5432',
     }
 }
@@ -142,11 +144,9 @@ django_heroku.settings(locals(), databases=False)
 
 STATICFILES_STORAGE = ('whitenoise.storage.CompressedManifestStaticFilesStorage')
 
-CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_ALL_ORIGINS = True
 
-CORS_ALLOWED_ORIGINS = [
-    'https://app.swaggerhub.com/',
-]
+CORS_ALLOWED_ORIGINS = []
 
 CORS_ALLOW_HEADERS = ('content-disposition', 'accept-encoding',
                       'content-type', 'accept', 'origin', 'authorization', 'API-KEY')
