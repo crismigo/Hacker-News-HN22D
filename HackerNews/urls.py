@@ -32,5 +32,5 @@ urlpatterns = [
     path('api/v1/news/', include('news.urls-api')),
     path('api/v1/comments/', include('comment.urls-api')),
     path('api/v1/user/',include('userProfile.urls-api')),
-
+    path('api/v1/auth/',include('authentication.urls-api')),
 ]

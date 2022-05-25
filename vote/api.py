@@ -20,6 +20,27 @@ class VoteSubmissionApiView(APIView):
             return Submission.objects.get(id=submission_id)
         except Submission.DoesNotExist:
             return None
+        
+    def get(self,request,id):
+        userid =  request.data.get('user')
+        try:
+            user =User.objects.get(userid)
+        except:
+            return Response(
+                {"res": "User with this id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        submission = self.get_submission(id)
+        if submission is None:
+            return Response(
+                {"res": "Submission with this id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        try:
+            Vote.objects.get(submission=submission, user=user)
+            return Response({"isVoted" : True}, status=status.HTTP_200_OK)
+        except:
+            return Response({"isVoted" : False}, status=status.HTTP_200_OK)
 
     def post(self, request, id):
 
@@ -106,6 +127,27 @@ class VoteCommentApiView(APIView):
             return Comment.objects.get(id=comment_id)
         except Comment.DoesNotExist:
             return None
+
+    def get(self,request,id):
+        userid =  request.data.get('user')
+        try:
+            user =User.objects.get(userid)
+        except:
+            return Response(
+                {"res": "User with this id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        comment = self.get_comment(id)
+        if comment is None:
+            return Response(
+                {"res": "Submission with this id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        try:
+            Vote.objects.get(submission=comment, user=user)
+            return Response({"isVoted" : True}, status=status.HTTP_200_OK)
+        except:
+            return Response({"isVoted" : False}, status=status.HTTP_200_OK)
 
     def post(self, request, id):
 
