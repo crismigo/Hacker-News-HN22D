@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 
 from authentication.models import User
 from authentication.permissions import Check_API_KEY_Auth, ReadOnly
-from comment.serializers import CommentThreadsSerializer
+from comment.serializers import CommentThreadsSerializer, CommentDetailedSerializer
 from comment.models import ActionType, Comment
 from comment.serializers import CommentSerializer
 from news.models import Submission
@@ -118,7 +118,7 @@ class UserUpvotedComments(APIView):
             comments = []
             for vote in votes:
                 comments.append(Comment.objects.get(id=vote.comment.id))
-            serializer = CommentSerializer(comments, many=True)
+            serializer = CommentDetailedSerializer(comments, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(

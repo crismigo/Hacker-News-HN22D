@@ -6,11 +6,7 @@ from vote.models import Vote
 
 
 class VoteSerializerSubm(serializers.ModelSerializer):
-    type = serializers.SerializerMethodField("getType")
 
-    def getType(self,submission):
-        type = ActionType.objects.get(name="Submission")
-        return type.name
 
     class Meta:
         model = Vote
@@ -18,10 +14,7 @@ class VoteSerializerSubm(serializers.ModelSerializer):
 
 
 class VoteSerializerComm(serializers.ModelSerializer):
-    type = serializers.SerializerMethodField("getType")
-    def getType(self,submission):
-        type = ActionType.objects.get(name="Comment")
-        return type.name
+
 
     class Meta:
         model = Vote

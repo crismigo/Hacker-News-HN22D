@@ -20,27 +20,6 @@ class VoteSubmissionApiView(APIView):
             return Submission.objects.get(id=submission_id)
         except Submission.DoesNotExist:
             return None
-        
-    def get(self,request,id):
-        userid =  request.data.get('user')
-        try:
-            user =User.objects.get(userid)
-        except:
-            return Response(
-                {"res": "User with this id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        submission = self.get_submission(id)
-        if submission is None:
-            return Response(
-                {"res": "Submission with this id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        try:
-            Vote.objects.get(submission=submission, user=user)
-            return Response({"isVoted" : True}, status=status.HTTP_200_OK)
-        except:
-            return Response({"isVoted" : False}, status=status.HTTP_200_OK)
 
     def post(self, request, id):
 
@@ -128,27 +107,6 @@ class VoteCommentApiView(APIView):
         except Comment.DoesNotExist:
             return None
 
-    def get(self,request,id):
-        userid =  request.data.get('user')
-        try:
-            user =User.objects.get(userid)
-        except:
-            return Response(
-                {"res": "User with this id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        comment = self.get_comment(id)
-        if comment is None:
-            return Response(
-                {"res": "Submission with this id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        try:
-            Vote.objects.get(submission=comment, user=user)
-            return Response({"isVoted" : True}, status=status.HTTP_200_OK)
-        except:
-            return Response({"isVoted" : False}, status=status.HTTP_200_OK)
-
     def post(self, request, id):
 
         act = ActionType.objects.get(name="Comment")
@@ -228,9 +186,64 @@ class VoteCommentApiView(APIView):
             )
 
 
+class CheckVoteSubmissionApiView(APIView):
+    permission_classes = [Check_API_KEY_Auth]
+    def get_submission(self, submission_id):
+        try:
+            return Submission.objects.get(id=submission_id)
+        except Submission.DoesNotExist:
+            return None
 
+    def get(self, request, id):
 
+        userid = request.user.id
+        try:
+            user = User.objects.get(id=userid)
+        except:
+            return Response(
+                {"res": "User with this id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        submission = self.get_submission(id)
+        if submission is None:
+            return Response(
+                {"res": "Submission with this id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        try:
+            Vote.objects.get(submission=submission, user=user)
+            return Response({"isVoted": True}, status=status.HTTP_200_OK)
+        except:
+            return Response({"isVoted": False}, status=status.HTTP_200_OK)
 
+class CheckVoteCommentApiView(APIView):
+    permission_classes = [Check_API_KEY_Auth]
+    def get_comment(self, comment_id):
+        try:
+            return Comment.objects.get(id=comment_id)
+        except Comment.DoesNotExist:
+            return None
+
+    def get(self,request,id):
+        userid = request.user.id
+        try:
+            user = User.objects.get(id=userid)
+        except:
+            return Response(
+                {"res": "User with this id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        comment = self.get_comment(id)
+        if comment is None:
+            return Response(
+                {"res": "Submission with this id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        try:
+            Vote.objects.get(comment=comment, user=user)
+            return Response({"isVoted" : True}, status=status.HTTP_200_OK)
+        except:
+            return Response({"isVoted" : False}, status=status.HTTP_200_OK)
 
 
 

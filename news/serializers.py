@@ -56,6 +56,7 @@ class SubmissionReadSerializer(serializers.ModelSerializer):
 
 class SubmissionDetailedSerializer(serializers.ModelSerializer):
     comments = serializers.SerializerMethodField("getComments")
+    numComments = serializers.SerializerMethodField("getNumComments")
     votes = serializers.SerializerMethodField("getVotes")
 
     def getVotes(self, submission):
@@ -67,6 +68,15 @@ class SubmissionDetailedSerializer(serializers.ModelSerializer):
         for comm in subm_comm:
             serializer = CommentDetailedSerializer(comm)
             comments.append(serializer.data)
+        return comments
+
+    def getNumComments(self, submission):
+        subm_comm = Comment.objects.filter(submission_id=submission.id)
+        comments = 0
+        for comm in subm_comm:
+            comments += getRepliedComments(comm)
+            comments += 1
+
         return comments
 
     def getAuthor(self, submission):
@@ -82,4 +92,4 @@ class SubmissionDetailedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Submission
-        fields = ["id", "title", "type", "author", "url", "text", "comments", "votes", "created_at"]
+        fields = ["id", "title", "type", "author", "url", "text", "comments", "numComments", "votes", "created_at"]

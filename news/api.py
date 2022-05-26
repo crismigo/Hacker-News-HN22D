@@ -1,4 +1,5 @@
 # Create your views here.
+from django.db.models import Count
 from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -24,7 +25,7 @@ class NewsApiView(APIView, PaginationHandlerMixin):
     permission_classes = [Check_API_KEY_Auth|ReadOnly]
 
     def get(self, request):
-        news = Submission.objects.order_by('-points')
+        news = Submission.objects.annotate(num_submissions=Count('votes')).order_by('-num_submissions')
 
         page = self.paginate_queryset(news)
         if page is not None:
@@ -165,7 +166,7 @@ class NewsAskApiView(APIView, PaginationHandlerMixin):
 
     def get(self, request):
         s_type = SubmissionType.objects.get(name="ask")
-        news = Submission.objects.filter(type=s_type).order_by('-points')
+        news = Submission.objects.filter(type=s_type).annotate(num_submissions=Count('votes')).order_by('-num_submissions')
 
         page = self.paginate_queryset(news)
         if page is not None:
